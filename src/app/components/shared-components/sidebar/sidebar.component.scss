@@ -1,5 +1,10 @@
 @import "src/colors.scss";
 
+.sidebar{
+    display: flex; 
+    flex-direction: column;
+}
+
 .logo {
     h1{
         padding: .5rem;
