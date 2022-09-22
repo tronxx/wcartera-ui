@@ -1,0 +1,49 @@
+<div class="card">
+    <div class="card-header card-header-danger">
+        <h4 class="card-title">
+            {{tableName}}
+        </h4>
+        <button mat-raised-button color="primary" *ngIf="options.create" (click)="openCreate()">
+            Añadir
+        </button>
+    </div>
+    <div class="car-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th *ngFor="let header of headers">
+                            {{header}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let content of body; index as i" class="hovered" (click)="selectObject(content, i)" [ngClass]="selected == i? 'selected' : '' ">
+                        <td *ngFor="let property of arrayContent" [ngClass]="options.signal? 'hovered' : ''">
+                            {{content[property]}}
+                        </td>
+                        <td style="display: flex; justify-content: flex-end;" *ngIf="options.edit || options.delete">
+                            <button mat-button style="margin-right: 5px;" *ngIf="options.edit" (click)="openEdit(content)">
+                                <mat-icon>
+                                    mode_edit
+                                </mat-icon>
+                            </button>
+                            <button mat-button *ngIf="options.delete" (click)="openDelete(content)">
+                                <mat-icon>
+                                    delete
+                                </mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            Actualizado el 20/02/2022
+                        </td>
+                    </tr>
+                </tfoot> -->
+                </table>
+        </div>
+    </div>
+</div>

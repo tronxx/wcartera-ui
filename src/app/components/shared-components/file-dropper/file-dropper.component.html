@@ -1,0 +1,8 @@
+<div class="dropzone" dropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)" [class.hovering]="isHovering" >
+    <h3>Arrastra aquí la imagen</h3>
+    <p>o</p>
+    <input type="file" (change)="uploadFromButton($event)" id="fileLoader" style="display: none;">
+    <label for="fileLoader" class="fileButton" >
+        <p style="text-align: center;">Haz click aquí para subir la imagen</p>
+    </label>
+</div>

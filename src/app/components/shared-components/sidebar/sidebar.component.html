@@ -1,0 +1,17 @@
+<div style="display: flex; flex-direction: column;">
+    <div class="logo">
+        <img src="../../../../assets/img/skydropx intro.png" alt="">
+    </div>
+    <ul style="list-style: none; margin: 0; padding: 0;">
+        <li class="menu-item" *ngFor="let route of routes" [routerLink]="['/app/'+route.url]" [ngClass]="[currentRoute == route.url? 'selected' : '' ]">
+            <mat-icon>{{route.icon}}</mat-icon>
+            <span>{{route.name}}</span>
+        </li>
+        <li class="menu-item" (click)="toggleMenu()">
+            <mat-icon>arrow_back</mat-icon>
+            <span>
+                Regresar
+            </span>
+        </li>
+    </ul>
+</div>

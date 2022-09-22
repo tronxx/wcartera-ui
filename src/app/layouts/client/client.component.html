@@ -1,0 +1,9 @@
+<mat-drawer-container class="container">
+    <mat-drawer opened="{{toggle}}" [(opened)]='opened' (opened)="toggle=true" (closed)="close()">
+        <app-sidebar (toggle)="toggleSidebar($event)"></app-sidebar>
+    </mat-drawer>
+    <mat-drawer-content>
+        <app-navbar (toggle)="toggleSidebar($event)"></app-navbar>
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+</mat-drawer-container>

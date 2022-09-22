@@ -1,0 +1,16 @@
+<form [formGroup]="form" (submit)="sendRecoverEmail()" style="display: flex; flex-direction: column;">
+    <mat-form-field>
+        <mat-label>
+            Correo electrónico
+        </mat-label>
+        <input type="email" matInput formControlName="email">
+    </mat-form-field>
+    <button mat-raised-button color="primary" [disabled]="form.invalid || upload">
+        <span *ngIf="!upload">
+            Enviar correo
+        </span>
+        <div style="display: flex; justify-content: center; width:100%;">
+            <mat-spinner diameter="35" *ngIf="upload"></mat-spinner>
+        </div>
+    </button>
+</form>

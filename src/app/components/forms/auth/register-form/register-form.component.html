@@ -1,0 +1,32 @@
+<form [formGroup]="form" (submit)="submit()" style="display: flex; flex-direction: column;">
+    <mat-form-field>
+        <mat-label>
+            Nombre
+        </mat-label>
+        <input matInput type="text" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>
+            Introduce tu Correo electrónico
+        </mat-label>
+        <input matInput type="email" formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>
+            Introduce tu contraseña
+        </mat-label>
+        <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <mat-checkbox formControlName="terms" style="margin-bottom: 1rem;">
+        Acepto los 
+        <a href="">Terminos y condiciones</a>
+    </mat-checkbox>
+    <button type="submit" mat-raised-button color="primary" [disabled]="form.invalid || upload">
+        <span *ngIf="!upload">
+            Registrarse
+        </span>
+        <div style="display: flex; width: 100%; justify-content: center;">
+            <mat-spinner *ngIf="upload" diameter="35"></mat-spinner>
+        </div>
+    </button>
+</form>

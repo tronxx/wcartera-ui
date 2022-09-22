@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "fastbits-e4bcd": {
+      "hosting": {
+        "architecture-demo": [
+          "fastbits-e4bcd"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "fastbits-e4bcd"
+  }
+}

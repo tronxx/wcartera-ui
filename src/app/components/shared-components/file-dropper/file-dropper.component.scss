@@ -1,0 +1,31 @@
+.dropzone {
+    display: flex;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px dashed #949494;
+    padding: 1rem;
+    border-radius: 5px;
+    height: 100%;
+}
+
+.dropzone.hovering{
+    border: 1px solid #949494;
+}
+
+.img-container{
+    display: flex;
+}
+
+.fileButton{
+    cursor: pointer; 
+    border: 1px dashed #949494; 
+    border-radius: 5px; 
+    padding: 1em; 
+    background-color: #eee;
+}
+
+.fileButton:hover{
+    border: 1px solid #949494;
+}
