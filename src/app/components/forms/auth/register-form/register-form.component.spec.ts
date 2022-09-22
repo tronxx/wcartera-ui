@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { RegisterFormComponent } from './register-form.component';
 
@@ -8,6 +10,10 @@ describe('RegisterFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports : [
+        ReactiveFormsModule,
+        MatCheckboxModule
+      ],
       declarations: [ RegisterFormComponent ]
     })
     .compileComponents();

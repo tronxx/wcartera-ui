@@ -19,7 +19,9 @@
     </mat-form-field>
     <mat-checkbox formControlName="terms" style="margin-bottom: 1rem;">
         Acepto los 
-        <a href="">Terminos y condiciones</a>
+        <a href="">
+            Terminos y condiciones
+        </a>
     </mat-checkbox>
     <button type="submit" mat-raised-button color="primary" [disabled]="form.invalid || upload">
         <span *ngIf="!upload">
