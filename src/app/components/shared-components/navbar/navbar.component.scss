@@ -1,9 +1,25 @@
 @import "src/colors.scss";
 
-.navbar{
-    display: flex; 
-    padding: .5rem;  
-    justify-content: space-between; 
-    align-items: center; 
-    background-color: $primary-color;
+.navbar {
+  display: flex;
+  padding: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $primary-color;
+  height: 2rem;
+}
+
+div{
+    cursor: pointer;
+    .menu-icon {
+        font-size: 2rem;
+        width: auto;
+        height: auto;
+    }
+}
+
+@media (min-width: "800px") {
+  .menu-icon {
+    display: none;
+  }
 }
