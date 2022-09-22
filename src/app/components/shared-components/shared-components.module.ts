@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { NavbarComponent } from './navbar/navbar.component';
 
 // Material imports
 import {MatIconModule} from '@angular/material/icon'
@@ -11,8 +9,6 @@ import { FileDropperComponent } from './file-dropper/file-dropper.component';
 import { DirectivesModule } from '@directives/directives.module';
 
 const components = [
-  SidebarComponent,
-  NavbarComponent,
   TableComponent,
   FileDropperComponent
 ]

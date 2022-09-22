@@ -16,24 +16,26 @@ import { AuthComponent } from './layouts/auth/auth.component';
 import {MatCardModule } from "@angular/material/card";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import { SharedComponentsModule } from '@components/shared-components.module';
+import { NavbarComponent } from './layouts/client/navbar/navbar.component';
+import { SidebarComponent } from './layouts/client/sidebar/sidebar.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientComponent,
     AuthComponent,
+    NavbarComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage()),
     MatCardModule,
     MatSidenavModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
