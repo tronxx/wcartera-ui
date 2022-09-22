@@ -1,6 +1,5 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { AfterViewInit, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { AfterViewInit, Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 
 @Component({

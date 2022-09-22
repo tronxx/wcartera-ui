@@ -11,6 +11,7 @@ export class ClientComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSidenav) sidenav!: MatSidenav;
   toggle : boolean;
   opened : boolean;
+  showShadow : boolean = true;
 
   constructor(
     private breakpoint : BreakpointObserver
@@ -24,9 +25,11 @@ export class ClientComponent implements OnInit, AfterViewInit {
         if (res.matches) {
           this.sidenav.mode = 'over';
           this.sidenav.close();
+          this.showShadow = false;
         } else {
           this.sidenav.mode = "side"
           this.sidenav.open();
+          this.showShadow = true;
         }
       })
     }, 0);
