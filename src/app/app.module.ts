@@ -19,6 +19,7 @@ import { SharedComponentsModule } from '@components/shared-components.module';
 import { NavbarComponent } from './layouts/client/navbar/navbar.component';
 import { SidebarComponent } from './layouts/client/sidebar/sidebar.component';
 import { MatIconModule } from '@angular/material/icon';
+import { PageHeaderComponent } from './layouts/client/page-header/page-header.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
     AuthComponent,
     NavbarComponent,
     SidebarComponent,
+    PageHeaderComponent,
   ],
   imports: [
     BrowserModule,
