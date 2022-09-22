@@ -6,7 +6,10 @@
 
     .logo {
         h1{
-            padding: .5rem;
+            padding-left: 3rem;
+            padding-right: 3rem;
+            padding-bottom: .5rem;
+            padding-top: 1rem;
         }
 
         img{
@@ -34,6 +37,7 @@
             }
     
             .icon{
+                padding: 1rem;
                 color: $secondary-text;
             }
         }
