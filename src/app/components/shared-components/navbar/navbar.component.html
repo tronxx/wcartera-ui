@@ -1,4 +1,4 @@
-<nav class="navbar mat-elevation-z5">
+<nav class="navbar" [ngClass]="hide? [''] : ['mat-elevation-z5']">
     <div (click)="toggleSidebar()">
         <mat-icon class="menu-icon">menu</mat-icon>
     </div>

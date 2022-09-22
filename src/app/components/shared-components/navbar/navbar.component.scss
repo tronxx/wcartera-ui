@@ -1,13 +1,6 @@
 @import "src/colors.scss";
 
-.navbar {
-  display: flex;
-  padding: 0.5rem;
-  justify-content: space-between;
-  align-items: center;
-  background-color: $primary-color;
-  height: 2rem;
-}
+
 
 div{
     cursor: pointer;
@@ -19,7 +12,22 @@ div{
 }
 
 @media (min-width: "800px") {
+  .navbar{
+    display: none;
+  }
   .menu-icon {
     display: none;
+  }
+}
+
+@media (max-width: "800px") {
+
+  .navbar {
+    display: flex;
+    padding: 0.5rem;
+    justify-content: space-between;
+    align-items: center;
+    height: 2rem;
+    background-color: $primary-color;
   }
 }
