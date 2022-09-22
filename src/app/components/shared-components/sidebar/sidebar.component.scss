@@ -1,5 +1,11 @@
 @import "src/colors.scss";
 
+.logo {
+    h1{
+        padding: 1rem;
+    }
+}
+
 .logo img{
     max-width: 250px;
     height: fit-content;

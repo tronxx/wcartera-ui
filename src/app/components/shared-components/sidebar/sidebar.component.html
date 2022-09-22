@@ -1,6 +1,8 @@
 <div style="display: flex; flex-direction: column;">
     <div class="logo">
-        <img src="../../../../assets/img/skydropx intro.png" alt="">
+        <h1>
+            Tu logo va aquí
+        </h1>
     </div>
     <ul style="list-style: none; margin: 0; padding: 0;">
         <li class="menu-item" *ngFor="let route of routes" [routerLink]="['/app/'+route.url]" [ngClass]="[currentRoute == route.url? 'selected' : '' ]">
