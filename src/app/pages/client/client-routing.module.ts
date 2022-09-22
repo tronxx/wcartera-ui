@@ -13,6 +13,30 @@ const routes : Routes = [
     loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule),
   },
   {
+    path: 'user-profile',
+    loadChildren: () => import('./user-profile/user-profile.module').then(m => m.UserProfileModule),
+  },
+  {
+    path: 'table-list',
+    loadChildren: () => import('./table-list/table-list.module').then(m => m.TableListModule),
+  },
+  {
+    path: 'typography',
+    loadChildren: () => import('./typography/typography.module').then(m => m.TypographyModule),
+  },
+  {
+    path: 'icons',
+    loadChildren: () => import('./icons/icons.module').then(m => m.IconsModule),
+  },
+  {
+    path: 'maps',
+    loadChildren: () => import('./maps/maps.module').then(m => m.MapsModule),
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule),
+  },
+  {
     path: '**',
     redirectTo: 'landing',
   }

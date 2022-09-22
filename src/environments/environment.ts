@@ -15,24 +15,39 @@ export const environment = {
   production: false,
   menu: [
     {
-      icon: 'home',
+      icon: 'dashboard',
       name: 'Inicio',
       url: 'landing',
     },
     {
-      icon: 'supervisor_account',
-      name: 'clientes',
-      url: 'clients',
+      icon: 'person',
+      name: 'Perfil',
+      url: 'user-profile',
     },
     {
-      icon: 'shopping_basket',
-      name: 'productos',
-      url: 'products',
+      icon: 'content_paste',
+      name: 'Tablas',
+      url: 'table-list',
     },
     {
-      icon: 'receipt',
-      name: 'facturas',
-      url: 'invoices',
+      icon: 'article',
+      name: 'Tipografía',
+      url: 'typography',
+    },
+    {
+      icon: 'insert_emoticon',
+      name: 'Iconos',
+      url: 'icons',
+    },
+    {
+      icon: 'map',
+      name: 'Mapas',
+      url: 'maps',
+    },
+    {
+      icon: 'notifications_active',
+      name: 'Notificaciones',
+      url: 'notifications',
     },
   ]
 };
