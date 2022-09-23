@@ -1,0 +1,37 @@
+@import "src/colors.scss";
+
+.info-card{
+    display: flex;
+    gap: 1rem;
+    .icon-container{
+        background-color: $secondary-color;
+        width: 80px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .icon{
+            width: 60px;
+            height: 60px;
+            font-size: 60px;
+            color: $fifth-color;
+        }
+    }
+    .info-container{
+        width: 80%;
+        .title{
+            font-weight: 400;
+            font-family: 'roboto';
+        }
+        .description{
+            margin: 0;
+        }
+        .divider{
+            position: relative;
+        }
+        .footer{
+            margin-top: 5px;
+            margin-bottom: 0;
+        }
+    }
+}

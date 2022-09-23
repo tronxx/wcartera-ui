@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LandingComponent } from './landing.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
+import { SharedComponentsModule } from '@components/shared-components.module';
 
 const routes : Routes = [
   {
@@ -18,7 +19,8 @@ const routes : Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MatCardModule
+    MatCardModule,
+    SharedComponentsModule
   ]
 })
 export class LandingModule { }

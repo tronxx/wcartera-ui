@@ -7,21 +7,29 @@ import { RouterModule } from '@angular/router';
 import { TableComponent } from './table/table.component';
 import { FileDropperComponent } from './file-dropper/file-dropper.component';
 import { DirectivesModule } from '@directives/directives.module';
+import { InfoCardComponent } from './info-card/info-card.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 
 const components = [
   TableComponent,
-  FileDropperComponent
+  FileDropperComponent,
+  InfoCardComponent
 ]
 
 @NgModule({
   declarations: [
-    ...components
+    ...components,
   ],
   imports: [
     CommonModule,
-    MatIconModule,
     RouterModule,
-    DirectivesModule
+    DirectivesModule,
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+    MatDividerModule
   ],
   exports: [
     ...components
