@@ -19,6 +19,10 @@
             margin: 0;
             padding: 0;
         }
+
+        .divider{
+            margin: 10px;
+        }
     }
     
     .sidebar-menu{
@@ -32,6 +36,8 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            margin: 1rem;
+            border-radius: 5px;
     
             &:hover{
                 transform: scale(1.01);
@@ -45,7 +51,7 @@
     }
     
     .selected {
-        border-left: 5px solid $primary-color; 
-        background-color: $fifth-color;
+        background-color: $primary-color;
+        color: white;
     }
 }

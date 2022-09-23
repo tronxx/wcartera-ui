@@ -3,6 +3,7 @@
         <h1>
             Quicksilver Template
         </h1>
+        <mat-divider class="divider"></mat-divider>
     </div>
     <ul class="sidebar-menu" style="list-style: none; margin: 0; padding: 0;">
         <li class="menu-item" *ngFor="let route of routes" [routerLink]="['/app/'+route.url]" [ngClass]="[currentRoute == route.url? 'selected' : '' ]">
