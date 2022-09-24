@@ -1,2 +1,2 @@
-export interface Profile {
+export class Profile {
 }
