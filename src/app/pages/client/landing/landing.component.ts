@@ -59,6 +59,7 @@ export class LandingComponent implements OnInit {
         tension: 0,
         borderColor: '#fff',
         backgroundColor: 'rgba(255,255,255,.6)',
+        pointBackgroundColor: "#fff"
       }
     ],
   };
@@ -162,7 +163,8 @@ export class LandingComponent implements OnInit {
         fill: true,
         tension: 0.1,
         borderColor: '#fff',
-        backgroundColor: 'rgba(255,255,255,.6)',  
+        backgroundColor: 'rgba(255,255,255,.6)',
+        pointBackgroundColor: "#fff"
       }
     ],
   };
