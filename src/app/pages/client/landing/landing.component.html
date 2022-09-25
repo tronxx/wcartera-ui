@@ -1,5 +1,3 @@
 <div class="grid-container">
-    <info-card></info-card>
-    <info-card></info-card>
-    <info-card></info-card>
+    <info-card *ngFor="let card of cards" [infoCard]="card"></info-card>
 </div>
