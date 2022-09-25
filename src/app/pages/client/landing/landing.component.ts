@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TableOptions } from '@components/table/table.component';
 import { InfoCard } from '@models/info-card';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
@@ -249,6 +250,34 @@ export class LandingComponent implements OnInit {
       description: "do the daily standup"
     }
   ]
+
+  public tableName : string = "Interacciones con el sistema";
+  public headers : Array<string> = ["id", "fecha", "descripcion"]
+  public arrayContent : Array<string> = ["id", "date", "description"];
+  public body : Array<any> = [
+    {
+      id : "1",
+      date:  "12-12-22 12:32:00",
+      description: "la creación exitosa de un nuevo producto"
+    },
+    {
+      id : "2",
+      date:  "23-12-22 15:56:00",
+      description: "the coca cola company bought the company"
+    },
+    {
+      id : "3",
+      date:  "26-12-22 18:23:00",
+      description: "the ceo of dout was fired"
+    },
+  ];
+  public tableOptions : TableOptions = {
+    edit: false,
+    delete: false,
+    create: false,
+    pagination: false,
+    pages: 0
+  }
   constructor() { }
 
   ngOnInit(): void {

@@ -107,6 +107,12 @@
         </div>
     </mat-card>
     <mat-card class="table-list mat-elevation-z5">
-
+        <app-table
+            [headers]="headers"
+            [body]="body"
+            [options]="tableOptions"
+            [tableName]="tableName"
+            [arrayContent]="arrayContent"
+        ></app-table>
     </mat-card>
 </div>

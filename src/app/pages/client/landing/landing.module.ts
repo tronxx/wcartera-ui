@@ -34,7 +34,8 @@ const routes : Routes = [
     MatCheckboxModule,
     MatButtonModule,
     MatButtonToggleModule,
-    FormsModule
+    FormsModule,
+    SharedComponentsModule
   ]
 })
 export class LandingModule { }
