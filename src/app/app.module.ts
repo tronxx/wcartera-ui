@@ -21,6 +21,7 @@ import { SidebarComponent } from './layouts/client/sidebar/sidebar.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { PageHeaderComponent } from './layouts/client/page-header/page-header.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { PageHeaderComponent } from './layouts/client/page-header/page-header.co
     MatSidenavModule,
     SharedComponentsModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
