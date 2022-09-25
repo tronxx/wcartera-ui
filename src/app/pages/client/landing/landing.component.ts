@@ -197,9 +197,65 @@ export class LandingComponent implements OnInit {
     }
   };
   public line2ChartLegend = true;
+
+  public contextualMenu : string = "";
+  public pendantTickets : Array<any> = [
+    {
+      completed: false,
+      description: "the table does not change of page correctly"
+    },
+    {
+      completed: false,
+      description: "the sidebar does not collapse under 800px of width of resolution"
+    },
+    {
+      completed: true,
+      description: "The navbar menu button does not open on command"
+    }
+  ]
+  public dailyTasks : Array<any> = [
+    {
+      completed: false,
+      description : "buy milk"
+    },
+    {
+      completed: false,
+      description : "fire that useless employee"
+    },
+    {
+      completed: false,
+      description : "buy amazon stock"
+    },
+    {
+      completed: false,
+      description : "sell google stock"
+    },
+    {
+      completed: true,
+      description : "buy new macbooks for all my employees"
+    },
+  ]
+  public dailyAdvances : Array<any> = [
+    {
+      completed: false,
+      description: "do exercise"
+    },
+    {
+      completed: false,
+      description: "drink 2 liters of water"
+    },
+    {
+      completed: true,
+      description: "do the daily standup"
+    }
+  ]
   constructor() { }
 
   ngOnInit(): void {
+    this.updateContextualMenu('tickets-list');
   }
 
+  updateContextualMenu(context : 'daily-advances' | 'daily-tasks' | 'tickets-list'){
+    this.contextualMenu= context;
+  }
 }

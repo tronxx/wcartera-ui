@@ -59,3 +59,54 @@
         </div>
     </mat-card>
 </div>
+<div class="grid-container lower-container">
+    <mat-card class="task-list mat-elevation-z5">
+        <div class="tl-header">
+            <p class="tl-title">
+                Tareas:
+            </p>
+            <div class="tl-button-container">
+                <mat-button-toggle-group class="tl-button-container-group" name="tasksGroup" aria-label="task Group">
+                    <mat-button-toggle value="tickets-list" class="tl-button" (click)="updateContextualMenu('tickets-list')" [ngClass]="contextualMenu == 'tickets-list'? ['tl-button-focus'] : ['']">
+                        Tickets pendientes 
+                    </mat-button-toggle>
+                    <mat-button-toggle value="daily-tasks" class="tl-button" (click)="updateContextualMenu('daily-tasks')" [ngClass]="contextualMenu == 'daily-tasks'? ['tl-button-focus'] : ['']">
+                        tareas del día
+                    </mat-button-toggle>
+                    <mat-button-toggle value="daily-advances" class="tl-button" (click)="updateContextualMenu('daily-advances')" [ngClass]="contextualMenu == 'daily-advances'? ['tl-button-focus'] : ['']">
+                        Avances del día
+                    </mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+        <div class="contextual-menu">
+            <ul *ngIf="contextualMenu == 'tickets-list'" class="check-list">
+                <li *ngFor="let ticket of pendantTickets" class="check-list-item">
+                    <mat-checkbox [(ngModel)]="ticket.completed">
+                        {{ticket.description}}
+                    </mat-checkbox>
+                    <mat-divider class="cli-divider"></mat-divider>
+                </li>
+            </ul>
+            <ul *ngIf="contextualMenu == 'daily-tasks'" class="check-list">
+                <li *ngFor="let ticket of dailyTasks" class="check-list-item">
+                    <mat-checkbox [(ngModel)]="ticket.completed">
+                        {{ticket.description}}
+                    </mat-checkbox>
+                    <mat-divider class="cli-divider"></mat-divider>
+                </li>
+            </ul>
+            <ul *ngIf="contextualMenu == 'daily-advances'" class="check-list">
+                <li *ngFor="let ticket of dailyAdvances" class="check-list-item">
+                    <mat-checkbox [(ngModel)]="ticket.completed">
+                        {{ticket.description}}
+                    </mat-checkbox>
+                    <mat-divider class="cli-divider"></mat-divider>
+                </li>
+            </ul>
+        </div>
+    </mat-card>
+    <mat-card class="table-list mat-elevation-z5">
+
+    </mat-card>
+</div>

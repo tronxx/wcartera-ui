@@ -25,3 +25,56 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+
+.lower-container{
+    margin-top: 1rem;
+    .task-list{
+        .tl-header{
+            display: flex;
+            gap: 1ch;
+            background: $secondary-color;
+            color: $white-text;
+            padding: .5ch;
+            border-radius: 5px;
+            justify-content: center;
+            align-items: center;
+            p{
+                margin: 0;
+                font-weight: 500;
+            }
+            .tl-button-container{
+                display: grid;
+                gap: 1rem;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                width: 80%;
+                .tl-button-container-group{
+                    border: 0px;
+                    .tl-button{
+                        background: $secondary-color;
+                        color: white;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: no-wrap;
+                    }
+    
+                    .tl-button-focus{
+                        background-color: $third-color;
+                    }
+                }
+            }
+        }
+        .contextual-menu{
+            .check-list{
+                list-style: none;
+                .check-list-item{
+                   padding: 1rem; 
+                   .cli-divider{
+                    position: relative; 
+                    max-width: 80%;
+                   }
+                }
+            }
+        }
+    }
+}

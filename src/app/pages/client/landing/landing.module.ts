@@ -7,6 +7,10 @@ import { SharedComponentsModule } from '@components/shared-components.module';
 import { NgChartsModule } from 'ng2-charts';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 const routes : Routes = [
   {
@@ -26,7 +30,11 @@ const routes : Routes = [
     NgChartsModule,
     MatDividerModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    FormsModule
   ]
 })
 export class LandingModule { }
