@@ -31,7 +31,14 @@ export class LandingComponent implements OnInit {
       footer : "promos simples, grandes ganancias",
       icon : "sell",
       title : "Promociones"
-    }
+    },
+    {
+      color : "#56cfaf",
+      description: "Este mes hemos tenido alrededor de 25 tickets se servicio",
+      footer : "actualizado hace 24 horas",
+      icon : "warning",
+      title : "Tickets de servicio"
+    },
   ]
 
   public lineChartData: ChartConfiguration<'line'>['data'] = {
