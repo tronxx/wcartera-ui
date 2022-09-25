@@ -1,5 +1,6 @@
 @import "src/colors.scss";
 
+
 .info-card{
     display: flex;
     gap: 1rem;
@@ -28,9 +29,10 @@
             margin: 0;
             text-transform: capitalize;
         }
-        // .description{
-            
-        // }
+        .description{
+            height: 50px;
+            text-overflow: ellipsis;
+        }
         .divider{
             position: relative;
         }
@@ -40,14 +42,20 @@
             a{
                 text-decoration: none;
                 color: $third-text;
-
                 &:hover{
                     color: $fourth-text;
                 }
             }
             span{
-                margin: 0
+                margin: 0;
             }
         }
     }
+}
+
+.text{
+    max-width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
