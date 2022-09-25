@@ -14,7 +14,7 @@ export class LandingComponent implements OnInit {
       description: "En el último mes se han generado más de 3500 dólares de ganancia",
       footer : "haz click para ver más",
       icon : "shopping_cart",
-      title : "Las ventas del último més",
+      title : "Las ventas del último mes",
       footerLink : "#"
     },
     {
