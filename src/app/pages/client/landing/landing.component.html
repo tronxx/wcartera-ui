@@ -1,5 +1,10 @@
 <div class="grid-container">
-    <info-card *ngFor="let card of cards" [infoCard]="card"></info-card>
+    <info-card *ngFor="let card of cards" [infoCard]="card">
+        <div role="footer" class="footer text">
+            <mat-icon>schedule</mat-icon>
+            <p>{{card.footer}}</p>
+        </div>
+    </info-card>
 </div>
 <div class="chart-container grid-container">
     <mat-card class="mat-elevation-z5">

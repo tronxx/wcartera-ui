@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { SharedComponentsModule } from '@components/shared-components.module';
 import { NgChartsModule } from 'ng2-charts';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 const routes : Routes = [
   {
@@ -21,10 +22,11 @@ const routes : Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    MatCardModule,
     SharedComponentsModule,
     NgChartsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatCardModule,
+    MatIconModule
   ]
 })
 export class LandingModule { }

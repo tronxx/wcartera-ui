@@ -13,14 +13,7 @@
                 {{infoCard? infoCard.description : 'default description goes here'}}
             </p>
             <mat-divider class="divider"></mat-divider>
-            <p class="footer text">
-                <a href="" [routerLink]="[infoCard.footerLink]" *ngIf="infoCard && infoCard.footerLink">
-                    {{infoCard? infoCard.footer : 'default footer'}}
-                </a>
-                <span href="" *ngIf="!infoCard?.footerLink">
-                    {{infoCard? infoCard.footer : 'default footer'}}
-                </span>
-            </p>
+            <ng-content select="div[role=footer]"></ng-content>
         </div>
     </div>
 </mat-card>

@@ -1,7 +1,20 @@
+@import "src/colors.scss";
+
 .bullet-card{
     display: flex;
 }
 
 .chart-container{
     margin-top: 1rem;
+}
+
+.footer{
+    display: flex;
+    gap: 1ch;
+    color: $secondary-text;
+    margin-top: 5px;
+    align-items: center;
+    p{
+        margin: 0;
+    }
 }
