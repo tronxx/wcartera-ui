@@ -9,7 +9,7 @@
 <div class="chart-container grid-container">
     <mat-card class="mat-elevation-z5">
         <div style="background: linear-gradient(60deg,#66bb6a,#43a047)">
-            <canvas baseChart width="200" height="200"
+            <canvas baseChart width="200" height="100"
             [type]="'line'"
             [data]="lineChartData"
             [options]="lineChartOptions"
@@ -26,7 +26,7 @@
     </mat-card>
     <mat-card class="mat-elevation-z5">
         <div style="background: linear-gradient(60deg,#ffa726,#fb8c00)">
-            <canvas baseChart width="200" height="200"
+            <canvas baseChart width="200" height="100"
             [type]="'bar'"
             [data]="barChartData"
             [options]="barChartOptions"
@@ -43,7 +43,7 @@
     </mat-card>
     <mat-card class="mat-elevation-z5">
         <div style="background: linear-gradient(60deg,#ef5350,#e53935)">
-            <canvas baseChart width="200" height="200"
+            <canvas baseChart width="200" height="100"
             [type]="'line'"
             [data]="line2ChartData"
             [options]="line2ChartOptions"

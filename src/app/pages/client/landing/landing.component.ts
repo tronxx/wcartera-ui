@@ -11,7 +11,7 @@ export class LandingComponent implements OnInit {
 
   public cards : Array<InfoCard> = [
     {
-      color : "#00ff00",
+      color : "linear-gradient(60deg,#66bb6a,#43a047)",
       description: "En el último mes se han generado más de 3500 dólares de ganancia",
       footer : "haz click para ver más",
       icon : "shopping_cart",
@@ -19,21 +19,21 @@ export class LandingComponent implements OnInit {
       footerLink : "#"
     },
     {
-      color : "#6655aa",
+      color : "linear-gradient(60deg,#ffa726,#fb8c00)",
       description: "Los seguidores de este mes se han mantenido constantes y sonantes",
       footer : "Los seguidores son constantes",
       icon : "groups",
       title : "Seguidores en redes sociales",
     },
     {
-      color : "#56cfaf",
+      color : "linear-gradient(60deg, #56cfaf, #57dfbf)",
       description: "Este mes las promociones han tenido leads del 80%",
       footer : "promos simples, grandes ganancias",
       icon : "sell",
       title : "Promociones"
     },
     {
-      color : "#e53935",
+      color : "linear-gradient(60deg,#ef5350,#e53935)",
       description: "Este mes hemos tenido alrededor de 25 tickets se servicio",
       footer : "actualizado hace 24 horas",
       icon : "warning",
