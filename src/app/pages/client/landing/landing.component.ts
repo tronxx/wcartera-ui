@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InfoCard } from '@models/info-card';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
   selector: 'app-landing',
@@ -32,6 +33,79 @@ export class LandingComponent implements OnInit {
       title : "Promociones"
     }
   ]
+
+  public lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July'
+    ],
+    datasets: [
+      {
+        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        label: 'Series A',
+        fill: true,
+        tension: 0.5,
+        borderColor: '#aaf',
+        backgroundColor: '#77cc66'
+      }
+    ]
+  };
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: true
+  };
+  public lineChartLegend = true;
+
+  public barChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July'
+    ],
+    datasets: [
+      {
+        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        label: 'Series A',
+      },
+      {
+        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        label: 'Series B',
+      }
+    ]
+  };
+  public barChartOptions: ChartOptions<'bar'> = {
+    responsive: true
+  };
+  public barChartLegend = true;
+  
+  public pieChartData: ChartConfiguration<'pie'>['data'] = {
+    labels: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July'
+    ],
+    datasets: [
+      {
+        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+      }
+    ]
+  };
+  public pieChartOptions: ChartOptions<'pie'> = {
+    responsive: true
+  };
+  public pieChartLegend = true;
 
   constructor() { }
 

@@ -1,3 +1,50 @@
 <div class="grid-container">
     <info-card *ngFor="let card of cards" [infoCard]="card"></info-card>
 </div>
+<div class="chart-container grid-container">
+    <mat-card class="mat-elevation-z5">
+        <canvas baseChart width="400" height="400"
+            [type]="'line'"
+            [data]="lineChartData"
+            [options]="lineChartOptions"
+            [legend]="lineChartLegend">
+        </canvas>
+        <div>
+            <h1>
+                Ventas del año
+            </h1>
+            <mat-divider style="position: relative; width: 80%; margin-bottom: 1rem;"></mat-divider>
+            <p>Esta gráfica contiene un resumen breve de como ha ido avanzando el año</p>
+        </div>
+    </mat-card>
+    <mat-card class="mat-elevation-z5">
+        <canvas baseChart width="400" height="400"
+            [type]="'bar'"
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [legend]="barChartLegend">
+        </canvas>
+        <div>
+            <h1>
+                Inversiones recibidas en el año
+            </h1>
+            <mat-divider style="position: relative; width: 80%; margin-bottom: 1rem;"></mat-divider>
+            <p>Esta gráfica contiene un resumen breve de como ha ido avanzando el año</p>
+        </div>
+    </mat-card>
+    <mat-card class="mat-elevation-z5">
+        <canvas baseChart width="400" height="400"
+            [type]="'pie'"
+            [data]="pieChartData"
+            [options]="pieChartOptions"
+            [legend]="pieChartLegend">
+        </canvas>
+        <div>
+            <h1>
+                Actividad en redes sociales
+            </h1>
+            <mat-divider style="position: relative; width: 80%; margin-bottom: 1rem;"></mat-divider>
+            <p>Aquí se muestra a detalle como han avanzado las redes de la empresa</p>
+        </div>
+    </mat-card>
+</div>

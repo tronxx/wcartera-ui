@@ -4,6 +4,8 @@ import { LandingComponent } from './landing.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { SharedComponentsModule } from '@components/shared-components.module';
+import { NgChartsModule } from 'ng2-charts';
+import { MatDividerModule } from '@angular/material/divider';
 
 const routes : Routes = [
   {
@@ -20,7 +22,9 @@ const routes : Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     MatCardModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    NgChartsModule,
+    MatDividerModule
   ]
 })
 export class LandingModule { }
