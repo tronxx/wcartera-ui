@@ -251,7 +251,6 @@ export class LandingComponent implements OnInit {
     }
   ]
 
-  public tableName : string = "Interacciones con el sistema";
   public headers : Array<string> = ["id", "fecha", "descripcion"]
   public arrayContent : Array<string> = ["id", "date", "description"];
   public body : Array<any> = [
