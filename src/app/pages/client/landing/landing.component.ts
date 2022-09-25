@@ -33,7 +33,7 @@ export class LandingComponent implements OnInit {
       title : "Promociones"
     },
     {
-      color : "#56cfaf",
+      color : "#e53935",
       description: "Este mes hemos tenido alrededor de 25 tickets se servicio",
       footer : "actualizado hace 24 horas",
       icon : "warning",
