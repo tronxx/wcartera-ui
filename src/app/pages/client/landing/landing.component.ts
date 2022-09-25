@@ -56,14 +56,39 @@ export class LandingComponent implements OnInit {
         data: [ 65, 59, 80, 81, 56, 55, 40 ],
         label: 'Series A',
         fill: true,
-        tension: 0.5,
-        borderColor: '#aaf',
-        backgroundColor: '#77cc66'
+        tension: 0,
+        borderColor: '#fff',
+        backgroundColor: 'rgba(255,255,255,.6)',
       }
-    ]
+    ],
   };
   public lineChartOptions: ChartOptions<'line'> = {
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: {
+        ticks: {
+          color : "#fff"
+        },
+        grid: {
+          color: "rgba(255,255,255, 0.5)"
+        }
+      },
+      xAxes: {
+        ticks: {
+          color : "#fff"
+        },
+        grid: {
+          color: "rgba(255,255,255, 0.5)"
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: "#fff"
+        },
+      },
+    },
   };
   public lineChartLegend = true;
 
@@ -81,19 +106,46 @@ export class LandingComponent implements OnInit {
       {
         data: [ 65, 59, 80, 81, 56, 55, 40 ],
         label: 'Series A',
+        backgroundColor: "rgba(200,255,190,0.5)"
       },
       {
         data: [ 65, 59, 80, 81, 56, 55, 40 ],
         label: 'Series B',
+        backgroundColor: "rgba(255,255,255,0.5)"
       }
-    ]
+    ],
   };
   public barChartOptions: ChartOptions<'bar'> = {
-    responsive: true
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: {
+          color: "#fff"
+        }
+      },
+    },
+    scales: {
+      yAxes: {
+        ticks: {
+          color : "#fff"
+        },
+        grid: {
+          color: "rgba(255,255,255, 0.5)"
+        }
+      },
+      xAxes: {
+        ticks: {
+          color : "#fff"
+        },
+        grid: {
+          color: "rgba(255,255,255, 0.5)"
+        }
+      }
+    },
   };
   public barChartLegend = true;
   
-  public pieChartData: ChartConfiguration<'pie'>['data'] = {
+  public line2ChartData: ChartConfiguration<'line'>['data'] = {
     labels: [
       'January',
       'February',
@@ -106,14 +158,43 @@ export class LandingComponent implements OnInit {
     datasets: [
       {
         data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        label: 'Series A',
+        fill: true,
+        tension: 0.1,
+        borderColor: '#fff',
+        backgroundColor: 'rgba(255,255,255,.6)',  
       }
-    ]
+    ],
   };
-  public pieChartOptions: ChartOptions<'pie'> = {
-    responsive: true
+  public line2ChartOptions: ChartOptions<'line'> = {
+    responsive: true,
+    scales: {
+      yAxes: {
+        ticks: {
+          color : "#fff"
+        },
+        grid: {
+          color: "rgba(255,255,255, 0.5)"
+        }
+      },
+      xAxes: {
+        ticks: {
+          color : "#fff"
+        },
+        grid: {
+          color: "rgba(255,255,255, 0.5)"
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: "#fff"
+        }
+      },
+    }
   };
-  public pieChartLegend = true;
-
+  public line2ChartLegend = true;
   constructor() { }
 
   ngOnInit(): void {

@@ -8,12 +8,14 @@
 </div>
 <div class="chart-container grid-container">
     <mat-card class="mat-elevation-z5">
-        <canvas baseChart width="400" height="400"
+        <div style="background: linear-gradient(60deg,#66bb6a,#43a047)">
+            <canvas baseChart width="200" height="200"
             [type]="'line'"
             [data]="lineChartData"
             [options]="lineChartOptions"
             [legend]="lineChartLegend">
-        </canvas>
+            </canvas>
+        </div>
         <div>
             <h1>
                 Ventas del año
@@ -23,12 +25,14 @@
         </div>
     </mat-card>
     <mat-card class="mat-elevation-z5">
-        <canvas baseChart width="400" height="400"
+        <div style="background: linear-gradient(60deg,#ffa726,#fb8c00)">
+            <canvas baseChart width="200" height="200"
             [type]="'bar'"
             [data]="barChartData"
             [options]="barChartOptions"
             [legend]="barChartLegend">
         </canvas>
+        </div>
         <div>
             <h1>
                 Inversiones recibidas en el año
@@ -38,12 +42,14 @@
         </div>
     </mat-card>
     <mat-card class="mat-elevation-z5">
-        <canvas baseChart width="400" height="400"
-            [type]="'pie'"
-            [data]="pieChartData"
-            [options]="pieChartOptions"
-            [legend]="pieChartLegend">
-        </canvas>
+        <div style="background: linear-gradient(60deg,#ef5350,#e53935)">
+            <canvas baseChart width="200" height="200"
+            [type]="'line'"
+            [data]="line2ChartData"
+            [options]="line2ChartOptions"
+            [legend]="line2ChartLegend">
+            </canvas>
+        </div>
         <div>
             <h1>
                 Actividad en redes sociales
