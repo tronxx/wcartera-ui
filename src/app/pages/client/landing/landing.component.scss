@@ -77,4 +77,14 @@
             }
         }
     }
+
+    .table-list{
+        .table-list-header{
+            background: $primary-color;
+            color: white;
+            border-radius: 5px;
+            padding: .5ch;
+        }
+    }
 }
+
