@@ -11,6 +11,8 @@ import { InfoCardComponent } from './info-card/info-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const components = [
   TableComponent,
@@ -29,7 +31,10 @@ const components = [
     MatIconModule,
     MatCardModule,
     MatButtonModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule
   ],
   exports: [
     ...components

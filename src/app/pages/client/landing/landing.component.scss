@@ -83,7 +83,13 @@
             background: $primary-color;
             color: white;
             border-radius: 5px;
-            padding: .5ch;
+            padding: 1.2ch;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            h1{
+                margin: 0;
+            }
         }
     }
 }

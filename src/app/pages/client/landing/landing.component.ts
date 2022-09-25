@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TableOptions } from '@components/table/table.component';
 import { InfoCard } from '@models/info-card';
+import { TableOptions } from '@models/table-options';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 
 @Component({
@@ -274,8 +274,8 @@ export class LandingComponent implements OnInit {
     edit: false,
     delete: false,
     create: false,
-    pagination: false,
-    pages: 0
+    download: false,
+    size: 0
   }
   constructor() { }
 

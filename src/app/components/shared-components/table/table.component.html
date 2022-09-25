@@ -1,49 +1,25 @@
-<div class="card">
-    <div class="card-header card-header-danger">
-        <h4 class="card-title">
-            {{tableName}}
-        </h4>
-        <button mat-raised-button color="primary" *ngIf="options?.create" (click)="openCreate()">
-            Añadir
-        </button>
-    </div>
-    <div class="car-body">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th *ngFor="let header of headers">
-                            {{header}}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let content of body; index as i" class="hovered" (click)="selectObject(content, i)" [ngClass]="selected == i? 'selected' : '' ">
-                        <td *ngFor="let property of arrayContent" [ngClass]="options.signal? 'hovered' : ''">
-                            {{content[property]}}
-                        </td>
-                        <td style="display: flex; justify-content: flex-end;" *ngIf="options.edit || options.delete">
-                            <button mat-button style="margin-right: 5px;" *ngIf="options.edit" (click)="openEdit(content)">
-                                <mat-icon>
-                                    mode_edit
-                                </mat-icon>
-                            </button>
-                            <button mat-button *ngIf="options.delete" (click)="openDelete(content)">
-                                <mat-icon>
-                                    delete
-                                </mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <!-- <tfoot>
-                    <tr>
-                        <td colspan="2">
-                            Actualizado el 20/02/2022
-                        </td>
-                    </tr>
-                </tfoot> -->
-                </table>
-        </div>
-    </div>
-</div>
+<table mat-table [dataSource]="visibleData" style="width: 100%;">
+    <ng-container *ngFor="let column of bodyProps; let i = index" matColumnDef="{{column}}" >
+        <th mat-header-cell *matHeaderCellDef style="padding: 1rem; text-transform: capitalize; text-align: center;" class="table-header">{{headers[i]}}</th>
+        <td mat-cell *matCellDef="let element" style="text-align: center;" (click)="selectObject(element, i)" class="table-content" >{{element[column]}}</td>
+    </ng-container>
+    <ng-container matColumnDef="options">
+        <th mat-header-cell *matHeaderCellDef style="padding: 1rem; text-transform: capitalize;">
+            Opciones
+        </th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-button (click)="openEdit(element)" *ngIf="options.edit" type="button">
+                <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-button (click)="openDelete(element)" *ngIf="options.delete" type="button">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-button (click)="openDownload(element)" *ngIf="options.download" type="button">
+                <mat-icon>cloud_download</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns:displayColumns;" style="cursor: pointer;"></tr>
+</table>
+<mat-paginator [length]="options.size" showFirstLastButtons  [pageSizeOptions]="[5, 10, 20]" aria-label="Select page of novels"></mat-paginator>
