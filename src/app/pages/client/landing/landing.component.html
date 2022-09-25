@@ -1,8 +1,8 @@
 <div class="grid-container">
     <info-card *ngFor="let card of cards" [infoCard]="card">
-        <div role="footer" class="footer text">
+        <div role="footer" class="footer">
             <mat-icon>schedule</mat-icon>
-            <p>{{card.footer}}</p>
+            <p class="text">{{card.footer}}</p>
         </div>
     </info-card>
 </div>
