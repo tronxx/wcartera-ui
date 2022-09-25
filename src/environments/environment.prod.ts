@@ -11,24 +11,47 @@ export const environment = {
   production: true,
   menu: [
     {
-      icon: 'home',
+      icon: 'dashboard',
       name: 'Inicio',
       url: 'landing',
     },
     {
-      icon: 'supervisor_account',
-      name: 'clientes',
-      url: 'clients',
+      icon: 'person',
+      name: 'Perfil',
+      url: 'user-profile',
     },
     {
-      icon: 'shopping_basket',
-      name: 'productos',
-      url: 'products',
+      icon: 'content_paste',
+      name: 'Tablas',
+      url: 'table-list',
     },
     {
-      icon: 'receipt',
-      name: 'facturas',
-      url: 'invoices',
+      icon: 'article',
+      
+      name: 'Tipografía',
+      url: 'typography',
     },
-  ]
+    {
+      icon: 'insert_emoticon',
+      name: 'Iconos',
+      url: 'icons',
+    },
+    {
+      icon: 'map',
+      name: 'Mapas',
+      url: 'maps',
+    },
+    {
+      icon: 'notifications_active',
+      name: 'Notificaciones',
+      url: 'notifications',
+    },
+  ],
+  primaryColor: "#F85A3E",
+  secondaryColor: "#FF7733",
+  thirdColor: "#E15634",
+  fourthColor: "#E63B2E",
+  fifthColor: "#E1E6E1",
+  primaryText : "black",
+  secondaryText : "#afafaf"
 };

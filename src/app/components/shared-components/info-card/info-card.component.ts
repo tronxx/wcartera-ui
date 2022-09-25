@@ -1,12 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-
-type InfoCard = {
-  title : string;
-  description : string;
-  footer : string;
-  footerLink? : boolean;
-  icon : string;
-}
+import { Component, Input, OnInit } from '@angular/core';
+import {InfoCard} from '@models/info-card';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'info-card',
@@ -14,6 +8,9 @@ type InfoCard = {
   styleUrls: ['./info-card.component.scss']
 })
 export class InfoCardComponent implements OnInit {
+
+  public defaultColor = environment.primaryColor
+  @Input() infoCard : InfoCard;
 
   constructor() { }
 

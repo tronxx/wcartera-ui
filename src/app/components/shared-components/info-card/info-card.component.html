@@ -1,19 +1,24 @@
 <mat-card class="info-card mat-elevation-z5">
-    <div class="icon-container">
+    <div class="icon-container" [ngStyle]="infoCard? {backgroundColor : infoCard.color} : {backgroundColor : defaultColor}">
         <mat-icon class="icon">
-            home
+            {{infoCard? infoCard.icon : 'home'}}
         </mat-icon>
     </div>
     <div class="info-container">
         <h3 class="title">
-            title
+            {{infoCard? infoCard.title : 'default interface'}}
         </h3>
         <p class="description">
-            description
+            {{infoCard? infoCard.description : 'default description goes here'}}
         </p>
         <mat-divider class="divider"></mat-divider>
         <p class="footer">
-            footer
+            <a href="" [routerLink]="[infoCard.footerLink]" *ngIf="infoCard && infoCard.footerLink">
+                {{infoCard? infoCard.footer : 'default footer'}}
+            </a>
+            <span href="" *ngIf="!infoCard?.footerLink">
+                {{infoCard? infoCard.footer : 'default footer'}}
+            </span>
         </p>
     </div>
 </mat-card>

@@ -50,7 +50,14 @@ export const environment = {
       name: 'Notificaciones',
       url: 'notifications',
     },
-  ]
+  ],
+  primaryColor: "#F85A3E",
+  secondaryColor: "#FF7733",
+  thirdColor: "#E15634",
+  fourthColor: "#E63B2E",
+  fifthColor: "#E1E6E1",
+  primaryText : "black",
+  secondaryText : "#afafaf"
 };
 
 /*
