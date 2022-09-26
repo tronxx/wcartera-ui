@@ -99,7 +99,9 @@
             <ul *ngIf="contextualMenu == 'daily-advances'" class="check-list">
                 <li *ngFor="let ticket of dailyAdvances" class="check-list-item">
                     <mat-checkbox [(ngModel)]="ticket.completed">
-                        {{ticket.description}}
+                        <span class="task-check-box">
+                            {{ticket.description}}
+                        </span>
                     </mat-checkbox>
                     <mat-divider class="cli-divider"></mat-divider>
                 </li>

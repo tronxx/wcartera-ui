@@ -54,10 +54,10 @@ export class LandingComponent implements OnInit {
     ],
     datasets: [
       {
-        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        data: [ 35, 59, 40, 91, 46, 65, 70 ],
         label: 'Series A',
         fill: true,
-        tension: 0,
+        tension: 0.5,
         borderColor: '#fff',
         backgroundColor: 'rgba(255,255,255,.6)',
         pointBackgroundColor: "#fff"
@@ -106,12 +106,12 @@ export class LandingComponent implements OnInit {
     ],
     datasets: [
       {
-        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        data: [ 65, 59, 80, 45, 56, 55, 40 ],
         label: 'Series A',
         backgroundColor: "rgba(200,255,190,0.5)"
       },
       {
-        data: [ 65, 59, 80, 81, 56, 55, 40 ],
+        data: [ 59, 65, 28, 81, 56, 35, 70 ],
         label: 'Series B',
         backgroundColor: "rgba(255,255,255,0.5)"
       }

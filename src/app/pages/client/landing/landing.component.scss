@@ -67,6 +67,7 @@
         .contextual-menu{
             .check-list{
                 list-style: none;
+                padding: 0;
                 .check-list-item{
                    padding: 1rem; 
                    .cli-divider{
@@ -94,3 +95,9 @@
     }
 }
 
+::ng-deep .mat-checkbox{
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+   }
