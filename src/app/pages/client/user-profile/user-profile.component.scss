@@ -1,0 +1,22 @@
+.profile-container{
+    display: flex;
+    gap: 1rem;
+    .info{
+        width: 70%;
+    }
+    .visualization{
+        width: 30%;
+    }
+}
+
+@media(max-width: '800px'){
+    .profile-container{
+        flex-direction: column;
+        .info{
+            width: auto;
+        }
+        .visualization{
+            width: auto;
+        }
+    }
+}
