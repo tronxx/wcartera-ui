@@ -1,0 +1,12 @@
+@import "src/colors.scss";
+
+.table-header{
+    background: $primary-color;
+    padding: 1rem;
+    border-radius: 5px;
+    h1{
+        text-align: center;
+        margin: 0;
+        color: $white-text;
+    }
+}

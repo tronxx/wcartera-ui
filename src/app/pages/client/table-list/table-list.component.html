@@ -1,1 +1,13 @@
-<p>table-list works!</p>
+<mat-card class="mat-elevation-z5">
+    <div class="table-header">
+        <h1>
+            Tabla estandar
+        </h1>
+    </div>
+    <app-table
+            [headers]="headers"
+            [body]="body"
+            [options]="tableOptions"
+            [bodyProps]="arrayContent"
+        ></app-table>
+</mat-card>
