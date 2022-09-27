@@ -4,9 +4,17 @@
     background: $primary-color;
     padding: 1rem;
     border-radius: 5px;
+    margin-bottom: 1ch;
     h1{
-        text-align: center;
         margin: 0;
         color: $white-text;
     }
+    h3{
+        margin: 0;
+        color: $white-text;
+    }
+}
+
+.no-background-table{
+    margin-top: 1rem;
 }

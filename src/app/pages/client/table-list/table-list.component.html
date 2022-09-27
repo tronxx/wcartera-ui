@@ -3,6 +3,9 @@
         <h1>
             Tabla estandar
         </h1>
+        <h3>
+            Esta es la tabla estándar de la aplicación, no cuenta con un fondo en sí, por lo que deberías tenerlo en cuenta a la hora de incluirlo en cualquier otro proyecto
+        </h3>
     </div>
     <app-table
             [headers]="headers"
@@ -11,3 +14,19 @@
             [bodyProps]="arrayContent"
         ></app-table>
 </mat-card>
+<div class="no-background-table">
+    <div class="table-header mat-elevation-z5">
+        <h1>
+            Tabla estandar
+        </h1>
+        <h3>
+            Esta es la tabla estándar de la aplicación, en futuras iteraciones de la plantilla se iran retirando elementos innecesarios de la misma o mantenerla óptima
+        </h3>
+    </div>
+    <app-table
+            [headers]="headers"
+            [body]="body"
+            [options]="tableOptions"
+            [bodyProps]="arrayContent"
+    ></app-table>
+</div>
