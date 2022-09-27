@@ -1,11 +1,84 @@
+@import "src/colors.scss";
+
 .profile-container{
     display: flex;
     gap: 1rem;
     .info{
         width: 70%;
+        height: 100%;
+        .title{
+            background: $primary-color;
+            padding: .3rem;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            h1{
+                color: $white-text;
+                margin: 0;
+            }
+        }
+
+        .profile-form{
+            margin-top: 1rem;
+            div{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 1rem;
+                width: 100%;
+                .form-field{
+                    width: 100%;
+                }
+            }
+        }
+        .button-field{
+            display: flex;
+            width: 100%;
+            justify-content: flex-end;
+            .button{
+                background: $primary-color;
+                color: $white-text;
+            }
+        }
     }
     .visualization{
         width: 30%;
+        .image-container{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 1rem;
+            img{
+                width: 60%;
+                object-fit: contain;
+                border-radius: 50%;
+            }
+        }
+        .visualization-data{
+            h6{
+                margin: 0;
+                text-align: center;
+            }
+            h1{
+                text-align: center;
+                margin: 0;
+            }
+            p{
+                text-align: center;
+                margin: 0;
+                margin-bottom: 1rem;
+            }
+        }
+        .button-field{
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            .button{
+                background: $primary-color;
+                color: $white-text;
+                border-radius: 20px;
+                width: 80%;
+            }
+        }
     }
 }
 

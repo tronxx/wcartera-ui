@@ -18,6 +18,7 @@ export class PageHeaderComponent implements OnInit {
   ngOnInit(): void {
     let subRoute = this.router.url.split("/")
     environment.menu.forEach(element => {if(element.url == subRoute[2]) this.route = element.name});
+    this.trackNavigation();
   }
 
   trackNavigation(){
