@@ -8,4 +8,16 @@
             Los icónos son provistos por los amigos de material design
         </h3>
     </div>
+    <div class="grid-container">
+        <mat-icon *ngFor="let icon of icons" class="icon">{{icon}}</mat-icon>
+    </div>
+    <div class="more_link">
+        <p>
+            Encuentra más íconos de material 
+            <a href="https://fonts.google.com/icons" target="_blank" class="link">
+                aquí
+            </a>
+        </p>
+        
+    </div>
 </mat-card>

@@ -16,3 +16,26 @@
         font-weight: 300;
     }
 }
+
+.grid-container{
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+}
+
+.icon{
+    width: 60px;
+    height: 60px;
+    font-size: 60px;
+    color: $secondary-color;
+    border: 1px solid $fifth-color;
+    border-radius: 10px;
+}
+
+.more_link{
+    margin-top: 1rem;
+    p{
+        .link{
+            text-decoration: none;
+            color: $primary-color;
+        }
+    }
+}
