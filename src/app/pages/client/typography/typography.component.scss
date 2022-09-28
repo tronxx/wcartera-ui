@@ -16,3 +16,17 @@
         font-weight: 300;
     }
 }
+
+.typo-container{
+    .text-container{
+        display: flex;
+        .text-title{
+            width: 10%;
+            text-align: center;
+        }
+        .text-description{
+            width: 90%;
+            font-weight: 300;
+        }
+    }
+}
