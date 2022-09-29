@@ -1,1 +1,24 @@
-<p>notifications works!</p>
+<div class="grid-container">
+    <mat-card class="mat-elevation-z5">
+        <div class="header">
+            <h1>
+                Notificaciones
+            </h1>
+            <h3>
+                Las notificaciones que utilizamos son puramente las provistas por angular material
+            </h3>
+        </div>
+        <h1>
+            Notificación Estándar
+        </h1>
+        <button mat-raised-button class="button" (click)="openSnackBar('¡Hola! Soy una notificación', 'aceptar')">
+            Mostrar notificación
+        </button>
+        <h1>
+            Notificación temporizada
+        </h1>
+        <button mat-raised-button class="button" (click)="openTimedSnackBar('¡Hola! Soy una notificación', 'aceptar')">
+            Mostrar notificación
+        </button>
+    </mat-card>
+</div>

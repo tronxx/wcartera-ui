@@ -30,3 +30,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1rem;
 }
+
+.button{
+    background: $primary-color;
+    color: $white-text;
+}
