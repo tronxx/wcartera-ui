@@ -53,5 +53,6 @@ export const environment = {
   fourthColor: "#E63B2E",
   fifthColor: "#E1E6E1",
   primaryText : "black",
-  secondaryText : "#afafaf"
+  secondaryText : "#afafaf",
+  mapboxPublic : "pk.eyJ1Ijoia2V2c2Jhc3RvIiwiYSI6ImNrYmI5dHQzaTAyYnEzNGw0eTZvdHM4Z2wifQ.i2Sne0hE9gG-4KsMd9x1rA"
 };

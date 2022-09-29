@@ -1,0 +1,8 @@
+@import "src/colors.scss";
+@import 'mapbox-gl/dist/mapbox-gl.css';
+
+#map{
+    width: 100%;
+    height: 600px;
+    background: $primary-color;
+}
