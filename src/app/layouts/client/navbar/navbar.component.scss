@@ -1,6 +1,8 @@
 @import "src/colors.scss";
 
-
+.navbar{
+  padding: 1rem;
+}
 
 div{
     cursor: pointer;
@@ -11,10 +13,14 @@ div{
     }
 }
 
-@media (min-width: "801px") {
-  .navbar{
-    display: none;
+.page-header{
+  h1{
+    font-weight: 300;
+    margin: 0;
   }
+}
+
+@media (min-width: "801px") {
   .menu-icon {
     display: none;
   }

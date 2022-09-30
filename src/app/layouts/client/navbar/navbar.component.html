@@ -1,5 +1,10 @@
-<nav class="navbar" [ngClass]="hide? [''] : ['mat-elevation-z5']">
-    <div (click)="toggleSidebar()">
+<nav class="navbar">
+    <div class="page-header">
+        <h1>
+            {{route}}
+        </h1>
+    </div>
+    <div (click)="toggleSidebar()" [ngClass]="hide? [''] : ['mat-elevation-z5']">
         <mat-icon class="menu-icon">menu</mat-icon>
     </div>
 </nav>
