@@ -29,6 +29,11 @@
             font-weight: 300;
         }
     }
+    @media(max-width: '800px') {
+        .text-container{
+            flex-direction: column;
+        }
+    }
 }
 
 .second-color{
