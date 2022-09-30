@@ -20,14 +20,8 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'app',
-    component: ClientComponent,
-    children: [
-      {
-        path:'',
-        loadChildren: () => import('./pages/client/client.module').then(m => m.ClientModule)
-      }
-    ]
+    path:'app',
+    loadChildren: () => import('./layouts/client/client-layout.module').then(m => m.ClientLayoutModule)
   }
 ];
 

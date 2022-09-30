@@ -26,22 +26,18 @@ import { NgChartsModule } from 'ng2-charts';
 @NgModule({
   declarations: [
     AppComponent,
-    ClientComponent,
     AuthComponent,
-    NavbarComponent,
-    SidebarComponent,
-    PageHeaderComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    NgChartsModule,
     MatCardModule,
     MatSidenavModule,
     SharedComponentsModule,
     MatIconModule,
     MatDividerModule,
-    NgChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
