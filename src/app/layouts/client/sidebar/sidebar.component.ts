@@ -14,6 +14,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   public currentRoute : string;
   @Output() public toggle : EventEmitter<boolean> = new EventEmitter<boolean>();
   public hideSidebar : boolean;
+  private mode : "side" | "over" = "side";
 
   constructor(
     private router: Router,
@@ -25,8 +26,10 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.breakpoint.observe(['(max-width: 800px)']).subscribe((res) => {
         if (res.matches) {
           this.hideSidebar = false;
+          this.mode = "over"
         } else {
           this.hideSidebar = true;
+          this.mode = "side";
         }
       })
     }, 0);
@@ -42,7 +45,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
 
   toggleMenu(){
-    this.toggle.emit(true);
+    if(this.mode == "over")
+      this.toggle.emit(true);
   }
 
   logout(){
