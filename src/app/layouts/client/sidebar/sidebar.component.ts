@@ -40,6 +40,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     })
   }
 
+
   toggleMenu(){
     this.toggle.emit(true);
   }
