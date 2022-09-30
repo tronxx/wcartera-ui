@@ -26,8 +26,10 @@ export class ClientComponent implements OnInit, AfterViewInit {
           this.sidenav.mode = 'over';
           this.sidenav.close();
           this.showShadow = false;
+          this.sidenav.position = "end";
         } else {
           this.sidenav.mode = "side"
+          this.sidenav.position = "start"
           this.sidenav.open();
           this.showShadow = true;
         }
