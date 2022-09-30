@@ -43,4 +43,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   toggleMenu(){
     this.toggle.emit(true);
   }
+
+  logout(){
+    this.router.navigate(['auth/login'])
+  }
 }

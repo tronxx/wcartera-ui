@@ -10,6 +10,14 @@
             <mat-icon class="icon">{{route.icon}}</mat-icon>
             <span>{{route.name}}</span>
         </li>
+        <li class="menu-item" (click)="logout()">
+            <mat-icon class="icon">
+                logout
+            </mat-icon>
+            <span>
+                Salir de la sesión
+            </span>
+        </li>
         <li class="menu-item" (click)="toggleMenu()" [ngStyle]="hideSidebar? {display: 'none'} : {}">
             <mat-icon class="icon">arrow_back</mat-icon>
             <span>
