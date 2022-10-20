@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Form } from '@classes/forms/form';
 import { EmailRegisterDto } from '@dtos/email-register-dto';
 import { Message } from '@models/message';
@@ -15,7 +15,7 @@ export class RegisterFormComponent extends Form<EmailRegisterDto> implements OnC
   @Input() public message : Message;
 
   constructor(
-    private builder : FormBuilder
+    private builder : UntypedFormBuilder
   ) {
     super();
     this.form = this.builder.group({

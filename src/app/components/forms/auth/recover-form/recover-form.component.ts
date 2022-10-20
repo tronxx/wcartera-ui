@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Form } from '@classes/forms/form';
 import { EmailRecoverDto } from '@dtos/email-recover-dto';
 import { Message } from '@models/message';
@@ -15,7 +15,7 @@ export class RecoverFormComponent extends Form<EmailRecoverDto> implements OnCha
   @Input() public message : Message
 
   constructor(
-    private builder: FormBuilder
+    private builder: UntypedFormBuilder
   ) {
     super();
     this.form = this.builder.group({

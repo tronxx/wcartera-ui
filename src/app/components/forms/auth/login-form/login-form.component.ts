@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Form } from '@classes/forms/form';
 import { EmailLoginDto } from '@dtos/email-login-dto';
 import { Message } from '@models/message';
@@ -15,7 +15,7 @@ export class LoginFormComponent extends Form<EmailLoginDto> implements OnChanges
   @Input() public message: Message;
 
   constructor(
-    public builder : FormBuilder
+    public builder : UntypedFormBuilder
   ) {
     super();
     this.submitData = new EventEmitter<EmailLoginDto>();
