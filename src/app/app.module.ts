@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgChartsModule } from 'ng2-charts';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { NgChartsModule } from 'ng2-charts';
     AppRoutingModule,
     BrowserAnimationsModule,
     NgChartsModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent]
