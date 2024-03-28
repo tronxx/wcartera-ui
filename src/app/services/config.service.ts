@@ -33,7 +33,7 @@ export class ConfigService {
   obtenurl () {
     if(this.config.estado != "OK") {
       console.log("Debug: aun no he llamado a configuracion:", this.config.estado);
-      this.obtenconfig();
+      const listo = this.obtenconfig();
     }
     //console.log("Debug: Ya hice llamado a configuracion:", this.config.estado);
     return(this.cias[this.config.cia].Urldatos);
