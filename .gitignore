@@ -51,4 +51,4 @@ Thumbs.db
 .runtimeconfig.json
 
 src/assets/img
-src/environments/environments.ts
+src/environments/environments.ts 
