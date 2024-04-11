@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgChartsModule } from 'ng2-charts';
 import { StoreModule } from '@ngrx/store';
 import { HttpClientModule } from '@angular/common/http';
-import { ConfigService } from './services/config.service';
-import { LoginService } from './services/login.service';
+import { ConfigService } from './core/instances/services/config.service';
+import { LoginService } from './core/instances/services/login.service';
 
 @NgModule({
   declarations: [

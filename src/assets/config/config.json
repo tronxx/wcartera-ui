@@ -1,7 +1,7 @@
 [
   
     {
-      "Urldatos":"http://mds1/www/cgi/cartera/",
+      "Urldatos":"http://localhost:3000",
       "xUrldatos":"https://mdscartera.ddns.net/www/cgi/mdssandbox/cartera/",
       "Empresa": "Diaz y Solis SA de CV",
       "Rfc": "MDS870209190",
@@ -19,7 +19,8 @@
       "promodic_inicio": "2023-11-01",
       "promodic_fin": "2023-12-31",
       "promodic_dias":"15",
-      "mesesminimo":"5"
+      "mesesminimo":"5",
+      "cia":1
     }
     ,
     {

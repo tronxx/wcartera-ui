@@ -18,13 +18,14 @@ create table kardex (
 	fechsale	date,
 	cantidad	integer,
 	cia		integer,
-	ultmod		timestamp,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	primary key (idkdx)
 	
 );
 
 create table exist (
-	idexist		integer not null autoincrement,
+	idexist		integer not null auto_increment,
 	idalmacen	integer not null,
 	idcodigo	integer not null,
 	inicial		integer,
@@ -33,15 +34,30 @@ create table exist (
 	exist		integer,
 	ultfol		integer,
 	cia		integer,
-	ultmod		timestamp,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	primary key (idexist)
 );
 
 
 create table series (
-	idserie		integer not null autoincrement,
-	serie		varchar(100)
+	idserie		integer not null auto_increment,
+	serie		varchar(100) unique,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	primary key (idserie)
+
 );
 
+create table almacen (
+	idalmacen integer not null auto_increment,
+	codigo		varchar(4),
+	nombre		varchar(50),
+	cia			integer,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  	primary key (idalmacen)
+);
 
 commit work;
+

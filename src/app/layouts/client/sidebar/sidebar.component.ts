@@ -50,6 +50,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   logout(){
+    localStorage.removeItem("token");
     this.router.navigate(['auth/login'])
   }
 }

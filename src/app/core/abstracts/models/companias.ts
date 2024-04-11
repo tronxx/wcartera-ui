@@ -17,5 +17,6 @@ export interface Compania  {
     promodic_fin: string;
     promodic_dias:string;
     mesesminimo:number;
+    cia:number;
 
 }

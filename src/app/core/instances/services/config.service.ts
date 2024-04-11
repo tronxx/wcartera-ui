@@ -11,7 +11,9 @@ export class ConfigService {
   cia ?: Compania;
   config = {
     "estado":"-1",
+    "url": "",
     "cia": 0
+
   }
 
 
@@ -24,8 +26,11 @@ export class ConfigService {
     return await this.http.get<any>("../assets/config/config.json").subscribe( datos => {
       this.cias = datos;
       this.config.estado = "OK";
-      this.config.cia = 0;
       this.cia= this.cias[0];
+      this.config.cia = this.cia.cia;
+      this.config.url = this.cia.Urldatos;
+      console.log(this.config, this.cia);
+
     });
 
   }
@@ -36,7 +41,11 @@ export class ConfigService {
       const listo = this.obtenconfig();
     }
     //console.log("Debug: Ya hice llamado a configuracion:", this.config.estado);
-    return(this.cias[this.config.cia].Urldatos);
+    return(this.config.url);
+  }
+
+  obtenNumeroCia() {
+    return (this.config.cia);
   }
 
 
