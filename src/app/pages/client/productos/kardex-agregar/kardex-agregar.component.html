@@ -1,0 +1,12 @@
+<div class="profile-container" >
+  <mat-card class="mat-elevation-z5">
+    <mat-card-title>Teclee los datos del Movimiento</mat-card-title>
+    <mat-card-content>
+      <app-kardex-form [kardexmov]="movimiento" (submitData)="aceptar($event)">
+    
+      </app-kardex-form>
+  
+    </mat-card-content>
+
+  </mat-card>
+</div>

@@ -37,6 +37,17 @@ export const environment = {
       name: 'Notificaciones',
       url: 'notifications',
     },
+    {
+      icon: 'notifications_active',
+      name: 'Almacenes',
+      url: 'almacenes',
+    },
+    {
+      icon: 'notifications_active',
+      name: 'Inven',
+      url: 'productos',
+    },
+
   ],
   primaryColor: "#F85A3E",
   secondaryColor: "#FF7733",

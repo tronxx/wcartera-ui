@@ -1,0 +1,55 @@
+<form [formGroup]="form" (submit)="aceptar()">
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Clave del Almacén
+        </mat-label>
+        <input type="text" matInput formControlName="clave">
+        <mat-error *ngIf="clave.hasError('required')">
+            ¡Introduce La clave del almacén!
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Nombre
+        </mat-label>
+        <input type="text" matInput formControlName="nombre">
+        <mat-error *ngIf="nombre.hasError('required')">
+            ¡Introduce el nombre del almacén!
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Dirección
+        </mat-label>
+        <input type="text" matInput formControlName="direc">
+        <mat-error *ngIf="direc.hasError('required')">
+            ¡Introduce la dirección del almacén!
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Ciudad
+        </mat-label>
+        <input type="text" matInput formControlName="ciudad">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Estado
+        </mat-label>
+        <input type="text" matInput formControlName="estado">
+    </mat-form-field>
+
+
+    <div style="width: 100%; display: flex; justify-content: center; padding-top: .5rem;">
+        <button mat-raised-button color="primary" [disabled]="form.invalid">
+            <span style="margin: 0; padding: 0;">
+                Aceptar
+            </span>
+        </button>
+        <button mat-raised-button color="cancel">
+            <span style="margin: 0; padding: 0;">
+                Cancelar
+            </span>
+        </button>
+    </div>
+</form>

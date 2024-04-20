@@ -1,0 +1,64 @@
+<mat-card class="mat-elevation-z5 card">
+    <div>
+            <div class="row">
+                <button mat-raised-button color="primary" (click)="create()" >
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">add_box</mat-icon>
+                    Agregar
+                </button>
+            </div>
+    </div>
+    <div >
+        <table mat-table [dataSource]="almacenes" style="width: 100%;">
+            <ng-container matColumnDef="clave">
+                <th mat-header-cell *matHeaderCellDef> Clave </th>
+                <td mat-cell *matCellDef="let almacen"> {{almacen.clave}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef> Nombre</th>
+                <td mat-cell *matCellDef="let almacen"> {{almacen.nombre}} </td>
+            </ng-container>
+            <ng-container matColumnDef="direc">
+                <th mat-header-cell *matHeaderCellDef> Dirección </th>
+                <td mat-cell *matCellDef="let almacen"> {{almacen.direc }} </td>
+            </ng-container>
+            <ng-container matColumnDef="ciudad">
+                <th mat-header-cell *matHeaderCellDef> Ciudad </th>
+                <td align="right" mat-cell *matCellDef="let almacen"> {{almacen.ciudad}} </td>
+            </ng-container>
+            <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef> Estado </th>
+                <td align="right" mat-cell *matCellDef="let almacen"> {{almacen.estado}} </td>
+            </ng-container>
+            <ng-container matColumnDef="options">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let almacen">
+                    <div>
+                        <button [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
+                        <ng-template #menu>
+                            <div class="example-menu" cdkMenu>
+                                <ul>
+                                    <li>
+                                        <button mat-raised-button color="primary" (click)="edit(almacen)" type="button">
+                                            <mat-icon>edit</mat-icon>
+                                            Modificar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button mat-raised-button color="warn" (click)="delete(almacen)" type="button">
+                                            <mat-icon>delete</mat-icon>
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-template>
+    
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</mat-card>

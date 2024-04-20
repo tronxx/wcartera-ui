@@ -13,6 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { DlgyesnoComponent } from './dlgyesno/dlgyesno.component';
+import { DlgimportarComponent } from './dlgimportar/dlgimportar.component';
 
 const components = [
   TableComponent,
@@ -23,6 +25,8 @@ const components = [
 @NgModule({
   declarations: [
     ...components,
+    DlgyesnoComponent,
+    DlgimportarComponent,
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,8 @@ import { ClientRoutingModule } from './client-routing.module';
   imports: [
     CommonModule,
     ClientRoutingModule
+  ],
+  declarations: [
   ]
 })
 export class ClientModule { }

@@ -8,7 +8,14 @@ import { NgChartsModule } from 'ng2-charts';
 import { StoreModule } from '@ngrx/store';
 import { HttpClientModule } from '@angular/common/http';
 import { ConfigService } from './core/instances/services/config.service';
-import { LoginService } from './core/instances/services/login.service';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
+import {MatCardModule} from '@angular/material/card';
+import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
+
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -20,11 +27,18 @@ import { LoginService } from './core/instances/services/login.service';
     BrowserAnimationsModule,
     HttpClientModule,
     NgChartsModule,
-    
+    MatDialogModule,
+    NgChartsModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatSelectModule,
+    MatCardModule,
+    CdkMenu,
+    CdkMenuTrigger,
     StoreModule.forRoot({}, {}),
+    MatNativeDateModule,
   ],
   providers: [
-    LoginService,
     ConfigService
   ],
   bootstrap: [AppComponent]

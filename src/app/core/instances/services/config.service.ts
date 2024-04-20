@@ -18,18 +18,18 @@ export class ConfigService {
 
 
   constructor(private http: HttpClient) {
-    const config = this.obtenconfig();
+    this.getConfig();
    }
 
 
-  async obtenconfig () {
-    return await this.http.get<any>("../assets/config/config.json").subscribe( datos => {
+  async getConfig () {
+    return await this.http.get<any>("/assets/config/config.json").subscribe( datos => {
       this.cias = datos;
       this.config.estado = "OK";
       this.cia= this.cias[0];
       this.config.cia = this.cia.cia;
       this.config.url = this.cia.Urldatos;
-      console.log(this.config, this.cia);
+      //console.log(this.config, this.cia);
 
     });
 
@@ -37,8 +37,8 @@ export class ConfigService {
 
   obtenurl () {
     if(this.config.estado != "OK") {
-      console.log("Debug: aun no he llamado a configuracion:", this.config.estado);
-      const listo = this.obtenconfig();
+      //console.log("Debug: aun no he llamado a configuracion:", this.config.estado);
+      const listo = this.getConfig();
     }
     //console.log("Debug: Ya hice llamado a configuracion:", this.config.estado);
     return(this.config.url);

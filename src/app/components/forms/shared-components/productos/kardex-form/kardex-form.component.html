@@ -1,0 +1,51 @@
+<form [formGroup]="form" (submit)="aceptar()">
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Fecha
+        </mat-label>
+        <input type="date" matInput formControlName="fecha">
+        <mat-error *ngIf="form.controls['fecha'].hasError('required')">
+            ¡Introduce La fecha del movimiento!
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Folio
+        </mat-label>
+        <input type="number" matInput formControlName="folio">
+        <mat-error *ngIf="folio.hasError('required')">
+            ¡Introduce el Folio!
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            N.Documento
+        </mat-label>
+        <input type="number" matInput formControlName="docto">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Serie
+        </mat-label>
+        <input type="text" matInput formControlName="serie">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Concepto
+        </mat-label>
+        <input type="text" matInput formControlName="descri">
+    </mat-form-field>
+
+    <div style="width: 100%; display: flex; justify-content: center; padding-top: .5rem;">
+        <button mat-raised-button color="primary" [disabled]="form.invalid">
+            <span style="margin: 0; padding: 0;">
+                Aceptar
+            </span>
+        </button>
+        <button mat-raised-button color="cancel">
+            <span style="margin: 0; padding: 0;">
+                Cancelar
+            </span>
+        </button>
+    </div>
+</form>

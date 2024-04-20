@@ -37,6 +37,14 @@ const routes : Routes = [
     loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule),
   },
   {
+    path: 'almacenes',
+    loadChildren: () => import('./almacenes/almacenes.module').then(m => m.AlmacenesModule),
+  },
+  {
+    path: 'productos',
+    loadChildren: () => import('./productos/productos.module').then(m => m.ProductosModule),
+  },
+  {
     path: '**',
     redirectTo: 'landing',
   }

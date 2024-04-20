@@ -11,13 +11,19 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AlmacenesFormComponent } from './shared-components/almacenes-form/almacenes-form.component';
+import { KardexFormComponent } from './shared-components/productos/kardex-form/kardex-form.component';
 
 const forms = [
   LoginFormComponent,
   RegisterFormComponent,
-  RecoverFormComponent
+  RecoverFormComponent,
+  KardexFormComponent,
+  AlmacenesFormComponent
 ]
 
 const materialImports = [
@@ -26,12 +32,14 @@ const materialImports = [
   MatCheckboxModule,
   MatSlideToggleModule,
   MatButtonModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
   MatProgressSpinnerModule
 ]
 
 @NgModule({
   declarations: [
-    ...forms
+    ...forms,
   ],
   imports: [
     CommonModule,
