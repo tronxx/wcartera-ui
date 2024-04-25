@@ -2,13 +2,14 @@
     <div>
             <div class="row">
                 <div>
-                    <label>Artículo </label>  <input *ngIf="producto" type="text" [(ngModel)]="producto.codigo" > 
+                    <label>Artículo </label>  <input *ngIf="producto" type="button" [(ngModel)]="producto.codigo" > 
                     <input type="text" *ngIf="producto"  [(ngModel)]="producto.descri" >
                     <label for="">Almacén</label>
+                    <input type="text" *ngIf="almacen"  [(ngModel)]="almacen.clave" >
                     <input type="text" *ngIf="almacen"  [(ngModel)]="almacen.nombre" >
                     <button mat-raised-button color="primary" (click)="agregar_kardex()" >
                         <mat-icon aria-hidden="false" aria-label="Example new icon">add</mat-icon>
-                        Agregar
+                        Agregar Movimiento
                     </button>
 
                 </div>
@@ -18,46 +19,57 @@
         <table mat-table [dataSource]="kardex" style="width: 100%;">
             <ng-container matColumnDef="fecha">
                 <th mat-header-cell *matHeaderCellDef> Fecha </th>
-                <td mat-cell *matCellDef="let kardex"> {{kardex.fecha}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.fecha | date: 'dd/MM/yyyy' }} </td>
+            </ng-container>
+            <ng-container matColumnDef="docto">
+                <th mat-header-cell *matHeaderCellDef>Documento </th>
+                <td mat-cell *matCellDef="let element"> {{element.docto}} </td>
             </ng-container>
             <ng-container matColumnDef="descri">
                 <th mat-header-cell *matHeaderCellDef> Descripción</th>
-                <td mat-cell *matCellDef="let kardex"> {{kardex.descri}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.descri}} </td>
             </ng-container>
             <ng-container matColumnDef="folio">
                 <th mat-header-cell *matHeaderCellDef> Folio </th>
-                <td align="right" mat-cell *matCellDef="let kardex"> {{kardex.folio }} </td>
+                <td align="right" mat-cell *matCellDef="let element"> {{element.folio }} </td>
             </ng-container>
             <ng-container matColumnDef="serie">
                 <th mat-header-cell *matHeaderCellDef> Serie </th>
-                <td mat-cell *matCellDef="let kardex"> {{kardex.serie}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.serie}} </td>
             </ng-container>
             <ng-container matColumnDef="fechasale">
                 <th mat-header-cell *matHeaderCellDef> Fecha.Sale </th>
-                <td mat-cell *matCellDef="let kardex"> {{kardex.fechasale}} </td>
+                <td mat-cell *matCellDef="let element" > {{element.salio === 'N' ? '':  element.fechasale | date: 'dd/MM/yyyy'  }}  </td>
             </ng-container>
             <ng-container matColumnDef="descrisale">
                 <th mat-header-cell *matHeaderCellDef> Concepto Salida </th>
-                <td mat-cell *matCellDef="let kardex"> {{kardex.descrisale}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.salio === 'N' ? '' : element.descrisale  }} </td>
             </ng-container>
             <ng-container matColumnDef="options">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
-                <td mat-cell *matCellDef="let kardex">
+                <td mat-cell *matCellDef="let element">
                     <div>
                         <button [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
                         <ng-template #menu>
                             <div class="example-menu" cdkMenu>
                                 <ul>
                                     <li>
-                                        <button mat-raised-button color="primary" (click)="edit(kardex)" type="button">
+                                        <button mat-raised-button color="primary" (click)="edit(element)" type="button">
                                             <mat-icon>edit</mat-icon>
                                             Modificar
                                         </button>
                                     </li>
                                     <li>
-                                        <button mat-raised-button color="warn" (click)="delete(kardex)" type="button">
+                                        <button mat-raised-button color="warn" (click)="delete(element)" type="button">
                                             <mat-icon>delete</mat-icon>
                                             Eliminar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button mat-raised-button *ngIf="moviientoDisponible(element)"
+                                        color="warn" (click)="salida(element)" type="button">
+                                            <mat-icon>exit_to_app</mat-icon>
+                                            Salida
                                         </button>
                                     </li>
                                 </ul>

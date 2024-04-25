@@ -17,6 +17,8 @@ import { DlgimportarComponent } from '@components/dlgimportar/dlgimportar.compon
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { lastValueFrom } from 'rxjs';
 import { KardexAgregarComponent } from '../kardex-agregar/kardex-agregar.component';
+import { KardexSalidasComponent } from '../kardex-salidas/kardex-salidas.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-kardex',
@@ -38,11 +40,12 @@ export class KardexComponent {
   idalm = 3;
   idart = 1;
   idcia = 1;
+  conserie = false;
   
-  displayedColumns: string[] = ['fecha', 'descri', 'folio', 'serie', 'fechasale', 'descrisale', 'options'];
+  displayedColumns: string[] = ['fecha', 'docto', 'descri', 'folio', 'serie', 'fechasale', 'descrisale', 'options'];
   
-  public headers : Array<string> = ["Fecha", "Descripción", "Folio", "Serie", "Fecha.Sale", "Descripcion Salida"];
-  public arrayContent : Array<string> = ["fecha", "descri", "folio", "serie", "fechasale", "descrisale"];
+  public headers : Array<string> = ["Fecha", "Documento", "Descripción", "Folio", "Serie", "Fecha.Sale", "Descripcion Salida"];
+  public arrayContent : Array<string> = ["fecha", "docto", "descri", "folio", "serie", "fechasale", "descrisale"];
   public body : Array<any> = [];
   public tableName = "Kardex";
   public page : PageIndex;
@@ -80,9 +83,11 @@ export class KardexComponent {
     buscar_producto() {
       this.productosService.obten_producto(this.numcia, this.idart).subscribe( res => {
         this.producto = res;
+        this.conserie = (this.producto.tipo == 'ALF');
       });
 
     }
+
 
     buscar_kardex() {
       this.productosService.obten_kardex(this.numcia, this.idalm, this.idart).subscribe( res => {
@@ -119,34 +124,71 @@ export class KardexComponent {
         data: JSON.stringify( params_z)
       });
       dialogref.afterClosed().subscribe(res => {
-        console.log("Regresando de Form", res);
         if(res) {
           let movimiento = {
-            id:0,
-            idalm:this.idalm,
-            idserie:0,
+            id: 0,
+            idalm: this.idalm,
+            idart: this.idart,
             fecha: res.fecha,
             folio: res.folio,
+            idserie: -1,
+            docto: res.docto,
             serie: res.serie,
             descri: res.descri,
-            costou:0,
-            status: "A",
-            salio: "N",
-            descrisale: "",
+            canti: 1,
+            costou: 0,
+            status: 'A',
+            salio: 'N',
+            descrisale: '',
+            fechasale: '',
             cia: this.numcia,
+            created_at: "",
+            updated_at: "",
           }
-          this.productosService.crearMovimientoKardex(this.movimiento).subscribe(mires => {
+          this.productosService.crearMovimientoKardex(movimiento).subscribe(mires => {
             this.buscar_kardex();
-          })
+            this.openTimedSnackBar("Se agrega un Movimiento al Kardex", "Agregar Kardex");
+          },(error: any) => {
+            this.alerta('Error: ' + error.error.message);
+            }
+        )
   
-          this.openTimedSnackBar("Se agrega un Movimiento al Kardex", "Agregar Kardex");
         }
       });
   
     }
 
+    moviientoDisponible (movimiento: Kardex) {
+      let disponible = true;
+      if (movimiento.salio == "S") disponible = false;
+      return (disponible);
+    }
+
+
     delete (movimiento: Kardex) {}
     edit (movimiento: Kardex) {}
+
+    async salida(movimiento: Kardex) {
+      const dialogref = this.dialog.open(KardexSalidasComponent, {
+        width:'350px',
+        data: "Teclee los datos de la Salida"
+      });
+      dialogref.afterClosed().subscribe(res => {
+        if(res) {
+          movimiento.salio = 'S';
+          movimiento.fechasale = res.fecha;
+          movimiento.descrisale = res.descri;
+          this.productosService.salidaKrdex(movimiento).subscribe(mires => {
+            this.buscar_kardex();
+          },(error: any) => {
+            this.alerta('Error: ' + error.error.message);
+          }
+        )
+
+        }
+      })
+
+    }
 
     openTimedSnackBar(message: string, action: string) {
       this._snackBar.open(message, action, {duration: 3000});

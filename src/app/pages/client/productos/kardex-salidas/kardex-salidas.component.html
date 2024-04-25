@@ -1,0 +1,47 @@
+<div class="profile-container" >
+    <mat-card class="mat-elevation-z5">
+        <mat-card-header>
+            Teclee los datos de la Salida
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="form" >
+                <mat-form-field style="width: 100%;">
+                    <input matInput type="date" 
+                    formControlName="fecha">
+                    <mat-hint>DD/MM/YYYY</mat-hint>
+                    <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+                    <mat-datepicker #datepickerRef></mat-datepicker>
+                    <mat-error *ngIf="form.controls['fecha'].hasError('required')">
+                        ¡Introduce La fecha de Salida!
+                    </mat-error>
+                    </mat-form-field>
+                                
+                <mat-form-field style="width: 100%;">
+                    <mat-label>
+                        Concepto de Salida
+                    </mat-label>
+                    <input type="text" matInput formControlName="descri">
+                </mat-form-field>
+            
+            </form>
+    
+        </mat-card-content>
+        <mat-card-footer>
+            <div style="width: 100%; display: flex; justify-content: center; padding-top: .5rem;">
+                <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="aceptar()">
+                    <span style="margin: 0; padding: 0;">
+                        Aceptar
+                    </span>
+                </button>
+                <button mat-raised-button  mat-dialog-close color="cancel" (click)="closeno()" >
+                    <span style="margin: 0; padding: 0;">
+                        Cancelar
+                    </span>
+                </button>
+            </div>
+
+        </mat-card-footer>
+             
+    </mat-card>
+</div>
+

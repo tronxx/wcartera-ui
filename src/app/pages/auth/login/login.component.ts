@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   usuarios : User[] = [];
   Usuario: User;
+  error = false;
 
   registro_z = {
     "cia":-1,
@@ -67,6 +68,7 @@ export class LoginComponent implements OnInit {
       localStorage.setItem("token", JSON.stringify( this.registro_z));
       this.router.navigateByUrl('/app/landing');
     }).catch( err => {
+      this.error = true;
       console.log("Usuario no Encontrado");
       setTimeout(() => {
         this.message = { name : "error", message: "the login is not available right now"}

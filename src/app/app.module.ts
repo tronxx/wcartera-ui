@@ -11,11 +11,24 @@ import { ConfigService } from './core/instances/services/config.service';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import { MatNativeDateModule } from '@angular/material/core';
-import {MatCardModule} from '@angular/material/card';
+import { DateAdapter, MatDateFormats, MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule} from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
-
 import { DatePipe } from '@angular/common';
+//import { DateFnsModule, DateFnsAdapter} from '@angular/material-date-fns-adapter';
+//import { es } from 'date-fns/locale';
+
+export const MAT_DATE_FORMATS: MatDateFormats = {
+  parse: { dateInput: 'dd-MM-yyyy'},
+  display: {
+    dateInput: 'dd-MM-yyyy',
+    monthYearLabel:'MM yyyy',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'yyyy'
+  }
+}
 
 @NgModule({
   declarations: [
@@ -33,13 +46,20 @@ import { DatePipe } from '@angular/common';
     MatButtonModule,
     MatSelectModule,
     MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     CdkMenu,
     CdkMenuTrigger,
     StoreModule.forRoot({}, {}),
     MatNativeDateModule,
   ],
   providers: [
-    ConfigService
+    ConfigService,
+    DatePipe,
+    //{ provide: DateAdapter, useClass: DateFnsAdapter},
+    { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FORMATS},
+    { provide: MAT_DATE_LOCALE, useValue: 'es-es' }
+    //{provide: MAT_DATE_LOCALE, useValue: es}
   ],
   bootstrap: [AppComponent]
 })

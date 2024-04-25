@@ -16,12 +16,16 @@ import { MatInput } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule as localforms } from '@forms/forms.module';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { ProductosComponent } from './productos.component';
 import { KardexComponent } from './kardex/kardex.component';
 import { KardexAgregarComponent } from './kardex-agregar/kardex-agregar.component';
+import { DatePipe } from '@angular/common';
+import { KardexSalidasComponent } from './kardex-salidas/kardex-salidas.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { DateAdapter, MatDateFormats, MatNativeDateModule } from '@angular/material/core';
+import {MAT_DATE_LOCALE} from '@angular/material/core';
 
 const routes : Routes = [
   {
@@ -35,12 +39,23 @@ const routes : Routes = [
   }
 ]
 
+export const MAT_DATE_FORMATS: MatDateFormats = {
+  parse: { dateInput: 'dd-MM-yyyy'},
+  display: {
+    dateInput: 'dd-MM-yyyy',
+    monthYearLabel:'MM yyyy',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'yyyy'
+  }
+}
+
 
 @NgModule({
   declarations: [
     ProductosComponent,
     KardexAgregarComponent,
-    KardexComponent
+    KardexComponent,
+    KardexSalidasComponent
   ],
   imports: [
     CommonModule,
@@ -57,7 +72,12 @@ const routes : Routes = [
     localforms,
     CdkMenu,
     CdkMenuTrigger,
+    ReactiveFormsModule,
     FormsModule
-  ]
+  ],
+  providers: [
+    DatePipe,
+    ],
+ 
 })
 export class ProductosModule { }

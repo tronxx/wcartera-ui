@@ -2,6 +2,7 @@ export interface Kardex {
     id: number;
     idalm: number;
     idart: number;
+    docto: number;
     fecha: string;
     folio: number;
     idserie: number;

@@ -43,19 +43,6 @@ export class ProductosService {
 
   }
 
-  obten_kardex(micia: number, idart: number, idalm: number) : Observable<Kardex[]> {
-    this.url = this.configService.config.url;
-  
-    const miurl = `${this.url}/kardex/${micia}/${idart}/${idalm}`;
-    
-    const headers = { 'content-type': 'application/json'};
-    console.log("productos service url", miurl);
-    
-    return( this.http.get<Kardex[]> (miurl, {'headers':headers}) );
-
-  }
-
-
   obten_lista_productos_codigo(micia: number, codigo:string) : Observable<Productos[]> {
     this.url = this.configService.config.url;
     codigo = codigo.replace(/%/g, '%25');
@@ -137,8 +124,39 @@ export class ProductosService {
   
     const miurl = `${this.url}/kardex`;
     const headers = { 'content-type': 'application/json'};
-    console.log("productos service url", miurl);
+    console.log("productos service url", miurl, " Dto Kardex", movkardex);
     return( this.http.post<Kardex> (miurl,  movkardex, {'headers':headers}) );
   }
+
+  salidaKrdex(movkardex: Kardex) : Observable<any> {
+    this.url = this.configService.config.url;
+    //const mimov: {salio, fechsale, descrisale} = movkardex;
+    const movsalidakardex = {
+      id: movkardex.id,
+      salio : movkardex.salio,
+      fechasale : movkardex.fechasale,
+      descrisale: movkardex.descrisale
+    }
+  
+    const miurl = `${this.url}/kardex/${movkardex.id}`;
+    const headers = { 'content-type': 'application/json'};
+    console.log("productos service url", miurl, " Dto Kardex", movkardex);
+    return( this.http.put<Kardex> (miurl, movsalidakardex, {'headers':headers}) );
+  }
+
+
+  obten_kardex(micia: number, idart: number, idalm: number) : Observable<Kardex[]> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/kardex/${micia}/${idart}/${idalm}`;
+    
+    const headers = { 'content-type': 'application/json'};
+    console.log("productos service url", miurl);
+    
+    return( this.http.get<Kardex[]> (miurl, {'headers':headers}) );
+
+  }
+
+
 
 }

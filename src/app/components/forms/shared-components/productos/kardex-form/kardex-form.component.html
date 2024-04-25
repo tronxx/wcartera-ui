@@ -1,11 +1,25 @@
-<form [formGroup]="form" (submit)="aceptar()">
-    <mat-form-field style="width: 100%;">
+
+<form [formGroup]="form" >
+    <mat-form-field  style="width: 100%;">
         <mat-label>
-            Fecha
+            Fecha 
         </mat-label>
-        <input type="date" matInput formControlName="fecha">
+        <input matInput  type="date" formControlName="fecha">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
+        <mat-datepicker #fecha></mat-datepicker>
         <mat-error *ngIf="form.controls['fecha'].hasError('required')">
             ¡Introduce La fecha del movimiento!
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Documento
+        </mat-label>
+        <input type="number" matInput formControlName="docto">
+        <mat-error *ngIf="docto.hasError('required')">
+            ¡Introduce el Documento
         </mat-error>
     </mat-form-field>
     <mat-form-field style="width: 100%;">
@@ -17,13 +31,7 @@
             ¡Introduce el Folio!
         </mat-error>
     </mat-form-field>
-    <mat-form-field style="width: 100%;">
-        <mat-label>
-            N.Documento
-        </mat-label>
-        <input type="number" matInput formControlName="docto">
-    </mat-form-field>
-    <mat-form-field style="width: 100%;">
+    <mat-form-field style="width: 100%;" * ngIf="pedirserie">
         <mat-label>
             Serie
         </mat-label>
@@ -37,12 +45,12 @@
     </mat-form-field>
 
     <div style="width: 100%; display: flex; justify-content: center; padding-top: .5rem;">
-        <button mat-raised-button color="primary" [disabled]="form.invalid">
+        <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="aceptar()">
             <span style="margin: 0; padding: 0;">
                 Aceptar
             </span>
         </button>
-        <button mat-raised-button color="cancel">
+        <button mat-raised-button  mat-dialog-close color="cancel" (click)="closeno()" >
             <span style="margin: 0; padding: 0;">
                 Cancelar
             </span>

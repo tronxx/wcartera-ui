@@ -7,3 +7,9 @@
     </p>
 </div>
 <login-form (submitData)="signWithEmailAndPassword($event)" [message]="message"></login-form>
+<div *ngIf="error">
+    Login Incorrecto 
+    <div class="rueda1" role="alert">
+        <img src="../assets/images/sinacceso.jpg" width="200px" alt="Card image">
+    </div>
+</div>
