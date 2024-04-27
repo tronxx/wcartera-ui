@@ -41,6 +41,10 @@ export class KardexAgregarComponent implements OnInit {
       this.tipo = misparam_z.tipo;
       let datosiniciales = {
         ultimofolio: this.ultimofolio,
+        serie: misparam_z.serie,
+        docto: misparam_z.docto,
+        fecha: misparam_z.fecha,
+        descri: misparam_z.descri,
         tipo: this.tipo
       }
       this.message.message = JSON.stringify(datosiniciales);

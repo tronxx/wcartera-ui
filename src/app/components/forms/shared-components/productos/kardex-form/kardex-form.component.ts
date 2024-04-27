@@ -53,16 +53,14 @@ export class KardexFormComponent extends Form<KardexDto> implements OnChanges{
   inicializaForm() {
     //this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
     const strhoy =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
-    console.log ("Fecha de Hoy ", strhoy);
-    let datosprodducto = JSON.parse(this.message.message);
-    if (datosprodducto.tipo == "ALF") this.pedirserie =true;
-    let ultimofolio = datosprodducto.ultimofolio;
-
-    this.form.get("fecha").setValue(strhoy);
+    let datosproducto = JSON.parse(this.message.message);
+    if (datosproducto.tipo == "ALF") this.pedirserie =true;
+    let ultimofolio = datosproducto.ultimofolio;
+    this.form.get("fecha").setValue(datosproducto.fecha);
     this.form.get("folio").setValue(ultimofolio);
-    this.form.get("docto").setValue(1);
-    this.form.get("serie").setValue("");
-    this.form.get("descri").setValue("");
+    this.form.get("docto").setValue(datosproducto.docto);
+    this.form.get("serie").setValue(datosproducto.serie);
+    this.form.get("descri").setValue(datosproducto.descri);
 
   }
 

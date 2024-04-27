@@ -1,12 +1,15 @@
 <mat-card class="mat-elevation-z5 card">
     <div>
             <div class="row">
-                <div>
-                    <label>Artículo </label>  <input *ngIf="producto" type="button" [(ngModel)]="producto.codigo" > 
-                    <input type="text" *ngIf="producto"  [(ngModel)]="producto.descri" >
-                    <label for="">Almacén</label>
-                    <input type="text" *ngIf="almacen"  [(ngModel)]="almacen.clave" >
-                    <input type="text" *ngIf="almacen"  [(ngModel)]="almacen.nombre" >
+                <div class="espaciado">
+                    <label>Artículo </label> 
+                    <label class="espacio" *ngIf="producto" > 
+                       <b> {{producto.codigo}} {{producto.descri}} </b>
+                    </label> 
+                    <label >Almacén</label>
+                    <label class="espacio"  *ngIf="almacen">
+                        <b>{{almacen.clave}} {{almacen.nombre}}</b>
+                    </label>  
                     <button mat-raised-button color="primary" (click)="agregar_kardex()" >
                         <mat-icon aria-hidden="false" aria-label="Example new icon">add</mat-icon>
                         Agregar Movimiento
@@ -54,13 +57,15 @@
                             <div class="example-menu" cdkMenu>
                                 <ul>
                                     <li>
-                                        <button mat-raised-button color="primary" (click)="edit(element)" type="button">
+                                        <button mat-raised-button color="primary" *ngIf="moviientoDisponible(element)"
+                                        (click)="edit(element)" type="button">
                                             <mat-icon>edit</mat-icon>
                                             Modificar
                                         </button>
                                     </li>
                                     <li>
-                                        <button mat-raised-button color="warn" (click)="delete(element)" type="button">
+                                        <button mat-raised-button color="warn" *ngIf="moviientoDisponible(element)"
+                                        (click)="delete(element)" type="button">
                                             <mat-icon>delete</mat-icon>
                                             Eliminar
                                         </button>
@@ -68,8 +73,15 @@
                                     <li>
                                         <button mat-raised-button *ngIf="moviientoDisponible(element)"
                                         color="warn" (click)="salida(element)" type="button">
-                                            <mat-icon>exit_to_app</mat-icon>
+                                            <mat-icon>add_shopping_cart</mat-icon>
                                             Salida
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button mat-raised-button *ngIf="!moviientoDisponible(element)"
+                                        color="warn" (click)="deshacerSalida (element)" type="button">
+                                            <mat-icon>remove_shopping_cart</mat-icon>
+                                            Deshacer salida
                                         </button>
                                     </li>
                                 </ul>

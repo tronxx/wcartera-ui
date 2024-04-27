@@ -144,6 +144,40 @@ export class ProductosService {
     return( this.http.put<Kardex> (miurl, movsalidakardex, {'headers':headers}) );
   }
 
+  deshacerSalidaKardex(movkardex: Kardex) : Observable<any> {
+    this.url = this.configService.config.url;
+    //const mimov: {salio, fechsale, descrisale} = movkardex;
+    const movsalidakardex = {
+      id: movkardex.id,
+      salio : 'N'
+    }
+  
+    const miurl = `${this.url}/kardex/${movkardex.id}`;
+    const headers = { 'content-type': 'application/json'};
+    console.log("productos service url", miurl, " Dto Kardex", movkardex);
+    return( this.http.put<Kardex> (miurl, movsalidakardex, {'headers':headers}) );
+  }
+
+  eliminarMovimiento(movkardex: Kardex) : Observable<any> {
+    this.url = this.configService.config.url;
+    //const mimov: {salio, fechsale, descrisale} = movkardex;
+ 
+    const miurl = `${this.url}/kardex/${movkardex.id}`;
+    const headers = { 'content-type': 'application/json'};
+    console.log("productos service url", miurl, " Dto Kardex", movkardex);
+    return( this.http.delete<Kardex> (miurl, {'headers':headers}) );
+  }
+
+  modificarMovimientoKardex(movkardex: Kardex) : Observable<any> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/kardex/${movkardex.id}`;
+    const headers = { 'content-type': 'application/json'};
+    console.log("productos service url", miurl, " Dto Kardex", movkardex);
+    return( this.http.put<Kardex> (miurl,  movkardex, {'headers':headers}) );
+  }
+
+
 
   obten_kardex(micia: number, idart: number, idalm: number) : Observable<Kardex[]> {
     this.url = this.configService.config.url;

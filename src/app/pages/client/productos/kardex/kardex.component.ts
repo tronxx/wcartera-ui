@@ -67,6 +67,7 @@ export class KardexComponent {
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
     public router: ActivatedRoute,
+    private datePipe : DatePipe,
     ) { }
   
     ngOnInit(): void {
@@ -75,6 +76,8 @@ export class KardexComponent {
       this.numcia = micompania_z.cia;
       this.iduser = micompania_z.iduser;
       this.idart = Number (String(this.router.snapshot.paramMap.get('idart')));      
+      const mialmacen  = JSON.parse( localStorage.getItem('mialmacen') || "{}");
+      this.idalm = mialmacen.id;
       this.buscar_almacen();
       this.buscar_producto();
       this.buscar_kardex();
@@ -115,9 +118,11 @@ export class KardexComponent {
 
       const params_z = {
         titulo: "Teclee los datos del Movimiento",
-        ultimofolio: ultimofolio,
-        tipo: this.producto.tipo
-
+        ultimofolio: ultimofolio + 1,
+        tipo: this.producto.tipo,
+        serie: "",
+        descri: "",
+        fecha: this.datePipe.transform(new Date(),"yyyy-MM-dd")
       }
       const dialogref = this.dialog.open(KardexAgregarComponent, {
         width:'350px',
@@ -145,6 +150,7 @@ export class KardexComponent {
             created_at: "",
             updated_at: "",
           }
+          if(this.producto.tipo != "ALF") movimiento.serie = "";
           this.productosService.crearMovimientoKardex(movimiento).subscribe(mires => {
             this.buscar_kardex();
             this.openTimedSnackBar("Se agrega un Movimiento al Kardex", "Agregar Kardex");
@@ -165,8 +171,100 @@ export class KardexComponent {
     }
 
 
-    delete (movimiento: Kardex) {}
-    edit (movimiento: Kardex) {}
+    delete (movimiento: Kardex) {
+      const dialogref = this.dialog.open(DlgyesnoComponent, {
+        width:'350px',
+        data: "Está seguro de Eliminar este Movimiento ?"
+      });
+      dialogref.afterClosed().subscribe(res => {
+        if(res) {
+          this.productosService.eliminarMovimiento(movimiento).subscribe(mires => {
+            this.buscar_kardex();
+          },(error: any) => {
+            this.alerta('Error: ' + error.error.message);
+          }
+        )
+
+        }
+      })
+
+
+    }
+
+    edit (movimiento: Kardex) {
+
+      const fecha =  this.datePipe.transform(movimiento.fecha, 'yyyy-MM-dd');
+ 
+      const params_z = {
+        titulo: "Teclee los datos del Movimiento",
+        ultimofolio: movimiento.folio,
+        docto: movimiento.docto,
+        fecha: fecha,
+        descri: movimiento.descri,
+        serie: movimiento.serie,
+        tipo: this.producto.tipo
+
+      }
+      const dialogref = this.dialog.open(KardexAgregarComponent, {
+        width:'350px',
+        data: JSON.stringify( params_z)
+      });
+      dialogref.afterClosed().subscribe(res => {
+        if(res) {
+          let editMovimiento = {
+            id: movimiento.id,
+            idalm: this.idalm,
+            idart: this.idart,
+            fecha: res.fecha,
+            folio: res.folio,
+            idserie: -1,
+            docto: res.docto,
+            serie: res.serie,
+            descri: res.descri,
+            canti: 1,
+            costou: 0,
+            status: 'A',
+            salio: 'N',
+            descrisale: '',
+            fechasale: '',
+            cia: this.numcia,
+            created_at: "",
+            updated_at: "",
+          }
+          this.productosService.modificarMovimientoKardex(editMovimiento).subscribe(mires => {
+            this.buscar_kardex();
+            this.openTimedSnackBar("Se modificó un Movimiento al Kardex", "Modificar Kardex");
+          },(error: any) => {
+            this.alerta('Error: ' + error.error.message);
+            }
+        )
+  
+        }
+      });
+
+
+    }
+
+    deshacerSalida  (movimiento: Kardex) {
+      const dialogref = this.dialog.open(DlgyesnoComponent, {
+        width:'350px',
+        data: "Está seguro de deshacer la Salida?"
+      });
+      dialogref.afterClosed().subscribe(res => {
+        if(res) {
+          movimiento.salio = 'N';
+          this.productosService.deshacerSalidaKardex(movimiento).subscribe(mires => {
+            this.buscar_kardex();
+          },(error: any) => {
+            this.alerta('Error: ' + error.error.message);
+          }
+        )
+
+        }
+      })
+
+
+    }
 
     async salida(movimiento: Kardex) {
       const dialogref = this.dialog.open(KardexSalidasComponent, {
@@ -200,7 +298,7 @@ export class KardexComponent {
         data: mensaje
       });
       dialogref.afterClosed().subscribe(res => {
-        //console.log("Debug", res);
+         //console.log("Debug", res);
       });
     
     }
