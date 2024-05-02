@@ -1,0 +1,42 @@
+<div mat-dialog-content>
+    {{message}}
+    <label for="codigo">
+        Codigo
+        <input type="text" placeholder="Codigo" [(ngModel)]="codigo" >
+    </label>
+   
+    <button mat-raised-button  color="primary" (click)="busca_articulos()" > 
+        <mat-icon aria-hidden="false" aria-label="Example home icon">search</mat-icon>
+        Buscar
+    </button>
+    <div>
+        <label >Articulo Seleccionado: </label> 
+        <label *ngIf= "producto" > {{producto.codigo}} {{producto.descri}} </label>
+    </div>
+
+    <table id="tbl_articulos" border="1">
+        <thead>
+            <tr color="0fff">
+                <th>Codigo</th>
+                <th>Descripcion</th>
+                <th>Linea</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr 
+            [class.trselected] = "miarticulo.codigo == codigo"
+            *ngFor="let miarticulo of productos" (click)="select_articulo(miarticulo)" >
+                <td>
+                    <input type="checkbox" [checked] = "miarticulo.codigo == codigo"> 
+                    {{miarticulo.codigo}} </td>
+                <td>{{miarticulo.descri}} </td>
+                <td>{{miarticulo.linea}} </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+    <button mat-raised-button  color="warn" (click)="closeno()">Cancelar</button>
+    <button mat-raised-button  color="primary"   (click)="closeyes()">Aceptar</button>
+</div>
+

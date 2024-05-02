@@ -67,6 +67,17 @@ export class ProductosService {
 
   }
 
+  productoHacia(idcia:number, codigo: string, hacia:string) : Observable<Productos> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/inven/${idcia}/0/${codigo}/${hacia}`;
+    const headers = { 'content-type': 'application/json'};
+    //console.log("productos service url", miurl);
+    return( this.http.get<Productos> (miurl, {'headers':headers}) );
+
+  }
+
+
   mockRequest(){
     lastValueFrom(this.http.get("https://www.google.com"))
     .then(res => {

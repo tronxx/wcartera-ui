@@ -19,6 +19,7 @@ import { lastValueFrom } from 'rxjs';
 import { KardexAgregarComponent } from '../kardex-agregar/kardex-agregar.component';
 import { KardexSalidasComponent } from '../kardex-salidas/kardex-salidas.component';
 import { DatePipe } from '@angular/common';
+import { BuscarProductosComponent } from '../buscar-productos/buscar-productos.component';
 
 @Component({
   selector: 'app-kardex',
@@ -90,6 +91,35 @@ export class KardexComponent {
       });
 
     }
+
+    cambiar_producto() {
+      const dialogref = this.dialog.open(BuscarProductosComponent, {
+        width:'420px',
+        data: "Teclee el Codigo del Producto"
+      });
+      dialogref.afterClosed().subscribe(res => {
+        if(res) {
+          console.log("Resultado de Busqueda:", res)
+          this.idart = res.id;
+          this.producto = res;
+          this.buscar_kardex();
+
+        }
+      })
+
+
+    }
+
+    moverse_producto(hacia: string) {
+      this.productosService.productoHacia(this.numcia, this.producto.codigo, hacia).subscribe( res => {
+        this.producto = res;
+        this.conserie = (this.producto.tipo == 'ALF');
+        this.idart = this.producto.id;
+        this.buscar_kardex();
+      });
+
+
+    }    
 
 
     buscar_kardex() {
@@ -164,7 +194,7 @@ export class KardexComponent {
   
     }
 
-    moviientoDisponible (movimiento: Kardex) {
+    movimientoDisponible (movimiento: Kardex) {
       let disponible = true;
       if (movimiento.salio == "S") disponible = false;
       return (disponible);

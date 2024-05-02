@@ -26,6 +26,7 @@ import { KardexSalidasComponent } from './kardex-salidas/kardex-salidas.componen
 import { ReactiveFormsModule } from '@angular/forms';
 import { DateAdapter, MatDateFormats, MatNativeDateModule } from '@angular/material/core';
 import {MAT_DATE_LOCALE} from '@angular/material/core';
+import { BuscarProductosComponent } from './buscar-productos/buscar-productos.component';
 
 const routes : Routes = [
   {
@@ -55,7 +56,8 @@ export const MAT_DATE_FORMATS: MatDateFormats = {
     ProductosComponent,
     KardexAgregarComponent,
     KardexComponent,
-    KardexSalidasComponent
+    KardexSalidasComponent,
+    BuscarProductosComponent
   ],
   imports: [
     CommonModule,
