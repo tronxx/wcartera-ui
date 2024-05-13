@@ -15,48 +15,12 @@ export const environment = {
   production: false,
   menu: [
     {
-      icon: 'dashboard',
-      name: 'Inicio',
-      url: 'landing',
-    },
-    {
-      icon: 'person',
-      name: 'Perfil',
-      url: 'user-profile',
-    },
-    {
-      icon: 'content_paste',
-      name: 'Tablas',
-      url: 'table-list',
-    },
-    {
-      icon: 'article',
-      
-      name: 'Tipografía',
-      url: 'typography',
-    },
-    {
-      icon: 'insert_emoticon',
-      name: 'Iconos',
-      url: 'icons',
-    },
-    {
-      icon: 'map',
-      name: 'Mapas',
-      url: 'maps',
-    },
-    {
-      icon: 'notifications_active',
-      name: 'Notificaciones',
-      url: 'notifications',
-    },
-    {
-      icon: 'notifications_active',
+      icon: 'store',
       name: 'Almacenes',
       url: 'almacenes',
     },
     {
-      icon: 'notifications_active',
+      icon: 'view_list',
       name: 'Inven',
       url: 'productos',
     }

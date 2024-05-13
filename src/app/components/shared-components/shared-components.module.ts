@@ -15,6 +15,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { DlgyesnoComponent } from './dlgyesno/dlgyesno.component';
 import { DlgimportarComponent } from './dlgimportar/dlgimportar.component';
+import { PidepasswdComponent } from './pidepasswd/pidepasswd.component';
+import { PiderangofechasComponent } from './piderangofechas/piderangofechas.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const components = [
   TableComponent,
@@ -27,6 +30,9 @@ const components = [
     ...components,
     DlgyesnoComponent,
     DlgimportarComponent,
+    PidepasswdComponent,
+    PiderangofechasComponent,
+
   ],
   imports: [
     CommonModule,
@@ -38,6 +44,8 @@ const components = [
     MatDividerModule,
     MatTableModule,
     MatPaginatorModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatIconModule
   ],
   exports: [

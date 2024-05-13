@@ -20,6 +20,7 @@ import { KardexAgregarComponent } from '../kardex-agregar/kardex-agregar.compone
 import { KardexSalidasComponent } from '../kardex-salidas/kardex-salidas.component';
 import { DatePipe } from '@angular/common';
 import { BuscarProductosComponent } from '../buscar-productos/buscar-productos.component';
+import { PiderangofechasComponent } from '@components/piderangofechas/piderangofechas.component';
 
 @Component({
   selector: 'app-kardex',
@@ -95,6 +96,7 @@ export class KardexComponent {
     cambiar_producto() {
       const dialogref = this.dialog.open(BuscarProductosComponent, {
         width:'420px',
+        height: '800px',
         data: "Teclee el Codigo del Producto"
       });
       dialogref.afterClosed().subscribe(res => {
@@ -293,6 +295,40 @@ export class KardexComponent {
         }
       })
 
+
+    }
+
+    async impresionKardex() {
+      
+      let fechafin = this.datePipe.transform(new Date(),"yyyy-MM-dd");
+      let mifechaini = new Date();
+      mifechaini.setDate(1);
+      let fechaini =  this.datePipe.transform(mifechaini,"yyyy-MM-dd"); 
+      //let fechaini =  (new Date (fechafin.substring(0,7)+ '01')).toISOString();
+      const fechas = {
+        title: "Proporcione Rango de Fechas",
+        fechaini: fechaini,
+        fechafin: fechafin
+      }
+      const dialogref = this.dialog.open(PiderangofechasComponent, {
+        width:'350px',
+        data: JSON.stringify(fechas)
+      });
+      dialogref.afterClosed().subscribe(res => {
+         if(res) {
+            const data = JSON.parse(res);
+            fechaini = data.fechaini;
+            fechafin = data.fechafin;
+            this.productosService.impresionKardex(this.idcia, 
+              this.idart, this.idalm, fechaini, fechafin
+            ).subscribe(mires => {
+              console.log("impresion", mires)
+              const archivo = mires.file_name;
+              this.productosService.descargaImpresionKardex(archivo);
+            })
+
+         }
+      });
 
     }
 

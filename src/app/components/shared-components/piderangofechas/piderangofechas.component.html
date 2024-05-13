@@ -1,0 +1,25 @@
+<mat-card class="mat-elevation-z5" style="padding: 1rem;">
+
+    <div mat-dialog-content>
+        <h3>{{title}} </h3>
+        <div>
+            <label for="fechaini">Fecha Inicial</label><br>
+            <input type="date" name="fechaini"  id="fechaini"  [(ngModel)]="fechaini">
+
+        </div>
+        <div>
+            <label for="fechaini">Fecha Final</label><br>
+            <input type="date" id="fechafin"  id="fechafin"  [(ngModel)]="fechafin">
+
+        </div>
+
+    </div>
+    <div mat-dialog-actions>
+        <div  style="display: flex; justify-content: center; padding-top: .5rem;">
+                <button mat-raised-button style="margin-right: 5px;"  color="warn" (click)="closeno()">Cancelar</button>
+                <span></span>
+                <button mat-raised-button  color="primary" (click)="close()">Aceptar</button>
+        </div>
+    </div>
+    </mat-card>
+    

@@ -67,6 +67,35 @@ export class ProductosService {
 
   }
 
+  impresionKardex(idcia:number, idart: number, idalm:number, fechaini:string, fechafin:string) : Observable<any> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/imprikardex?modo=impresionKardex&cia=${idcia}&idalm=${idalm}&idart=${idart}&fechaini=${fechaini}&fechafin=${fechafin}`;
+    const headers = { 'content-type': 'application/json'};
+    console.log("productos service url", miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+  }
+
+  descargaImpresionKardex(archivo:string) {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/imprikardex/${archivo}`;
+    window.open(miurl, "_blank");
+
+  }
+
+  obtenFechayHora() : Observable<any> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/accesorios?modo=obtenerFechayHora`;
+    //const miurl = `${this.url}/inven/${idcia}/${idart}`;
+    const headers = { 'content-type': 'application/json'};
+    //console.log("productos service url", miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+
+  }
+
+
   productoHacia(idcia:number, codigo: string, hacia:string) : Observable<Productos> {
     this.url = this.configService.config.url;
   

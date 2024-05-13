@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { DateAdapter, MatDateFormats, MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule} from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { DatePipe } from '@angular/common';
@@ -48,6 +49,7 @@ export const MAT_DATE_FORMATS: MatDateFormats = {
     MatCardModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule,
     CdkMenu,
     CdkMenuTrigger,
     StoreModule.forRoot({}, {}),

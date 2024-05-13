@@ -15,6 +15,7 @@ import { DlgimportarComponent } from '@components/dlgimportar/dlgimportar.compon
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { lastValueFrom } from 'rxjs';
 import { JsonPipe } from '@angular/common';
+import { PidepasswdComponent } from '@components/pidepasswd/pidepasswd.component';
 
 @Component({
   selector: 'app-almacenes',
@@ -150,9 +151,22 @@ constructor(
   }
 
   fijarAlmacen(mialmacen: Almacenes) {
-    const mialmacenseleccionado = { id: mialmacen.id, clave: mialmacen.clave, nombre: mialmacen.nombre};
-    localStorage.setItem('mialmacen', JSON.stringify(mialmacenseleccionado));
-    this.alerta("Se ha fijado el almacen " + mialmacen.clave + " " + mialmacen.nombre);
+    const params_z = {
+      ubicacion: 'LI'
+    }
+    const dialogref = this.dialog.open(PidepasswdComponent, {
+      width: '500px',
+      height: '200px',
+      data: JSON.stringify(params_z)
+
+    });
+    dialogref.afterClosed().subscribe(res => {
+      if(res) {
+        const mialmacenseleccionado = { id: mialmacen.id, clave: mialmacen.clave, nombre: mialmacen.nombre};
+        localStorage.setItem('mialmacen', JSON.stringify(mialmacenseleccionado));
+        this.alerta("Se ha fijado el almacen " + mialmacen.clave + " " + mialmacen.nombre);
+      }
+    })
   }
 
   alerta(mensaje: string) {
