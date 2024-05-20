@@ -75,8 +75,8 @@ export class KardexComponent {
     ngOnInit(): void {
       var mistorage_z  = localStorage.getItem('token') || "{}";
       const micompania_z =  JSON.parse(mistorage_z);
-      this.numcia = micompania_z.cia;
-      this.iduser = micompania_z.iduser;
+      this.numcia = micompania_z.usuario.cia;
+      this.iduser = micompania_z.usuario.iduser;
       this.idart = Number (String(this.router.snapshot.paramMap.get('idart')));      
       const mialmacen  = JSON.parse( localStorage.getItem('mialmacen') || "{}");
       this.idalm = mialmacen.id;

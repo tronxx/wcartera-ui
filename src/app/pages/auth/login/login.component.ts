@@ -20,16 +20,19 @@ export class LoginComponent implements OnInit {
   error = false;
 
   registro_z = {
-    "cia":-1,
-    "idusuario":-1,
-    "parent":"-1",
-    "login":"",
-    "email":"",
-    "nombre":"",
-    "token":"",
-    "acceso": "false",
-    "iniciales":"",
-    "nivel":""
+    "token" : "",
+      "usuario" : {
+      "cia":-1,
+      "idusuario":-1,
+      "parent":"-1",
+      "login":"",
+      "email":"",
+      "nombre":"",
+      "token":"",
+      "acceso": "false",
+      "iniciales":"",
+      "nivel":""
+    }
   }
 
   pwdmd5_z : string = "";
@@ -56,14 +59,15 @@ export class LoginComponent implements OnInit {
     const user = await this.loginService.busca_usuario(data.email, data.password).then( miuser => {
       console.log('Usuario Registrado', miuser);
       let xmiuser = JSON.parse( JSON.stringify(miuser));
-      this.registro_z.idusuario = xmiuser.id,
-      this.registro_z.login = xmiuser.login,
-      this.registro_z.nombre = xmiuser.nombre;
-      this.registro_z.email = xmiuser.email;
-      this.registro_z.iniciales = xmiuser.iniciales;
-      this.registro_z.acceso  = "true";
-      this.registro_z.cia = xmiuser.cia;
-      this.registro_z.parent = xmiuser.padre;
+      this.registro_z.usuario.idusuario = xmiuser.usuario.id,
+      this.registro_z.usuario.login = xmiuser.usuario.login,
+      this.registro_z.usuario.nombre = xmiuser.usuario.nombre;
+      this.registro_z.usuario.email = xmiuser.usuario.email;
+      this.registro_z.usuario.iniciales = xmiuser.usuario.iniciales;
+      this.registro_z.usuario.acceso  = "true";
+      this.registro_z.usuario.cia = xmiuser.usuario.cia;
+      this.registro_z.usuario.parent = xmiuser.usuario.padre;
+      this.registro_z.token = xmiuser.token;
       
       localStorage.setItem("token", JSON.stringify( this.registro_z));
       this.router.navigateByUrl('/app/landing');

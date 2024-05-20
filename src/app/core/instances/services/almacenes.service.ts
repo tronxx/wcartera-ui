@@ -3,7 +3,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom, Observable, of } from 'rxjs';
-import { Almacenes } from '@models/almacenes'
+import { Token, Almacenes } from '@models/index'
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +12,15 @@ export class AlmacenesService {
   config: any;
   cia = 1;
   url = "";
+  registro_z: Token = null;
 
   constructor(
     private configService: ConfigService,
     private http: HttpClient
 
   ) {
+
+    this.loadconfig();
 
    }
 
@@ -28,6 +31,10 @@ export class AlmacenesService {
     //this.config =  await this.configService.getConfig();
     //this.url = this.configService.config.url;
     console.log("llamando a config", this.config, this.url, this.cia);
+    const tok = localStorage.getItem("token") || '{}';
+    console.log("Token", tok);
+    this.registro_z = JSON.parse(tok) ;
+
   }
 
   obten_lista_almacenes(micia: number) : Observable<Almacenes[]> {
@@ -35,7 +42,10 @@ export class AlmacenesService {
   
     const miurl = `${this.url}/almacenes/${micia}`;
     
-    const headers = { 'content-type': 'application/json'};
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
     console.log("almacenes service url", miurl);
     
     return( this.http.get<Almacenes[]> (miurl, {'headers':headers}) );
@@ -48,7 +58,10 @@ export class AlmacenesService {
   
     const miurl = `${this.url}/almacenes/${micia}/${idalm}`;
     
-    const headers = { 'content-type': 'application/json'};
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
     console.log("almacenes service url", miurl);
     
     return( this.http.get<Almacenes> (miurl, {'headers':headers}) );
@@ -79,7 +92,10 @@ export class AlmacenesService {
     const miurl = `${this.url}/almacenes/${almacen.id}`;
     //let miurl = this.config.url + "/almacenes/" + almacen.id;
 
-    const headers = { 'content-type': 'application/json'};
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
     //console.log("Estoy en Post create_almacen", almacen, "url:",miurl);
     return( this.http.put<Almacenes> (miurl, almacen, {'headers':headers}) );
 
@@ -90,7 +106,10 @@ export class AlmacenesService {
     const miurl = `${this.url}/almacenes/${almacen.id}`;
     //let miurl = this.config.url + "/almacenes/" + almacen.id;
 
-    const headers = { 'content-type': 'application/json'};
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
     console.log("Estoy en delete almacen", almacen, "url:",miurl);
     return( this.http.delete<any> (miurl) );
 
