@@ -9,6 +9,7 @@ import { Observable, lastValueFrom, of } from 'rxjs';
 })
 export class LoginService {
 
+  debug = false;
   
 constructor(
   private configService: ConfigService,
@@ -24,7 +25,7 @@ async busca_usuario(login: string, passw: string) {
   const url = `${miurl}/usuarios/0/${login}/${passw}`;
      
   let miusuario = await lastValueFrom( this.http.get(url));
-  console.log("usuario", miusuario);
+  if(this.debug) console.log("usuario", miusuario);
   
   return (miusuario);
 

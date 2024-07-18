@@ -52,7 +52,7 @@ export class KardexFormComponent extends Form<KardexDto> implements OnChanges{
 
   inicializaForm() {
     //this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
-    const strhoy =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
+    const strhoy =  this.datePipe.transform(new Date(),"yyyy-MM-ddThh:mm");
     let datosproducto = JSON.parse(this.message.message);
     if (datosproducto.tipo == "ALF") this.pedirserie =true;
     let ultimofolio = datosproducto.ultimofolio;
@@ -85,13 +85,12 @@ export class KardexFormComponent extends Form<KardexDto> implements OnChanges{
   }
 
   aceptar() {
-    console.log("Hiciste click en aceptar");
     this.submitData.emit(this.form.value);
-    
+   
   }
 
   closeno() {
-    console.log("Hiciste click en Cancelar");
+    //console.log("Hiciste click en Cancelar");
     this.submitData.emit(null);
 
   }

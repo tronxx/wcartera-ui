@@ -128,7 +128,7 @@ export class KardexComponent {
       this.productosService.obten_kardex(this.numcia, this.idalm, this.idart).subscribe( res => {
         this.kardex = res;
         //this.body = res;
-        //console.log(this.productos);
+        console.log("Movimientos de Kardex:", res);
       })
     }
 

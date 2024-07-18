@@ -20,14 +20,17 @@ import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { DatePipe } from '@angular/common';
 //import { DateFnsModule, DateFnsAdapter} from '@angular/material-date-fns-adapter';
 //import { es } from 'date-fns/locale';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 
 export const MAT_DATE_FORMATS: MatDateFormats = {
   parse: { dateInput: 'dd-MM-yyyy'},
   display: {
-    dateInput: 'dd-MM-yyyy',
+    dateInput: 'dd/MM/yyyy',
     monthYearLabel:'MM yyyy',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'yyyy'
+    monthYearA11yLabel:  'MMMM YYYY',
   }
 }
 
@@ -60,7 +63,8 @@ export const MAT_DATE_FORMATS: MatDateFormats = {
     DatePipe,
     //{ provide: DateAdapter, useClass: DateFnsAdapter},
     { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FORMATS},
-    { provide: MAT_DATE_LOCALE, useValue: 'es-es' }
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    //{ provide: LOCALE_ID, useValue: 'es' },
     //{provide: MAT_DATE_LOCALE, useValue: es}
   ],
   bootstrap: [AppComponent]

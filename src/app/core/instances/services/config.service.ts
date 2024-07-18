@@ -15,6 +15,7 @@ export class ConfigService {
     "cia": 0
 
   }
+  debug = false;
 
 
   constructor(private http: HttpClient) {

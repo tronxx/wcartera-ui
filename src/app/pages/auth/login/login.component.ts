@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   usuarios : User[] = [];
   Usuario: User;
   error = false;
+  debug = false;
 
   registro_z = {
     "token" : "",
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
   async signWithEmailAndPassword(data : EmailLoginDto) {
 
     const user = await this.loginService.busca_usuario(data.email, data.password).then( miuser => {
-      console.log('Usuario Registrado', miuser);
+      if(this.debug) console.log('Usuario Registrado', miuser);
       let xmiuser = JSON.parse( JSON.stringify(miuser));
       this.registro_z.usuario.idusuario = xmiuser.usuario.id,
       this.registro_z.usuario.login = xmiuser.usuario.login,
