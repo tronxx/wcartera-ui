@@ -28,3 +28,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 because when you're gone, everything goes on
 "# kardex" 
+"# wcartera-ui" 
