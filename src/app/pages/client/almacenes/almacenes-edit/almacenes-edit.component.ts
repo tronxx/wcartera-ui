@@ -28,9 +28,7 @@ export class AlmacenesEditComponent implements OnInit {
 
     }
   
-  
     aceptar(data : any){
-      console.log("called");
       this.dialog.close(data);
     }
   

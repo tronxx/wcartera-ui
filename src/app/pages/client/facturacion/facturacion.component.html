@@ -1,0 +1,31 @@
+<mat-card class="mat-elevation-z5 card">
+    <div>
+        <div>
+            <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+                
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="agregar()" >
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">add</mat-icon>
+                    Agregar Cliente
+                </button>
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="buscar()">
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">search</mat-icon>
+                    Buscar Cliente
+                </button>
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="moverse('A')">
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">keyboard_arrow_left</mat-icon>
+                    Anterior Cliente
+                </button>
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="moverse('S')">
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">keyboard_arrow_right</mat-icon>
+                    Siguiente Cliente
+                </button>
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="impresion()">
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">print</mat-icon>
+                    Estado de Cuenta
+                </button>
+            </div>
+        </div>
+
+    </div>
+   
+</mat-card>

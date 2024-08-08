@@ -1,0 +1,121 @@
+<mat-card class="mat-elevation-z5 card" appearance="outlined">
+    <mat-card-header>
+        Teclee los datos del Cliente
+    </mat-card-header>    
+    <mat-card-content>
+        
+<form [formGroup]="form" (submit)="aceptar()">
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Código del Cliente
+        </mat-label>
+        <input type="text" matInput formControlName="codigo">
+        <mat-error *ngIf="codigo.hasError('required')">
+            ¡Introduce El Código del Cliente!
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Apellido Paterno
+        </mat-label>
+        <input type="text" matInput formControlName="appat">
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Apellido Materno
+        </mat-label>
+        <input type="text" matInput formControlName="apmat">
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Nombre 1
+        </mat-label>
+        <input type="text" matInput formControlName="nompil1">
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Nombre 2
+        </mat-label>
+        <input type="text" matInput formControlName="nompil2">
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Calle
+        </mat-label>
+        <input type="text" matInput formControlName="calle">
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Número de Predio
+        </mat-label>
+        <input type="text" matInput formControlName="numpredio">
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Colonia
+        </mat-label>
+        <input type="text" matInput formControlName="colonia">
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Código Postal
+        </mat-label>
+        <input type="text" matInput formControlName="codpostal">
+    </mat-form-field>
+
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Ciudad
+        </mat-label>
+        <mat-select formControlName="ciudad" (selectionChange)="ciudadSelectionChange($event)" >
+            <mat-option *ngFor="let miciudad of ciudades"
+             [value]="miciudad.id">
+              {{miciudad.ciudad}}
+            </mat-option>
+          </mat-select>        
+
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Teléfono
+        </mat-label>
+        <input type="text" matInput formControlName="telefono">
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Email
+        </mat-label>
+        <input type="text" matInput formControlName="email">
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Régimen Fiscal
+        </mat-label>
+        <mat-select formControlName="regimen" (selectionChange)="regimenSelectionChange($event)" >
+            <mat-option *ngFor="let miregimen of regimenes"
+             [value]="miregimen.id">
+              {{miregimen.clave}} {{miregimen.nombre}}
+            </mat-option>
+          </mat-select>        
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            RFC
+        </mat-label>
+        <input type="text" matInput formControlName="rfc">
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+        <div  class="button-container">
+            <button mat-raised-button color="primary" [disabled]="form.invalid">
+                    Aceptar
+            </button>
+            <button mat-raised-button color="warn">
+                    Cancelar
+            </button>
+        </div>
+    
+    </div>
+</form>
+    </mat-card-content>
+</mat-card>

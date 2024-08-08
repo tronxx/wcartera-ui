@@ -23,7 +23,18 @@ export const environment = {
       icon: 'view_list',
       name: 'Inven',
       url: 'productos',
-    }
+    },
+    {
+      icon: 'view_list',
+      name: 'Clientes',
+      url: 'clientes',
+    },
+    {
+      icon: 'view_list',
+      name: 'Facturación',
+      url: 'facturacion',
+    },
+
 
   ],
   primaryColor: "#F85A3E",

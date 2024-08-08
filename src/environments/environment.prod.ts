@@ -11,6 +11,16 @@ export const environment = {
       name: 'Inven',
       url: 'productos',
     },
+    {
+      icon: 'view_list',
+      name: 'Clientes',
+      url: 'clientes',
+    },
+    {
+      icon: 'view_list',
+      name: 'Facturacion',
+      url: 'facturacion',
+    },
 
   ],
   primaryColor: "#F85A3E",

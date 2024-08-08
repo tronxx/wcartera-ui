@@ -1,0 +1,97 @@
+<mat-card class="mat-elevation-z5 card">
+    <div>
+        <div>
+            <div>
+                <mat-label>
+                    Fecha Inicial
+                </mat-label>
+                <input type="date" [(ngModel)]="fechainicial">
+                <mat-label>
+                    Fecha Final
+                </mat-label>
+                <input type="date" [(ngModel)]="fechafinal">
+
+            </div>
+
+            <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="agregar_cliente()" >
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">add</mat-icon>
+                    Agregar Cliente
+                </button>
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="buscar_cliente()">
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">search</mat-icon>
+                    Buscar Cliente
+                </button>
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="moverse_cliente('A')">
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">keyboard_arrow_left</mat-icon>
+                    Anterior Cliente
+                </button>
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="moverse_cliente('S')">
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">keyboard_arrow_right</mat-icon>
+                    Siguiente Cliente
+                </button>
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="impresionCliente()">
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">print</mat-icon>
+                    Estado de Cuenta
+                </button>
+            </div>
+        </div>
+
+    </div>
+    <div >
+        <table mat-table [dataSource]="clientes" style="width: 100%;">
+            <ng-container matColumnDef="codigo">
+                <th mat-header-cell *matHeaderCellDef> Código </th>
+                <td mat-cell *matCellDef="let element">  {{element.codigo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+            <ng-container matColumnDef="direc">
+                <th mat-header-cell *matHeaderCellDef> Dirección</th>
+                <td mat-cell *matCellDef="let element"> {{element.direc}} </td>
+            </ng-container>
+            <ng-container matColumnDef="telefono">
+                <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                <td mat-cell *matCellDef="let element"> {{element.telefono }} </td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.serie}} </td>
+            </ng-container>
+            <ng-container matColumnDef="options">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                    <div>
+                        <button [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
+                        <ng-template #menu>
+                            <div class="example-menu" cdkMenu>
+                                <ul>
+                                    <li>
+                                        <button mat-raised-button color="primary" *ngIf="clienteAbierto(element)"
+                                        (click)="edit(element)" type="button">
+                                            <mat-icon>edit</mat-icon>
+                                            Modificar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button mat-raised-button color="warn" *ngIf="clienteAbierto(element)"
+                                        (click)="delete(element)" type="button">
+                                            <mat-icon>delete</mat-icon>
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-template>
+    
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+</mat-card>

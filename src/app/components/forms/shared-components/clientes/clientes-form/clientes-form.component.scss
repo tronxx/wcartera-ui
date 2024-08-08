@@ -1,0 +1,13 @@
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacio entre los botones */
+    margin: 0 auto;
+    padding: 20px; /* Opcional, para dar algo de espacio alrededor */
+}
+
+.button-container button {
+    flex: 1; /* Hace que ambos botones ocupen el mismo ancho */
+    padding: 10px 20px; /* Ajusta el tamaño del botón */
+    max-width: 150px; /* Limita el tamaño máximo de los botones */
+}

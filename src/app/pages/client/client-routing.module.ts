@@ -45,6 +45,14 @@ const routes : Routes = [
     loadChildren: () => import('./productos/productos.module').then(m => m.ProductosModule),
   },
   {
+    path: 'clientes',
+    loadChildren: () => import('./clientes/clientes.module').then(m => m.ClientesModule),
+  },
+  {
+    path: 'facturacion',
+    loadChildren: () => import('./facturacion/facturacion.module').then(m => m.FacturacionModule),
+  },
+  {
     path: '**',
     redirectTo: 'landing',
   }
