@@ -81,7 +81,10 @@ export class AlmacenesService {
     const miurl = `${this.url}/almacenes/`;
     //let miurl = this.config.url + "/almacenes";
 
-    const headers = { 'content-type': 'application/json'};
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
     console.log("Estoy en Post create_almacen", almacen, "url:",miurl);
     return( this.http.post<Almacenes> (miurl, almacen, {'headers':headers}) );
 

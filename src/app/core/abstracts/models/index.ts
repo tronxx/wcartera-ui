@@ -6,3 +6,4 @@ export * from './token';
 export * from './clientes';
 export * from './ciudades';
 export * from './regimenes';
+export * from './nombres';

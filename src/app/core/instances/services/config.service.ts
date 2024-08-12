@@ -30,7 +30,7 @@ export class ConfigService {
       this.cia= this.cias[0];
       this.config.cia = this.cia.cia;
       this.config.url = this.cia.Urldatos;
-      console.log("Estoy en config service ", this.config, this.cia);
+      console.log("Estoy en config service ", this.config, this.cia, this.config.url);
 
     });
 

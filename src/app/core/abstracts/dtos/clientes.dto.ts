@@ -4,7 +4,9 @@ export interface ClientesDto {
     idciudad: number;
     codpostal: string;
     idnombre: number;
-    nombre: string;
+    calle: string;
+    numpredio: string;
+    colonia: string;
     direc: string;
     telefono: string;
     email: string;

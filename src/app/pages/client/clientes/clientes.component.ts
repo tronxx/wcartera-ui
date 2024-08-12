@@ -4,7 +4,7 @@ import { Form, FormBuilder, FormGroup, FormsModule, UntypedFormBuilder } from '@
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCard } from '@angular/material/card';
-import { Clientes, Ciudades } from '@models/index';
+import { Nombres, Clientes, Ciudades } from '@models/index';
 import { ComplementosService } from '@services/complementos.service';
 
 import { MatPaginator } from '@angular/material/paginator';
@@ -71,6 +71,7 @@ export class ClientesComponent {
       this.iduser = micompania_z.usuario.iduser;
       this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       this.fechafinal =  this.fechainicial;
+      this.buscar_lista_clientes();
     }
   
   agregar_cliente() {
@@ -81,7 +82,51 @@ export class ClientesComponent {
       width:'600px',
       data: JSON.stringify( params_z)
     });
-    dialogref.afterClosed().subscribe(res => {})
+    dialogref.afterClosed().subscribe(res => {
+      if(res) {
+
+        const nvocliente = {
+          id: 0,
+          idnombre: 0,
+          nombre: "",
+          appat: res.appat,
+          apmat: res.apmat,
+          nombre1: res.nompil1,
+          nombre2: res.nompil2,
+          codigo: res.codigo,
+          idciudad: res.ciudad,
+          codpostal: res.codpostal,
+          calle: res.calle,
+          numpredio: res.numpredio,
+          colonia: res.colonia,
+          telefono: res.telefono,
+          email: res.email,
+          idregimen: res.regimen,
+          rfc: res.rfc,
+          status: 'A',
+          cia: this.numcia,
+          created_at: "",
+          updated_at: ""
+        }
+        console.log("nvocliente", nvocliente);
+        this.clientesService.crear_cliente(nvocliente).subscribe(mires => {
+          this.buscar_lista_clientes();
+          this.openTimedSnackBar("Se agregó un Cliente", "Agregar Cliente");
+        },(error: any) => {
+          this.alerta('Error: ' + error.error.message);
+
+        }       
+      );
+      }
+
+    })
+
+  }
+
+  buscar_lista_clientes() {
+    this.clientesService.obten_lista_clientes().subscribe(res => {
+      this.clientes = res;
+    })
 
   }
 
@@ -93,10 +138,25 @@ export class ClientesComponent {
 
   edit(cliente: Clientes) {}
 
-  delete (cliente: Clientes) {}
+  delete (cliente: Clientes) {
+    console.log("Estoy en delete", cliente);
+    const dialogref = this.dialog.open(DlgyesnoComponent, {
+      width:'350px',
+      data: "Seguro de Eliminar Cliente: " + cliente.codigo + " " + cliente.nombre
+    });
+    dialogref.afterClosed().subscribe(res => {
+      if(res) {
+        this.clientesService.delete_cliente(cliente).subscribe(mires => {
+          this.buscar_lista_clientes();
+        })
+      }
+    });
+
+
+  }
   
   clienteAbierto(element: Clientes)  {
-    return true;
+    return (element.status == "A");
   }
 
   alerta(mensaje: string) {
@@ -111,5 +171,8 @@ export class ClientesComponent {
   
   }
 
+  openTimedSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {duration: 3000});
+  }
 
 }

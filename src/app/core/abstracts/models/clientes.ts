@@ -5,7 +5,9 @@ export interface Clientes {
     codpostal: string;
     idnombre: number;
     nombre: string;
-    direc: string;
+    calle: string;
+    numpredio: string;
+    colonia: string;
     telefono: string;
     email: string;
     idregimen: number;

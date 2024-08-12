@@ -8,6 +8,7 @@ import { ComplementosService } from '@services/complementos.service';
 import { Ciudades, Regimenes, } from '@models/index'
 import { MatSelectChange } from '@angular/material/select';
 import { MatCard } from '@angular/material/card';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-clientes-form',
@@ -27,6 +28,7 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     public builder : UntypedFormBuilder,
     public router: Router,
     private complementosService: ComplementosService,
+    private datePipe : DatePipe,
 
   ) {
     super();
@@ -48,6 +50,7 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
       regimen: [""],
       rfc: [""],
     });
+    this.inicializaForm();
 
   }
 
@@ -56,23 +59,46 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
       this.upload = false;
       this.form.get("codigo").enable();
     }
-    this.inicializaForm();
+    //this.inicializaForm();
   }
 
   inicializaForm() {
     //console.log("changed")
-    this.form.get("codigo").setValue(this.cliente.codigo);
-    this.form.get("direc").setValue(this.cliente.direc);
-    this.form.get("ciudad").setValue(this.cliente.idciudad);
-    this.form.get("rfc").setValue(this.cliente.rfc);
-    this.form.get("codpostal").setValue(this.cliente.codpostal);
-    this.form.get("telefono").setValue(this.cliente.telefono);
-    this.form.get("regimen").setValue(this.cliente.idregimen);
+    if(this.cliente) {
+      this.form.get("codigo").setValue(this.cliente.codigo);
+      this.form.get("direc").setValue(this.cliente.direc);
+      this.form.get("ciudad").setValue(this.cliente.idciudad);
+      this.form.get("rfc").setValue(this.cliente.rfc);
+      this.form.get("codpostal").setValue(this.cliente.codpostal);
+      this.form.get("telefono").setValue(this.cliente.telefono);
+      this.form.get("regimen").setValue(this.cliente.idregimen);
+    } else {
+      const fecha =  this.datePipe.transform(new Date(),"yyMMdd");
+      const codigo = "27" + fecha + "99";
+      this.set_idregimen();
+      const rfc = "XAXX010101000";
+      this.form.get("codigo").setValue(codigo);
+      this.form.get("rfc").setValue(rfc);
+    }
+  }
+
+  set_idregimen() {
+    if(!this.cliente) {
+      let idregimen = 0;
+      const claveregimen = "616";
+      const miregimen =  this.regimenes.filter(regimen => regimen.clave === claveregimen);
+      if(miregimen.length) idregimen = miregimen[0].id;
+      this.form.get("regimen").setValue(idregimen);
+
+    }
+
   }
 
   carga_catalogos() {
     this.complementosService.obten_lista_regimenes().subscribe( res => {
       this.regimenes = res;
+      this.set_idregimen();
+
     });
 
     this.complementosService.obten_lista_ciudades().subscribe( res => {
