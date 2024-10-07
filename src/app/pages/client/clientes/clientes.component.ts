@@ -19,6 +19,7 @@ import { lastValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { PiderangofechasComponent } from '@components/piderangofechas/piderangofechas.component';
 import { ClientesEditComponent } from './clientes-edit/clientes-edit.component';
+import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.component';
 
 @Component({
   selector: 'app-clientes',
@@ -130,13 +131,86 @@ export class ClientesComponent {
 
   }
 
-  buscar_cliente() {}
+  buscar_cliente() {
+    const dialogref = this.dialog.open(DlgbusclienteComponent, {
+      width:'600px',
+      data: ''
+    });
+    dialogref.afterClosed().subscribe(res => {
+      this.cliente = res;
+    }
+    )
+  }
 
   moverse_cliente(hacia: string) {}
 
   impresionCliente() {}
 
-  edit(cliente: Clientes) {}
+  detalles(cliente: Clientes) {
+    console.log("Estoy en Detalles", cliente);
+    const idcli = cliente.id;
+    const params_z = {
+      titulo: "Datos del Cliente",
+      cliente: cliente,
+      modo: "DETALLES"
+    }
+    const dialogref = this.dialog.open(ClientesEditComponent, {
+      width:'600px',
+      data: JSON.stringify( params_z)
+    });
+    dialogref.afterClosed().subscribe(res => {});
+  }
+
+
+  edit(cliente: Clientes) {
+    console.log("Estoy en Edit", cliente);
+    const idcli = cliente.id;
+    const params_z = {
+      titulo: "Teclee los datos del Cliente",
+      cliente: cliente,
+      modo: "EDIT"
+    }
+    const dialogref = this.dialog.open(ClientesEditComponent, {
+      width:'600px',
+      data: JSON.stringify( params_z)
+    });
+    dialogref.afterClosed().subscribe(res => {
+      if(res) {
+
+        const nvocliente = {
+          id: idcli,
+          idnombre: 0,
+          nombre: "",
+          appat: res.appat,
+          apmat: res.apmat,
+          nombre1: res.nompil1,
+          nombre2: res.nompil2,
+          codigo: res.codigo,
+          idciudad: res.ciudad,
+          codpostal: res.codpostal,
+          calle: res.calle,
+          numpredio: res.numpredio,
+          colonia: res.colonia,
+          telefono: res.telefono,
+          email: res.email,
+          idregimen: res.regimen,
+          rfc: res.rfc,
+        }
+        console.log("cliente editado", nvocliente);
+        this.clientesService.edit_cliente(nvocliente).subscribe(mires => {
+          this.buscar_lista_clientes();
+          this.openTimedSnackBar("Se modificó un Cliente", "Agregar Cliente");
+        },(error: any) => {
+          this.alerta('Error: ' + error.error.message);
+
+        }       
+      );
+      }
+
+    })
+
+
+  }
 
   delete (cliente: Clientes) {
     console.log("Estoy en delete", cliente);

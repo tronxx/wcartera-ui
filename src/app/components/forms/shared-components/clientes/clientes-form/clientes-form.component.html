@@ -9,7 +9,7 @@
         <mat-label>
             Código del Cliente
         </mat-label>
-        <input type="text" matInput formControlName="codigo">
+        <input [readonly]="sololectura" type="text" matInput formControlName="codigo">
         <mat-error *ngIf="codigo.hasError('required')">
             ¡Introduce El Código del Cliente!
         </mat-error>
@@ -18,49 +18,49 @@
         <mat-label>
             Apellido Paterno
         </mat-label>
-        <input type="text" matInput formControlName="appat">
+        <input type="text" [readonly]="sololectura"  matInput formControlName="appat">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
             Apellido Materno
         </mat-label>
-        <input type="text" matInput formControlName="apmat">
+        <input type="text" [readonly]="sololectura"  matInput formControlName="apmat">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
             Nombre 1
         </mat-label>
-        <input type="text" matInput formControlName="nompil1">
+        <input type="text" [readonly]="sololectura" matInput formControlName="nompil1">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
             Nombre 2
         </mat-label>
-        <input type="text" matInput formControlName="nompil2">
+        <input type="text" [readonly]="sololectura"  matInput formControlName="nompil2">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
             Calle
         </mat-label>
-        <input type="text" matInput formControlName="calle">
+        <input type="text" [readonly]="sololectura" matInput formControlName="calle">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
             Número de Predio
         </mat-label>
-        <input type="text" matInput formControlName="numpredio">
+        <input type="text" [readonly]="sololectura" matInput formControlName="numpredio">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
             Colonia
         </mat-label>
-        <input type="text" matInput formControlName="colonia">
+        <input type="text" [readonly]="sololectura" matInput formControlName="colonia">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
             Código Postal
         </mat-label>
-        <input type="text" matInput formControlName="codpostal">
+        <input type="text" [readonly]="sololectura" matInput formControlName="codpostal">
     </mat-form-field>
 
     <mat-form-field style="width: 100%;">
@@ -79,13 +79,13 @@
         <mat-label>
             Teléfono
         </mat-label>
-        <input type="text" matInput formControlName="telefono">
+        <input type="text" [readonly]="sololectura" matInput formControlName="telefono">
     </mat-form-field>
     <mat-form-field style="width: 100%;">
         <mat-label>
             Email
         </mat-label>
-        <input type="text" matInput formControlName="email">
+        <input type="text" [readonly]="sololectura" matInput formControlName="email">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
@@ -102,7 +102,7 @@
         <mat-label>
             RFC
         </mat-label>
-        <input type="text" matInput formControlName="rfc">
+        <input type="text" [readonly]="sololectura" matInput formControlName="rfc">
     </mat-form-field>
 
     <div mat-dialog-actions>

@@ -18,6 +18,8 @@ import { DlgimportarComponent } from './dlgimportar/dlgimportar.component';
 import { PidepasswdComponent } from './pidepasswd/pidepasswd.component';
 import { PiderangofechasComponent } from './piderangofechas/piderangofechas.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DlgbusarticuloComponent } from './dlgbusarticulo/dlgbusarticulo.component';
+import { DlgbusclienteComponent } from './dlgbuscliente/dlgbuscliente.component';
 
 const components = [
   TableComponent,
@@ -32,6 +34,8 @@ const components = [
     DlgimportarComponent,
     PidepasswdComponent,
     PiderangofechasComponent,
+    DlgbusarticuloComponent,
+    DlgbusclienteComponent,
 
   ],
   imports: [

@@ -1,1 +1,73 @@
-<p>facturacion-form works!</p>
+<mat-card class="mat-elevation-z5 card" appearance="outlined">
+    <mat-card-header>
+        Teclee los datos de la Factura
+    </mat-card-header>    
+    <mat-card-content>
+        
+<form [formGroup]="form" (submit)="aceptar()">
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Serie
+        </mat-label>
+        <input type="text" matInput formControlName="serie">
+        <mat-error *ngIf="serie.hasError('required')">
+            ¡Introduce La Serie de la Factura!
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 50%;">
+        <mat-label>
+            Número
+        </mat-label>
+        <input type="number" matInput formControlName="numero">
+    </mat-form-field>
+    <mat-form-field  style="width: 100%;">
+        <mat-label>
+            Fecha 
+        </mat-label>
+        <input matInput  type="date" formControlName="fecha">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
+        <mat-datepicker #fecha></mat-datepicker>
+        <mat-error *ngIf="form.controls['fecha'].hasError('required')">
+            ¡Introduce La fecha del movimiento!
+        </mat-error>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Uso Cfdi
+        </mat-label>
+        <mat-select formControlName="usocfdi" (selectionChange)="usocfdichanged($event)" >
+            <mat-option *ngFor="let miusocfdi of usoscfdi"
+             [value]="miusocfdi.id">
+             {{miusocfdi.clave}}
+             {{miusocfdi.nombre}}
+            </mat-option>
+          </mat-select>        
+
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>
+            Método de Pago
+        </mat-label>
+        <mat-select formControlName="metodopago" (selectionChange)="metodopagochanged($event)" >
+            <mat-option *ngFor="let mimetodopago of metodospago"
+             [value]="mimetodopago.id">
+              {{mimetodopago.clave}}
+              {{mimetodopago.nombre}}
+            </mat-option>
+          </mat-select>        
+
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+        <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+            <button mat-raised-button color="primary" (click)="aceptar()" [disabled]="form.invalid">
+                Aceptar
+        </button>
+            <button mat-raised-button  color="warn" >Cancelar</button>
+        </div>
+    
+    </div>
+</form>
+    </mat-card-content>
+</mat-card>

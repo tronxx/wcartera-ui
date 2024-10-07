@@ -79,6 +79,13 @@
                                         </button>
                                     </li>
                                     <li>
+                                        <button mat-raised-button color="primary" 
+                                        (click)="detalles(element)" type="button">
+                                            <mat-icon>account_box</mat-icon>
+                                            Detalles
+                                        </button>
+                                    </li>
+                                    <li>
                                         <button mat-raised-button color="warn" *ngIf="clienteAbierto(element)"
                                         (click)="delete(element)" type="button">
                                             <mat-icon>delete</mat-icon>

@@ -11,6 +11,11 @@ import { Message } from '@models/message';
 })
 export class LoginFormComponent extends Form<EmailLoginDto> implements OnChanges{
 
+  logindefault = {
+    login: "tron.brd.mds@gmail.com",
+    pwd: "MOSSIMO"
+  }
+
   @Output() public submitData: EventEmitter<EmailLoginDto>;
   @Input() public message: Message;
 
@@ -20,8 +25,8 @@ export class LoginFormComponent extends Form<EmailLoginDto> implements OnChanges
     super();
     this.submitData = new EventEmitter<EmailLoginDto>();
     this.form = this.builder.group({
-      email : ["", [Validators.required]],
-      password: ["", [Validators.required]]
+      email : [this.logindefault.login, [Validators.required]],
+      password: [this.logindefault.pwd, [Validators.required]]
     });
   }
   ngOnChanges(changes: SimpleChanges): void {

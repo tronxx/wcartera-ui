@@ -20,6 +20,7 @@ import { KardexFormComponent } from './shared-components/productos/kardex-form/k
 import { FacturacionFormComponent } from './shared-components/facturacion/facturacion-form/facturacion-form.component';
 import { ClientesFormComponent } from './shared-components/clientes/clientes-form/clientes-form.component';
 import { MatCardModule } from '@angular/material/card';
+import { VentasFormComponent } from './shared-components/ventas/ventas-form/ventas-form.component';
 
 const forms = [
   LoginFormComponent,
@@ -48,6 +49,7 @@ const materialImports = [
 @NgModule({
   declarations: [
     ...forms,
+    VentasFormComponent,
   ],
   imports: [
     CommonModule,

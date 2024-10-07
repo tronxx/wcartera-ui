@@ -15,23 +15,35 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSelectModule  } from '@angular/material/select';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule as localforms } from '@forms/forms.module';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { FacturacionComponent } from './facturacion.component';
 import { FacturacionEditComponent } from './facturacion-edit/facturacion-edit.component';
+import { CrearventaComponent } from './crearventa/crearventa.component';
+import { ProductosComponent } from './productos/productos.component';
 
 const routes : Routes = [
   {
     path: '',
-    component: FacturacionComponent
+    component: FacturacionComponent,
+
+  },
+  {
+    path: 'crearventa',
+    component: CrearventaComponent,
+
   }
+
 ]
 
 @NgModule({
   declarations: [
     FacturacionComponent,
-    FacturacionEditComponent
+    FacturacionEditComponent,
+    CrearventaComponent,
+    ProductosComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +55,8 @@ const routes : Routes = [
     MatSnackBarModule,
     MatIconModule,
     MatTableModule,
+    MatSelectModule,
+    MatCheckboxModule,
     localforms,
     CdkMenu,
     CdkMenuTrigger,

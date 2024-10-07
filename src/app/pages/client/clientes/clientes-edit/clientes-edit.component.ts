@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ClientesFormComponent } from '@forms/shared-components/clientes/clientes-form/clientes-form.component'
 import { ClientesDto } from '@dtos/clientes.dto';
 import { ComplementosService } from '@services/complementos.service';
+import { NombreDto } from '@dtos/nombres.dto'
 
 @Component({
   selector: 'app-clientes-edit',
@@ -13,6 +14,7 @@ export class ClientesEditComponent implements OnInit {
   title = "";
   public message = "Clientes";
   public cliente : ClientesDto = null;
+  public modo : string;
 
   @Output() submitdata : EventEmitter<any> = new EventEmitter();
     constructor(
@@ -25,8 +27,8 @@ export class ClientesEditComponent implements OnInit {
       let misparam_z = JSON.parse(this.params);
       this.title = misparam_z.title;
       this.cliente = misparam_z.cliente;
-      //console.log("almacenes edit Mi almacen:", this.almacen);
-
+      this.modo = misparam_z.modo;
+      console.log("clientes edit:", misparam_z, this.cliente);
     }
 
     aceptar(data : any){

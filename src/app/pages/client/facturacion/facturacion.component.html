@@ -1,23 +1,49 @@
 <mat-card class="mat-elevation-z5 card">
     <div>
         <div>
+            <div>
+                <mat-label>
+                    Fecha Inicial
+                    <input type="date" [(ngModel)]="fechainicial">
+                </mat-label>
+                <mat-label>
+                    Fecha Final
+                    <input type="date" [(ngModel)]="fechafinal">
+                </mat-label>
+                <mat-label>
+                    Ubicación
+                    <select name="ubicacion" id="ubicacion" value="ubica"
+                         [(ngModel)]= "ubivta" (blur)="selecciona_tarjetas_tc()"  >
+                        <option *ngFor="let unaubicacion of ubivtas" value="{{unaubicacion.codigo}}"
+                          [selected]="ubivta == unaubicacion.codigo">
+                          {{unaubicacion.codigo}} {{unaubicacion.nombre}}
+                        </option>
+                    </select>
+                </mat-label>
+
+                <button class="espaciado.button" mat-raised-button color="primary" (click)="buscar_lista()" >
+                    <mat-icon aria-hidden="false" aria-label="Example new icon">search</mat-icon>
+                    Aceptar
+                </button>
+
+            </div>
+
             <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
-                
                 <button class="espaciado.button" mat-raised-button color="primary" (click)="agregar()" >
                     <mat-icon aria-hidden="false" aria-label="Example new icon">add</mat-icon>
-                    Agregar Cliente
+                    Agregar Venta
                 </button>
                 <button class="espaciado.button" mat-raised-button color="primary" (click)="buscar()">
                     <mat-icon aria-hidden="false" aria-label="Example new icon">search</mat-icon>
-                    Buscar Cliente
+                    Buscar Venta
                 </button>
                 <button class="espaciado.button" mat-raised-button color="primary" (click)="moverse('A')">
                     <mat-icon aria-hidden="false" aria-label="Example new icon">keyboard_arrow_left</mat-icon>
-                    Anterior Cliente
+                    Anterior Venta
                 </button>
                 <button class="espaciado.button" mat-raised-button color="primary" (click)="moverse('S')">
                     <mat-icon aria-hidden="false" aria-label="Example new icon">keyboard_arrow_right</mat-icon>
-                    Siguiente Cliente
+                    Siguiente Venta
                 </button>
                 <button class="espaciado.button" mat-raised-button color="primary" (click)="impresion()">
                     <mat-icon aria-hidden="false" aria-label="Example new icon">print</mat-icon>
@@ -27,5 +53,97 @@
         </div>
 
     </div>
-   
+    <div >
+        <table mat-table [dataSource]="ventascompletas" style="width: 100%;">
+            <ng-container matColumnDef="codigo">
+                <th mat-header-cell *matHeaderCellDef> Código </th>
+                <td mat-cell *matCellDef="let element">  {{element.codigo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombre </th>
+                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+            </ng-container>
+            <ng-container matColumnDef="compra">
+                <th mat-header-cell *matHeaderCellDef> Compra</th>
+                <td mat-cell *matCellDef="let element">
+                    Compra
+                 </td>
+            </ng-container>
+            <ng-container matColumnDef="qom">
+                <th mat-header-cell *matHeaderCellDef> QoM</th>
+                <td mat-cell *matCellDef="let element">
+                    C. {{element.qom}}
+                 </td>
+            </ng-container>
+            <ng-container matColumnDef="enganc">
+                <th mat-header-cell *matHeaderCellDef> Enganche</th>
+                <td aling="right" mat-cell *matCellDef="let element">
+                    {{element.enganc | currency }}
+                 </td>
+            </ng-container>
+            <ng-container matColumnDef="letras">
+                <th mat-header-cell *matHeaderCellDef> Letras</th>
+                <td aling="right" mat-cell *matCellDef="let element">
+                    {{element.nulets}}
+                 </td>
+            </ng-container>
+            <ng-container matColumnDef="impxlet">
+                <th mat-header-cell *matHeaderCellDef> Import x Letra</th>
+                <td aling="right" mat-cell *matCellDef="let element">
+                    {{element.canle | currency }}
+                 </td>
+            </ng-container>
+            <ng-container matColumnDef="cargos">
+                <th mat-header-cell *matHeaderCellDef> Cargos</th>
+                <td aling="right" mat-cell *matCellDef="let element">
+                    {{element.cargos | currency }}
+                 </td>
+            </ng-container>
+            <ng-container matColumnDef="abonos">
+                <th mat-header-cell *matHeaderCellDef> Abonos</th>
+                <td aling="right" mat-cell *matCellDef="let element">
+                    {{element.abonos | currency }}
+                 </td>
+            </ng-container>
+            <ng-container matColumnDef="saldo">
+                <th mat-header-cell *matHeaderCellDef>Saldo</th>
+                <td aling="right" mat-cell *matCellDef="let element">
+                    {{element.cargos - element.abonos | currency }}
+                 </td>
+            </ng-container>
+
+            <ng-container matColumnDef="options">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                    <div>
+                        <button [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
+                        <ng-template #menu>
+                            <div class="example-menu" cdkMenu>
+                                <ul>
+                                    <li>
+                                        <button mat-raised-button color="primary" *ngIf="Abierto(element)"
+                                        (click)="edit(element)" type="button">
+                                            <mat-icon>edit</mat-icon>
+                                            Modificar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button mat-raised-button color="warn" *ngIf="Abierto(element)"
+                                        (click)="delete(element)" type="button">
+                                            <mat-icon>delete</mat-icon>
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-template>
+    
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
 </mat-card>

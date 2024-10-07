@@ -1,1 +1,7 @@
-<p>facturacion-edit works!</p>
+<div class="profile-container" >
+    <mat-card class="mat-elevation-z5">
+        <app-facturacion-form [factura]="factura" (submitData)="aceptar($event)">
+        </app-facturacion-form> 
+    </mat-card>
+</div>
+

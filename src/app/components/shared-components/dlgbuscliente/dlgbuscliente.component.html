@@ -1,0 +1,47 @@
+<div mat-dialog-header style="overflow-y: auto; max-height: 30rem;">
+    Teclee el Nombre del Cliente
+</div>
+<div mat-dialog-content style="overflow-y: auto; max-height: 30rem;">
+    {{message}}
+    <label for="nombre">
+        Nombre
+        <input type="text" placeholder="Codigo" [(ngModel)]="nombre" >
+    </label>
+   
+    <button mat-raised-button  color="primary" (click)="buscar_cliente_nombre()" > 
+        <mat-icon aria-hidden="false" aria-label="Example home icon">search</mat-icon>
+        Buscar
+    </button>
+
+</div>
+<div>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th width="30%">Código</th>
+                <th width="70%">Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+              [class.trselected] = "clien.codigo == codigo"
+              (click)="select_cliente(clien)"
+             *ngFor="let clien of clientes">
+                <td>
+                    <input type="checkbox" [checked] = "clien.codigo == codigo"> 
+                    {{clien.codigo}} 
+                </td>
+                <td>{{clien.nombre}} </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div mat-dialog-actions>
+    <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+        <button mat-raised-button color="primary" (click)="closeyes()" >
+            Aceptar
+    </button>
+        <button mat-raised-button  color="warn" (click)="closeno()" >Cancelar</button>
+    </div>
+
+</div>

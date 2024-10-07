@@ -12,10 +12,13 @@ export class ConfigService {
   config = {
     "estado":"-1",
     "url": "",
+    "oldurl":"",
     "cia": 0
 
   }
-  debug = false;
+
+
+  debug = true;
 
 
   constructor(private http: HttpClient) {
@@ -30,7 +33,9 @@ export class ConfigService {
       this.cia= this.cias[0];
       this.config.cia = this.cia.cia;
       this.config.url = this.cia.Urldatos;
-      console.log("Estoy en config service ", this.config, this.cia, this.config.url);
+      this.config.oldurl = this.cia.oldurldatos;
+      if(this.debug)
+        console.log("Estoy en config service ", this.config, this.cia, this.config.url);
 
     });
 
@@ -49,5 +54,32 @@ export class ConfigService {
     return (this.config.cia);
   }
 
+  obtenTiposClientesyQOM(tipo: string) {
+    let resultado: { clave: string; descri: string; }[] = []
+    if (tipo == "TIPOS_CLIENTES") {
+      const tictes_z = [
+        { clave:"PC", descri:"PRIMER CREDITO"},
+        { clave:"AR", descri:"AVAL CON REFERENCIAS"},
+        { clave:"CR", descri:"CLIENTE CON REFERENCIAS"},
+        { clave:"CC", descri:"CLIENTE DE CONTADO"},
+        { clave:"TC", descri:"TARJETA CREDITO"},
+        { clave:"FI", descri:"CLIENTE ASI"},
+    
+      ]
+      resultado = tictes_z;
+    
+    }
+    
+    if (tipo == "tiposQOM") {
+      const tipoqom = [
+        { clave:"C", descri:"Contado"},
+        { clave:"Q", descri:"Quincenal"}
+      ]
+      resultado = tipoqom;
+    
+    }
+    return (resultado)
+
+  }
 
 }

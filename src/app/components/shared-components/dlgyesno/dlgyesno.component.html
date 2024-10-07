@@ -2,11 +2,10 @@
 
     <div mat-dialog-content>{{message}}</div>
     <div mat-dialog-actions>
-        <div  style="display: flex; justify-content: center; padding-top: .5rem;">
-                <button mat-raised-button style="margin-right: 5px;"  color="warn" (click)="closeno()">Cancelar</button>
-                <span></span>
-                <button mat-raised-button  color="primary" (click)="close()">Aceptar</button>
-        </div>
+        <div  style="display: flex; justify-content: center; padding-top: .5rem; gap: 4px;">
+            <button mat-raised-button  color="primary" (click)="close()">Aceptar</button>
+            <button mat-raised-button style="margin-right: 5px;"  color="warn" (click)="closeno()">Cancelar</button>
+            </div>
     </div>
     </mat-card>
     

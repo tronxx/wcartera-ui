@@ -3,7 +3,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom, Observable, of } from 'rxjs';
-import { Token, Ciudades, Regimenes, } from '@models/index'
+import { Token, Ciudades, Regimenes, Usocfdi, Metodopago } from '@models/index'
 
 
 @Injectable({
@@ -15,6 +15,7 @@ export class ComplementosService {
   cia = 1;
   url = "";
   registro_z: Token = null;
+  debug = false;
 
   constructor(
     private configService: ConfigService,
@@ -29,6 +30,7 @@ export class ComplementosService {
    async loadconfig()  {
     this.url  = this.configService.config.url;
     this.cia = this.configService.config.cia;
+    this.debug = this.configService.debug;
   
     //this.config =  await this.configService.getConfig();
     //this.url = this.configService.config.url;
@@ -50,7 +52,7 @@ export class ComplementosService {
       'content-type': 'application/json',
       'Authorization': `Bearer ${this.registro_z.token}`      
     };    
-    // console.log("ciudades service url", miurl);
+    if(this.debug) console.log("ciudades service url", miurl);
     
     return( this.http.get<Ciudades[]> (miurl, {'headers':headers}) );
 
@@ -65,9 +67,39 @@ export class ComplementosService {
       'content-type': 'application/json',
       'Authorization': `Bearer ${this.registro_z.token}`      
     };    
-    console.log("regimenes service url", miurl);
+    if(this.debug) console.log("regimenes service url", miurl);
     
     return( this.http.get<Regimenes[]> (miurl, {'headers':headers}) );
+
+  }
+
+  obten_lista_usocfdi() : Observable<Usocfdi[]> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/usocfdi/${this.cia}`;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("usocfdi url", miurl);
+    
+    return( this.http.get<Usocfdi[]> (miurl, {'headers':headers}) );
+
+  }
+
+  obten_lista_metodopago() : Observable<Metodopago[]> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/metodopago/${this.cia}`;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("metodopago url", miurl);
+    
+    return( this.http.get<Metodopago[]> (miurl, {'headers':headers}) );
 
   }
 

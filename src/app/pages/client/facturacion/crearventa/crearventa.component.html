@@ -1,0 +1,302 @@
+<mat-card class="mat-elevation-z5 card">
+    <div class="flex-container;">
+        <div>
+            <mat-label>
+                Ubicación <b>{{ubivta}} {{nombreubica}} </b> 
+            </mat-label>
+
+        </div>
+        <div>
+            <mat-label>
+                Código
+                <input [disabled]="datoslistos" type="text" [(ngModel)]="codigovta">
+            </mat-label>
+    
+        </div>
+        <div>
+            <mat-label>
+                Status
+                <select [disabled]="datoslistos"  name="status" id="status" 
+                     [(ngModel)]= "siono" >
+                    <option value="SI" [selected]="soytrue">SI</option>
+                    <option value="NO" >NO</option>
+                </select>
+            </mat-label>
+    
+        </div>
+        <div>
+            <mat-label>
+                Vendedor
+                <select [disabled]="datoslistos"  name="vendedor" id="vendedor" 
+                     [(ngModel)]= "codigovendedor" >
+                    <option *ngFor="let mivendedor of vendedores" 
+                      value="{{mivendedor.codigo}}"
+                      (blur)="grabar_datos_venta()"
+                      [selected]="codigovendedor == mivendedor.codigo">
+                      {{mivendedor.codigo}} {{mivendedor.nombre}}
+                    </option>
+                </select>
+            </mat-label>
+    
+        </div>
+        <div>
+            <mat-label>
+                Tipo Cliente
+                <select [disabled]="datoslistos"  name="ticte" id="ticte" value="{{ticte}}" 
+                [(ngModel)]= "ticte" (blur)="selecciona_tarjetas_tc()" >
+               <option *ngFor="let miticte of tictes" value="{{miticte.clave}}"
+                 [selected]="ticte == miticte.clave">
+                 {{miticte.clave}} {{miticte.descri}}
+                 </option>
+           </select>
+           </mat-label>
+    
+        </div>
+        <div *ngIf="contarjetatc">
+            <mat-label>
+                Tarjeta
+                <select [disabled]="datoslistos"  name="tarjeta" id="tarjeta" value="{{mitc}}" 
+                [(ngModel)]= "mitc"  >
+               <option *ngFor="let unatarjeta of tarjetastc" value="{{unatarjeta.clave}}"
+                 [selected]="mitc == unatarjeta.clave">
+                 {{unatarjeta.clave}} {{unatarjeta.descri}}
+                </option>
+           </select>
+           </mat-label>
+
+        </div>
+        <div *ngIf="escredito">
+            <div>
+                <mat-label>
+                    Enganche
+                    <input [disabled]="datoslistos" type="text" [(ngModel)]="enganche">
+                </mat-label>
+            </div>
+            <div>
+                <mat-label>
+                    Número de Letras
+                    <select [disabled]="datoslistos" name="nulets" id="nulets" value="{{nulet}}" 
+                     [(ngModel)]= "nulet" (blur)="calcular_totales()">
+                    <option *ngFor="let miletra of factoresvtacrd" value="{{miletra.plazo}}"
+                      [selected]="nulet == miletra.plazo">
+                      {{miletra.plazo}}
+                      </option>
+                    </select>
+                </mat-label>
+            </div>
+        </div>
+        <button *ngIf = "!datoslistos" class="espaciado.button" mat-raised-button color="primary" (click)="continuar()" >
+            <mat-icon aria-hidden="false" aria-label="Example new icon">check_circle</mat-icon>
+            Aceptar
+        </button>
+        <button *ngIf = "datoslistos" color="warn" class="espaciado.button" mat-raised-button color="primary" (click)="continuar()" >
+            <mat-icon aria-hidden="false" aria-label="Example new icon">autorenew</mat-icon>
+            Reiniciar
+        </button>
+    </div>
+    <div *ngIf="datoslistos">
+        <mat-label>Productos</mat-label> 
+        <button class="espaciado.button" mat-raised-button color="primary" (click)="agregar()" >
+            <mat-icon aria-hidden="false" aria-label="Example new icon">add</mat-icon>
+            Agregar
+        </button>
+
+
+        <table mat-table [dataSource]="productos" style="width: 100%;">
+            <ng-container matColumnDef="codigo">
+                <th mat-header-cell *matHeaderCellDef> Código </th>
+                <td mat-cell *matCellDef="let element">  {{element.codigo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="descri">
+                <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                <td mat-cell *matCellDef="let element">  {{element.descri}} 
+
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="folio">
+                <th mat-header-cell *matHeaderCellDef> Folio </th>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.folio}} </td>
+            </ng-container>
+            <ng-container matColumnDef="serie">
+                <th mat-header-cell *matHeaderCellDef>Serie </th>
+                <td mat-cell *matCellDef="let element">  {{element.serie}} </td>
+            </ng-container>
+            <ng-container matColumnDef="canti">
+                <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.canti}} </td>
+            </ng-container>
+            <ng-container matColumnDef="preciou">
+                <th mat-header-cell *matHeaderCellDef> Precio. U </th>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.preciou | currency}} </td>
+            </ng-container>
+            <ng-container matColumnDef="importe">
+                <th mat-header-cell *matHeaderCellDef> Importe </th>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.importe | currency}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="options">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                    <div>
+                        <button mat-raised-button color="primary" [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
+                        <ng-template #menu>
+                            <div class="example-menu" cdkMenu>
+                                <ul>
+                                    <li>
+                                        <button mat-raised-button color="primary" 
+                                        (click)="edit(element)" type="button">
+                                            <mat-icon>edit</mat-icon>
+                                            Modificar
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button mat-raised-button color="warn" 
+                                        (click)="delete(element)" type="button">
+                                            <mat-icon>delete</mat-icon>
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-template>
+    
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <label for="">Productos {{this.productos.length}} </label>
+        <table>
+            <thead>
+                <tr>
+                    <th *ngFor="let mimcolumna of headers">
+                        {{mimcolumna}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor = "let mirow of productos">
+                    <td> {{mirow.codigo}} </td>
+                    <td> {{mirow.descri}} 
+                        <div *ngIf="mirow.esmoto">
+                            Serie Motor: {{mirow.seriemotor}}
+                            Pedimento: {{mirow.pedimento}}
+                            Aduana: {{mirow.aduana}}
+                            Marca: {{mirow.marca}}
+                        </div>
+    
+                    </td>
+                    <td> {{mirow.folio}} </td>
+                    <td> {{mirow.serie}} </td>
+                    <td> {{mirow.canti}} </td>
+                    <td> {{mirow.preciou | currency}} </td>
+                    <td> {{mirow.importe | currency}} </td>
+                    <td> Acciones </td>
+                </tr>
+            </tbody>
+        </table>
+        <div >
+            <div>
+                <mat-label>
+                    Servicio/Redondeo 
+                    <input type="text" value = "{{servicio | currency}}">
+                </mat-label>
+    
+            </div>
+            <div>
+                <mat-label>
+                    Total Productos
+                    <input type="text" value = "{{total | currency}}">
+                </mat-label>
+    
+            </div>
+            <div *ngIf="escredito">
+                <div>
+                    <mat-label>
+                        Enganche
+                        <input readonly type="text" value="{{enganche | currency}}" >
+                    </mat-label>
+                </div>
+                <div>
+                    <mat-label>
+                        Número de Letras
+                        <input readonly type="text" value="{{nulet}}" >
+                    </mat-label>
+                </div>
+                <div>
+                    <mat-label>
+                        Importe por Letra 
+                        <input readonly type="text" value="{{preciolet | currency}}" >
+                    </mat-label>
+   
+                </div>
+                <div *ngIf="simostrarprodfin">
+                    <mat-label >
+                        Productos Financieros
+                        <input type="text"  readonly name="prodfin" value="{{totprodfin | currency}} ">
+                    </mat-label>
+                </div>
+    
+            </div>
+            <div>
+                <mat-label>
+                    Total General
+                    <input type="text" readonly name="totgral" value="{{totgral  | currency}} ">
+                </mat-label>
+            </div>
+
+        </div>
+        <div>
+            <button class="espaciado.button" mat-raised-button color="primary" (click)="buscar_cliente()" >
+                <mat-icon aria-hidden="false" aria-label="Example new icon">face</mat-icon>
+                Seleccionar Cliente
+            </button>
+            <div *ngIf="cliente">
+                Código: <input type="text" readonly value="{{cliente.codigo}}"> 
+                Nombre: <input type="text" readonly value="{{cliente.nombre}}"> 
+                Direccion:  <input type="text" readonly value="Calle {{cliente.calle}}  Num {{cliente.numpredio}} C.Postal {{cliente.codpostal}}"> 
+                Col. <input type="text" readonly value="{{cliente.colonia}}"> 
+                RFC: <input type="text" readonly value="{{cliente.rfc}}">
+                <div>
+                    <button class="espaciado.button" mat-raised-button color="primary" (click)="pedir_datos_factura()" >
+                        <mat-icon aria-hidden="false" aria-label="Example new icon">assignment</mat-icon>
+                        Datos de Factura
+                    </button>
+                    <div *ngIf="factura">
+                        Factura Serie <input type="text" readonly value="{{factura.serie}}">
+                        No. <input type="text" readonly value="{{factura.numero}}">
+                        Fecha <input type="text" readonly value="{{factura.fecha}}">
+                        Metodo de Pago <input type="text" readonly value="{{factura.metodopago}}">
+                        Uso CFDI <input type="text" readonly value="{{factura.usocfdi}}">
+                        <div>
+                            <button class="espaciado.button" mat-raised-button color="primary" (click)="grabar_venta()" >
+                                <mat-icon aria-hidden="false" aria-label="Example new icon">assignment</mat-icon>
+                                Grabar Venta
+                            </button>                            
+                        </div>
+                    </div>
+        
+                </div>
+        
+            </div>
+        </div>
+    
+    </div>
+    <div *ngIf="hayerror">
+        <p class="error">{{msgerror_z}} <mat-icon class="red-icon">warning</mat-icon> </p>
+    </div>
+
+</mat-card>
+<div>
+    <table> 
+        <tr>
+            <td>
+                <img src="https://i.pinimg.com/564x/29/0d/c0/290dc0651df2c4dfa1e1119453078a55.jpg" alt="">
+            </td>
+        </tr>
+    </table>
+    
+</div>
+    
