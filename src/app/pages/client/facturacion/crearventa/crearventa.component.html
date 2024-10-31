@@ -41,6 +41,21 @@
         </div>
         <div>
             <mat-label>
+                Promotor
+                <select [disabled]="datoslistos"  name="promotor" id="promotor" 
+                     [(ngModel)]= "codigopromotor" >
+                    <option *ngFor="let mipromotor of promotores" 
+                      value="{{mipromotor.codigo}}"
+                      (blur)="grabar_datos_venta()"
+                      [selected]="codigopromotor == mipromotor.codigo">
+                      {{mipromotor.codigo}} {{mipromotor.nombre}}
+                    </option>
+                </select>
+            </mat-label>
+    
+        </div>
+        <div>
+            <mat-label>
                 Tipo Cliente
                 <select [disabled]="datoslistos"  name="ticte" id="ticte" value="{{ticte}}" 
                 [(ngModel)]= "ticte" (blur)="selecciona_tarjetas_tc()" >
@@ -123,15 +138,15 @@
             </ng-container>
             <ng-container matColumnDef="canti">
                 <th mat-header-cell *matHeaderCellDef> Cantidad </th>
-                <td mat-cell align="right" *matCellDef="let element">  {{element.canti}} </td>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.canti }} </td>
             </ng-container>
             <ng-container matColumnDef="preciou">
                 <th mat-header-cell *matHeaderCellDef> Precio. U </th>
-                <td mat-cell align="right" *matCellDef="let element">  {{element.preciou | currency}} </td>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.preciou | currency }} </td>
             </ng-container>
             <ng-container matColumnDef="importe">
                 <th mat-header-cell *matHeaderCellDef> Importe </th>
-                <td mat-cell align="right" *matCellDef="let element">  {{element.importe | currency}} </td>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.importe | currency }} </td>
             </ng-container>
 
             <ng-container matColumnDef="options">
@@ -167,48 +182,18 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <label for="">Productos {{this.productos.length}} </label>
-        <table>
-            <thead>
-                <tr>
-                    <th *ngFor="let mimcolumna of headers">
-                        {{mimcolumna}}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor = "let mirow of productos">
-                    <td> {{mirow.codigo}} </td>
-                    <td> {{mirow.descri}} 
-                        <div *ngIf="mirow.esmoto">
-                            Serie Motor: {{mirow.seriemotor}}
-                            Pedimento: {{mirow.pedimento}}
-                            Aduana: {{mirow.aduana}}
-                            Marca: {{mirow.marca}}
-                        </div>
-    
-                    </td>
-                    <td> {{mirow.folio}} </td>
-                    <td> {{mirow.serie}} </td>
-                    <td> {{mirow.canti}} </td>
-                    <td> {{mirow.preciou | currency}} </td>
-                    <td> {{mirow.importe | currency}} </td>
-                    <td> Acciones </td>
-                </tr>
-            </tbody>
-        </table>
         <div >
             <div>
                 <mat-label>
                     Servicio/Redondeo 
-                    <input type="text" value = "{{servicio | currency}}">
+                    <input type="text" value = "{{servicio | currency }}">
                 </mat-label>
     
             </div>
             <div>
                 <mat-label>
                     Total Productos
-                    <input type="text" value = "{{total | currency}}">
+                    <input type="text" value = "{{total | currency }}">
                 </mat-label>
     
             </div>
@@ -216,7 +201,7 @@
                 <div>
                     <mat-label>
                         Enganche
-                        <input readonly type="text" value="{{enganche | currency}}" >
+                        <input readonly type="text" value="{{enganche  | currency}}" >
                     </mat-label>
                 </div>
                 <div>
@@ -228,14 +213,14 @@
                 <div>
                     <mat-label>
                         Importe por Letra 
-                        <input readonly type="text" value="{{preciolet | currency}}" >
+                        <input readonly type="text" value="{{preciolet  | currency }}" >
                     </mat-label>
    
                 </div>
                 <div *ngIf="simostrarprodfin">
                     <mat-label >
                         Productos Financieros
-                        <input type="text"  readonly name="prodfin" value="{{totprodfin | currency}} ">
+                        <input type="text"  readonly name="prodfin" value="{{totprodfin  | currency }} ">
                     </mat-label>
                 </div>
     

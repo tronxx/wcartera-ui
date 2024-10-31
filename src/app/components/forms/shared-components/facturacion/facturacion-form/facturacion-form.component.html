@@ -9,7 +9,7 @@
         <mat-label>
             Serie
         </mat-label>
-        <input type="text" matInput formControlName="serie">
+        <input type="text" matInput formControlName="serie" (blur)="buscaUltimoFolioFactura()">
         <mat-error *ngIf="serie.hasError('required')">
             ¡Introduce La Serie de la Factura!
         </mat-error>

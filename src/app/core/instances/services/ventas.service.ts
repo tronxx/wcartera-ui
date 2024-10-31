@@ -5,9 +5,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom, Observable, of } from 'rxjs';
 import { VentasCompletas, Ubivtas, Clientes, Vendedores, 
         Token, Tarjetatc, Articulo, Factorvtacred,
-        Nulets,
-        Tabladesctocont, Serie,
-        Ventas} 
+        Nulets, Promotores, Tabladesctocont, Serie,
+        Ventas, Movclis} 
         from '@models/index';
 
 @Injectable({
@@ -61,6 +60,35 @@ export class VentasService {
     return( this.http.get<VentasCompletas[]> (miurl,  {'headers':headers}) );
 
   }
+
+  buscarVentaPorId(id:number): Observable<VentasCompletas>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/ventas/${this.cia}/${id} `;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarVentaPorId", miurl);
+    return( this.http.get<VentasCompletas> (miurl,  {'headers':headers}) );
+
+  }
+
+  buscarMovimientosVentas(id:number): Observable<Movclis[]>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/movclis/${this.cia}/-1/${id} `;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarMovimientosVentas", miurl);
+    return( this.http.get<Movclis[]> (miurl,  {'headers':headers}) );
+
+  }
+
 
   buscarUbicaciones(): Observable<Ubivtas[]>{
     this.url = this.configService.config.url;
@@ -129,6 +157,48 @@ export class VentasService {
     };    
     if(this.debug) console.log("Estoy en buscar vendedores", "url:",miurl);
     return( this.http.get<Vendedores[]> (miurl,  {'headers':headers}) );
+
+  }
+
+  buscarVendedorPorId(id:number): Observable<Vendedores>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/vendedores/${this.cia}/${id} `;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscar vendedorPorId", "url:",miurl);
+    return( this.http.get<Vendedores> (miurl,  {'headers':headers}) );
+
+  }
+
+  buscarPromotores(): Observable<Promotores[]>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/promotores/${this.cia}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscar buscarPromotores", "url:",miurl);
+    return( this.http.get<Promotores[]> (miurl,  {'headers':headers}) );
+
+  }
+
+  buscarPromotorPorId(id: number): Observable<Promotores>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/promotores/${this.cia}/${id} `;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarPromotorPorId", "url:",miurl);
+    return( this.http.get<Promotores> (miurl,  {'headers':headers}) );
 
   }
 

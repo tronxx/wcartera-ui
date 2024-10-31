@@ -20,19 +20,26 @@ import { FormsModule as localforms } from '@forms/forms.module';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { ClientesComponent } from './clientes.component';
 import { ClientesEditComponent } from './clientes-edit/clientes-edit.component';
+import { DatosolicitudComponent } from './datosolicitud/datosolicitud.component';
 
 const routes : Routes = [
   {
     path: '',
     component: ClientesComponent
+  },
+  {
+    path: 'solicitud/:idcliente',
+    component: DatosolicitudComponent
   }
+
 ]
 
 
 @NgModule({
   declarations: [
     ClientesComponent,
-    ClientesEditComponent
+    ClientesEditComponent,
+    DatosolicitudComponent
   ],
   imports: [
     CommonModule,

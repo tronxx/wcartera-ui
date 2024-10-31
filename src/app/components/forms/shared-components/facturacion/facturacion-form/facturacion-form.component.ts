@@ -4,6 +4,7 @@ import { Form } from '@classes/forms/form';
 import { Message } from '@models/message';
 import { Router } from '@angular/router';
 import { FacturasDto } from '@dtos/facturas.dto';
+import { FacturacionService } from '@services/facturacion.service';
 import { ComplementosService } from '@services/complementos.service';
 import { Usocfdi, Metodopago } from '@models/index'
 import { MatSelectChange } from '@angular/material/select';
@@ -21,19 +22,30 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
   @Output() public submitData: EventEmitter<FacturasDto>;
   @Input() public message: Message;
   @Input() public factura: FacturasDto;
+  @Input() public inicial: string;
 
   usoscfdi: Usocfdi[] = [];
   metodospago: Metodopago[] = [];
+  modo = "";
+  serieini = "";
+  
 
   constructor(
     public builder : UntypedFormBuilder,
     public router: Router,
     private complementosService: ComplementosService,
+    private facturasservice: FacturacionService,
     private datePipe : DatePipe,
 
   ) {
     super();
     this.submitData = new EventEmitter<FacturasDto>();
+    if(this.inicial) {
+      const datosiniciales = JSON.parse(this.inicial);
+      this.modo = datosiniciales.modo;
+      this.serieini = datosiniciales.serie;
+    }
+    console.log("iniciales:", this.inicial);
     this.carga_catalogos();
     this.form = this.builder.group({
       serie : ["", [Validators.required]],
@@ -69,6 +81,11 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
       this.set_idusocfdi();
       this.set_metodopago();
       this.form.get("fecha").setValue(fecha);
+    }
+    if(this.modo == "NUEVAFACTURA") {
+      this.serie.setValue(this.serieini);
+      const ultimofolio = this.buscaUltimoFolioFactura();
+      this.numero.setValue(ultimofolio);
     }
   }
 
@@ -153,7 +170,21 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
     return this.form.get("metodopago");
   }
 
-  
+  buscaUltimoFolioFactura(){
+    const serie = this.serie.value;
+    let folio = 1;
+    this.facturasservice.buscarUltimoFolio(serie).subscribe(
+      respu => {
+        folio = respu.ultimo || 0;
+        folio++;
+        this.factura.numero = folio;
+        this.form.get("numero").setValue(this.factura.numero);
+      }
+    );
+    return (folio);
+
+  }
+
   aceptar() {
     //console.log("Hiciste click en aceptar");
     this.submitData.emit(this.form.value);

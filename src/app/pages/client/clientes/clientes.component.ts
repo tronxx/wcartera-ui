@@ -20,6 +20,7 @@ import { DatePipe } from '@angular/common';
 import { PiderangofechasComponent } from '@components/piderangofechas/piderangofechas.component';
 import { ClientesEditComponent } from './clientes-edit/clientes-edit.component';
 import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.component';
+import { DatosolicitudComponent } from './datosolicitud/datosolicitud.component';
 
 @Component({
   selector: 'app-clientes',
@@ -228,6 +229,23 @@ export class ClientesComponent {
 
 
   }
+
+  datosolicitud (cliente: Clientes) {
+
+    console.log("Estoy en datosolicitud", cliente);
+    let url_z = `/app/clientes/solicitud/${cliente.id}`;
+    //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
+    
+    this.router.navigateByUrl(url_z).then( (e) => {
+      if (e) {
+        console.log("Navigation is successful!", url_z);
+      } else {
+        console.log("Navigation has failed!");
+      }
+    });    
+
+  }
+
   
   clienteAbierto(element: Clientes)  {
     return (element.status == "A");

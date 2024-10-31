@@ -72,4 +72,44 @@ export class FacturacionService {
 
   }
 
+  obtenerFacturaPorSerieyNumero(serie: string, numero: number) {
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/facturas/${this.cia}/${numero}/${serie}/BUSQUEDA_SERIE_NUMERO`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en obtenerFacturaPorSerieyNumero ", "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+
+
+  }
+
+  obtenerFacturaPorId(id: number) {
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/facturas/${this.cia}/${id}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en obtenerFacturaPorId ", "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+  }
+
+  obtenerRenfac(id: number) {
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/renfac/${id}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en obtenerRenfac ", "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+  }
 }

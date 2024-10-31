@@ -33,9 +33,9 @@ export interface Ventas {
 export interface VentasCompletas extends Ventas {
     nombre: string;
     ubica: string;
-    numerofactura: number;
+    numfac: number;
     saldo: number;
     compra: string;
-    seriefactura: string;
+    seriefac: string;
 
 }

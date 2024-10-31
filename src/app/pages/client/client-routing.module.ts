@@ -53,6 +53,14 @@ const routes : Routes = [
     loadChildren: () => import('./facturacion/facturacion.module').then(m => m.FacturacionModule),
   },
   {
+    path: 'detalleventas',
+    loadChildren: () => import('./ventas/ventas.module').then(m => m.VentasModule),
+  },
+  {
+    path: 'detalleventas/:idventa',
+    loadChildren: () => import('./ventas/ventas.module').then(m => m.VentasModule),
+  },
+  {
     path: '**',
     redirectTo: 'landing',
   }

@@ -78,8 +78,45 @@ export class ConfigService {
       resultado = tipoqom;
     
     }
+
+    if (tipo == "EdosCivil") {
+      const edoscivil = [
+        {clave:"S", descri:"Soltero"},
+        {clave:"C", descri:"Casado"}
+      ]
+      resultado = edoscivil;
+    
+    }
+
+    if (tipo == "Sexos") {
+      const sexos = [
+        {clave:"M", descri:"Masculino"},
+        {clave:"F", descri:"Femenino"}
+      ]
+      resultado = sexos;
+    
+    }
+
     return (resultado)
 
+  }
+
+  encodeUrl(url: string): string {
+    const [baseUrl, queryParams] = url.split('?');
+    if (!queryParams) {
+      return encodeURI(url); // Si no hay parámetros, solo codifica la URL completa.
+    }
+  
+    // Codifica cada uno de los parámetros de la URL.
+    const encodedParams = queryParams
+      .split('&')
+      .map(param => {
+        const [key, value] = param.split('=');
+        return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+      })
+      .join('&');
+  
+    return `${baseUrl}?${encodedParams}`;
   }
 
 }

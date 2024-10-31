@@ -16,6 +16,7 @@ export class FacturacionEditComponent implements OnInit {
   public message = "Clientes";
   public factura : FacturasDto = null;
   public modo = "NUEVAFACTURA";
+  public inicial = "";
 
   @Output() submitdata : EventEmitter<any> = new EventEmitter();
     constructor(
@@ -32,6 +33,13 @@ export class FacturacionEditComponent implements OnInit {
       this.title = misparam_z.title;
       this.factura = misparam_z.factura;
       console.log("Edit Factura Modo:", misparam_z.modo);
+      if(misparam_z.modo == "NUEVAFACTURA") {
+        const datosiniciales = {
+          modo: misparam_z.modo,
+          serie: misparam_z.factura.serie
+        }
+        this.inicial = JSON.stringify(datosiniciales);
+      }
 
     }
 

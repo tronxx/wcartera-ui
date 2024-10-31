@@ -92,6 +92,13 @@
                                             Eliminar
                                         </button>
                                     </li>
+                                    <li>
+                                        <button mat-raised-button color="warn" *ngIf="clienteAbierto(element)"
+                                        (click)="datosolicitud(element)" type="button">
+                                            <mat-icon>description</mat-icon>
+                                            Solicitud
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </ng-template>

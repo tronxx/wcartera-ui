@@ -1,1 +1,109 @@
-<p>ventas works!</p>
+<div>
+    <label for="numventa">Código</label>
+    <input type="text" [(ngModel)]="idventa">
+    <button mat-raised-button color="primary" 
+    (click)="buscar_mi_venta()" type="button">
+        <mat-icon>search</mat-icon>
+        Detalles
+    </button>
+
+</div>
+<div *ngIf="venta">
+    <div>
+        <label for="nombre">Codigo </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.codigo">
+    </div>
+    <div>
+        <label for="nombre">Nombre </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.nombre">
+    </div>
+    <div>
+        <label for="nombre">Ubicación</label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.ubica">
+    </div>
+    <div>
+        <label for="nombre">Factura </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.numfac">
+        <label for="nombre">Serie </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.seriefac">
+    </div>
+    <div>
+        <label for="nombre">Tipo de Venta </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.ticte">
+    </div>
+    <div>
+        <label for="nombre">Q/M/C </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.qom">
+    </div>
+    <div>
+        <label for="nombre">Precon</label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.precon">
+    </div>
+    <div>
+        <label for="nombre">Servicio</label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.servicio">
+    </div>
+    <div *ngIf="escredito">
+        <div>
+            <label for="nombre">letras </label>
+            <input type="text" [readOnly]="true" [(ngModel)]="venta.nulets">
+            <label for="nombre">Precio x Letra </label>
+            <input type="text" [readOnly]="true" [(ngModel)]="venta.canle">
+            <label for="nombre">Letra 1/1 </label>
+            <input type="text" [readOnly]="true" [(ngModel)]="venta.letra1">
+        </div>
+    
+    </div>
+    <div>
+        <label for="nombre">Cargos </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.cargos">
+        <label for="nombre">Abonos </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.abonos">
+        <label for="nombre">Saldo </label>
+        <input type="text" [readOnly]="true" value = "{{venta.cargos - venta.abonos}}" >
+        
+    </div>
+    <div>
+        <label for="nombre">Vendedor </label>
+        <input type="text" [readOnly]="true" *ngIf="vendedor" [(ngModel)]="vendedor.codigo">
+        <label for="nombre">Comision </label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.comision">
+        <label for="nombre">Entrega</label>
+        <input type="text" [readOnly]="true" [(ngModel)]="promotor.codigo">
+        <label for="nombre">Comision</label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.comisionpromotor">
+    </div>
+    <div style="width: 100%;">
+        <label for="">Compra:</label> 
+        <input type="text" style="width: 100%;" [readOnly]="true" [(ngModel)]="compras">
+    </div>
+    <div style="width: 100%;">        
+        <table border="1" >
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Concepto</th>
+                    <th>Bonificacion</th>
+                    <th>Recargos</th>
+                    <th>Cargos</th>
+                    <th>Abonos</th>
+                    <th>Saldo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let movto of movclis">
+                    <td>{{movto.fecha}} </td>
+                    <td>{{movto.concepto}} </td>
+                    <td>{{movto.tipopago}} </td>
+                    <td>{{movto.bonifica}} </td>
+                    <td>{{movto.recargo}} </td>
+                    <td>{{movto.cargos}} </td>
+                    <td>{{movto.abonos}} </td>
+                    <td> </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

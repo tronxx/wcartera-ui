@@ -34,6 +34,11 @@ export const environment = {
       name: 'Facturación',
       url: 'facturacion',
     },
+    {
+      icon: 'view_list',
+      name: 'Ventas',
+      url: 'detalleventas',
+    },
 
 
   ],

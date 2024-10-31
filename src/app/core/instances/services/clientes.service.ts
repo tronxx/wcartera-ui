@@ -73,8 +73,11 @@ export class ClientesService {
   busca_clientes_nombre(nombre: string) : Observable<Clientes[]> {
     this.url = this.configService.config.url;
     const micia = this.cia;
+    nombre = encodeURIComponent(nombre);
+    //nombre = nombre.replace(/%/g, '%25');
   
-    const miurl = `${this.url}/clientes/${micia}/-1/-1/${nombre}`;
+    const protourl = `${this.url}/clientes/${micia}/-1/-1/${nombre}`;
+    const miurl = protourl;
     
     const headers = { 
       'content-type': 'application/json',

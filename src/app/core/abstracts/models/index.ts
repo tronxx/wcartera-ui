@@ -23,3 +23,7 @@ export * from './tictes';
 export * from './factura';
 export * from './usocfdi';
 export * from './metodopago';
+export * from './promotores';
+export * from './movclis';
+export * from './renfac';
+export * from './solicitud';

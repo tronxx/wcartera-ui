@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, AfterContentInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, FormsModule, UntypedFormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { VentasCompletas, Ubivtas, Clientes, Vendedores, 
-  Nulets, Tabladesctocont,
+import { VentasCompletas, Ubivtas, Clientes, Vendedores,
+  Nulets, Tabladesctocont, Promotores,
   Factorvtacred, QOM, Factura,
   Tictes} from '@models/index';
 import { Tarjetatc } from '@models/index';
@@ -51,6 +51,8 @@ export class CrearventaComponent implements OnInit {
   cliente?: Clientes;
   vendedores: Vendedores[] = [];
   vendedor?: Vendedores;
+  promotores: Promotores[] = [];
+  promotor?: Promotores;
   tarjetastc : Tarjetatc[] = [];
   mitarjetatc?: Tarjetatc;
   tabladesctocont? : Tabladesctocont;
@@ -61,6 +63,7 @@ export class CrearventaComponent implements OnInit {
   nombrecliente = "";
   codigovta = "";
   codigovendedor = "";
+  codigopromotor = "";
   mitc = "";
   siono = "SI";
   ticte = "CC";
@@ -144,7 +147,7 @@ export class CrearventaComponent implements OnInit {
     size: 0
   }
 
-  
+  dataSource = this.productos;
 
 
   constructor(
@@ -175,6 +178,7 @@ export class CrearventaComponent implements OnInit {
       this.codigovendedor = ubicatemp.vendedor;
       this.codcartera = ubicatemp.codcartera;
       this.seriefac = ubicatemp.seriefac;
+      this.codigopromotor = ubicatemp.promotor;
 
     } 
     console.log("Seriefac", this.seriefac);
@@ -191,6 +195,10 @@ export class CrearventaComponent implements OnInit {
     this.ventasService.buscarVendedores().subscribe(res => {
       this.vendedores = res;
       this.vendedor = this.vendedores.filter(mi => mi.codigo === this.codigovendedor)[0];
+    });
+    this.ventasService.buscarPromotores().subscribe(res => {
+      this.promotores = res;
+      this.promotor = this.promotores.filter(mi => mi.codigo === this.codigopromotor)[0];
     });
     this.ventasService.obtentabladesctocont().subscribe(
       respu => {
@@ -215,6 +223,7 @@ export class CrearventaComponent implements OnInit {
         vendedor: this.codigovendedor,
         nombreubica:this.nombreubica,
         codcartera: micodcartera_z,
+        promotor: this.codigopromotor,
         seriefac : this.seriefac
       };
       localStorage.setItem(`ventas_${this.numcia}`, JSON.stringify( capvtas));
@@ -247,8 +256,8 @@ export class CrearventaComponent implements OnInit {
 
   calcula_precio(
     preciou : number, preciooferta : number, linea: string
-  ) {
-    let precio = preciou;
+  ): number {
+    let precio =preciou;
     if(this.ticte == 'CC') {
       if(preciooferta != 0) { 
         precio = preciooferta;      
@@ -422,8 +431,10 @@ export class CrearventaComponent implements OnInit {
             iva: res.iva,
             total: preciou,
           }
-          this.total += preciou;
+          this.total = Number( this.total)  + Number(  preciou);
           this.productos.push(this.renglonprod);
+          this.productos = [...this.productos];
+          //this.dataSource = this.productos;
           console.log("Productos", this.productos);
           
           this.calcular_totales();
@@ -588,6 +599,8 @@ export class CrearventaComponent implements OnInit {
     const prodfin = Math.round( 100 * (this.totgral - this.total)) / 100;
     const totalvta = Math.round(100 * this.totgral) / 100;
     const idvendedor = this.vendedor.id;
+    const idpromotor = this.promotor.id;
+    const comision = precon * this.busca_porcentaje_comision(this.nulet);
     const nvaventa = {
       idventa: 1,
       codigo: this.codigovta,
@@ -605,11 +618,11 @@ export class CrearventaComponent implements OnInit {
       servicio: this.servicio,
       precon: precon,
       idvendedor: idvendedor,
-      comision: 0,
+      comision: comision,
       prodfin: prodfin,
       idcarta: 0,
       idfactura: 0,
-      idpromotor: 0,
+      idpromotor: idpromotor,
       comisionpromotor: 0,
       cargos: totalvta,
       abonos: 0,

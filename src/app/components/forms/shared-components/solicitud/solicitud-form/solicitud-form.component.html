@@ -1,0 +1,237 @@
+<mat-card class="mat-elevation-z5 card" appearance="outlined">
+    <mat-card-content>
+        <form [formGroup]="form" (submit)="aceptar()">
+            <div>
+                <h2>Cliente</h2>
+                <mat-form-field style="width: 100%;">
+                    <mat-label>
+                        Ocupacion
+                    </mat-label>
+                    <input type="text" matInput formControlName="ocupacion" >
+                </mat-form-field>
+                <mat-form-field style="width: 20%;">
+                    <mat-label>
+                        Ingresos
+                    </mat-label>
+                    <input type="number" matInput formControlName="ingresos">
+                </mat-form-field>
+                <mat-form-field  style="width: 20%;">
+                    <mat-label>
+                        Sexo
+                    </mat-label>
+                    <mat-select formControlName="sexo"  >
+                        <mat-option *ngFor="let misexo of sexos"
+                         [value]="misexo.clave">
+                         {{misexo.descri}}
+                        </mat-option>
+                      </mat-select>        
+            
+                </mat-form-field>
+                <mat-form-field style="width: 20%;">
+                    <mat-label>
+                        Edad
+                    </mat-label>
+                    <input type="number" matInput formControlName="edad">
+                </mat-form-field>
+                <mat-form-field style="width: 20%;">
+                    <mat-label>
+                        Estado Civil
+                    </mat-label>
+                    <mat-select formControlName="edocivil" >
+                        <mat-option *ngFor="let miedocivil of edoscivil"
+                         [value]="miedocivil.clave">
+                          {{miedocivil.descri}}
+                        </mat-option>
+                      </mat-select>        
+            
+                </mat-form-field>
+            </div>
+            <div>
+                <h2>Datos de Trabajo del Cliente</h2>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Lugar
+                    </mat-label>
+                    <input type="text" matInput formControlName="clientelugartrabajo">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Dirección
+                    </mat-label>
+                    <input type="text" matInput formControlName="clientedirectrabajo">
+                </mat-form-field>
+                <mat-form-field style="width: 25%;">
+                    <mat-label>
+                        Teléfono
+                    </mat-label>
+                    <input type="text" matInput formControlName="clienteteltrabajo">
+                </mat-form-field>
+                <mat-form-field style="width: 25%;">
+                    <mat-label>
+                        Antigüead
+                    </mat-label>
+                    <input type="text" matInput formControlName="clienteantiguedadtrabajo">
+                </mat-form-field>
+            
+            </div>
+            <div>
+                <h2>Datos de Trabajo del Cónyuge</h2>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Nombre
+                    </mat-label>
+                    <input type="text" matInput formControlName="clienteconyugenombre">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Ocupación
+                    </mat-label>
+                    <input type="text" matInput formControlName="clienteconyugeocupacion">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Trabajo
+                    </mat-label>
+                    <input type="text" matInput formControlName="clientelugartrabajo">
+                </mat-form-field>
+                <mat-form-field style="width: 25%;">
+                    <mat-label>
+                        Teléfono
+                    </mat-label>
+                    <input type="text" matInput formControlName="clienteconyugeteltrabajo">
+                </mat-form-field>
+                <mat-form-field style="width: 25%;">
+                    <mat-label>
+                        Antigüead
+                    </mat-label>
+                    <input type="text" matInput formControlName="clienteantiguedadtrabajo">
+                </mat-form-field>
+            
+            </div>
+            <div>
+                <h2>Datos del Aval</h2>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Generales
+                    </mat-label>
+                    <input type="text" matInput formControlName="avalgenerales">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Ocupación
+                    </mat-label>
+                    <input type="text" matInput formControlName="avalocupacion">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Trabajo
+                    </mat-label>
+                    <input type="text" matInput formControlName="avaltrabajo">
+                </mat-form-field>
+                <mat-form-field style="width: 25%;">
+                    <mat-label>
+                        Antigüead
+                    </mat-label>
+                    <input type="text" matInput formControlName="avalantiguedad">
+                </mat-form-field>
+                <mat-form-field style="width: 25%;">
+                    <mat-label>
+                        Teléfono
+                    </mat-label>
+                    <input type="text" matInput formControlName="avaltelefono">
+                </mat-form-field>
+            </div>
+            <div>
+                <h2>Datos Cónyuge del Aval</h2>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Nombre
+                    </mat-label>
+                    <input type="text" matInput formControlName="avalconyugenombre">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Ocupación
+                    </mat-label>
+                    <input type="text" matInput formControlName="avalconyugeocupacion">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Trabajo
+                    </mat-label>
+                    <input type="text" matInput formControlName="avalconyugetrabajo">
+                </mat-form-field>
+                <mat-form-field style="width: 25%;">
+                    <mat-label>
+                        Antigüead
+                    </mat-label>
+                    <input type="number" matInput formControlName="avalconyugeantiguedad">
+                </mat-form-field>
+                <mat-form-field style="width: 25%;">
+                    <mat-label>
+                        Teléfono
+                    </mat-label>
+                    <input type="text" matInput formControlName="avalconyugeatelefono">
+                </mat-form-field>
+            
+            </div>
+            <div>
+                <h2>Conocido / Familiar</h2>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Familiar
+                    </mat-label>
+                    <input type="text" matInput formControlName="familiarnombre">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Dirección
+                    </mat-label>
+                    <input type="text" matInput formControlName="familiardirec">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Conocido
+                    </mat-label>
+                    <input type="text" matInput formControlName="conocidonombre">
+                </mat-form-field>
+                <mat-form-field style="width: 50%;">
+                    <mat-label>
+                        Dirección
+                    </mat-label>
+                    <input type="text" matInput formControlName="conocidodirec">
+                </mat-form-field>
+            
+            </div>
+            <div>
+                <h2>Referencias / Observaciones</h2>
+                <mat-form-field style="width: 100%;">
+                    <mat-label>
+                        Referencia 1
+                    </mat-label>
+                    <input type="text" matInput formControlName="referencia1">
+                </mat-form-field>
+                <mat-form-field style="width: 100%;">
+                    <mat-label>
+                        Referencia 2
+                    </mat-label>
+                    <input type="text" matInput formControlName="referencia2">
+                </mat-form-field>
+                <mat-form-field style="width: 100%;">
+                    <mat-label>
+                        Observaciones
+                    </mat-label>
+                    <input type="text" matInput formControlName="observaciones">
+                </mat-form-field>
+            </div>
+
+        </form>
+        
+    </mat-card-content>
+    <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+        <button mat-raised-button  color="primary"   (click)="aceptar()">Aceptar</button>
+        <button mat-raised-button  color="warn" (click)="closeno()">Cancelar</button>
+    </div>
+    
+</mat-card>
+

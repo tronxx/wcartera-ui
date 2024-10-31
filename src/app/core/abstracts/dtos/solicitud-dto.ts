@@ -1,0 +1,34 @@
+export interface SolcitudExtendida {
+    idcliente: number;
+    ocupacion : string;
+    ingresos: string;
+    sexo: string;
+    edad: string;
+    edocivil: string;
+    clientelugartrabajo: string;
+    clienteteltrabajo: string;
+    clientedirectrabajo: string;
+    clienteantiguedadtrabajo: string;
+    clienteconyugenombre: string;
+    clienteconyugeocupacion: string;
+    clienteconyugeteltrabajo: string;
+    clienteconyugeantiguedad: string;
+    avalgenerales:string;
+    avalocupacion:string;
+    avaltelefono:string;
+    avalantiguedad:string;
+    avaltrabajo:string;
+    avalconyugenombre: string;
+    avalconyugeocupacion: string;
+    avalconyugeingresos: string;
+    avalconyugetrabajo: string;
+    avalconyugeantiguedad: string;
+    avalconyugeatelefono: string;
+    familiarnombre:string;
+    familiardirec:string;
+    conocidonombre:string;
+    conocidodirec:string;
+    referencia1:string;
+    referencia2:string;
+    observaciones:string;
+}

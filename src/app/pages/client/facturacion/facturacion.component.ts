@@ -158,5 +158,20 @@ export class FacturacionComponent {
     Abierto(element: VentasCompletas)  {
       return (element.status == "A");
     }
+
+    detalles_venta(id: number) {
+      let url_z = `/app/detalleventas/${id}`;
+      //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
+      console.log('Venta', id, url_z);
+      
+      this.router.navigateByUrl(url_z).then( (e) => {
+        if (e) {
+          console.log("Navigation is successful!");
+        } else {
+          console.log("Navigation has failed!");
+        }
+      });    
+  
+    }
   
 }

@@ -21,6 +21,11 @@ export const environment = {
       name: 'Facturacion',
       url: 'facturacion',
     },
+    {
+      icon: 'view_list',
+      name: 'Ventas',
+      url: 'detalleventas',
+    },
 
   ],
   primaryColor: "#F85A3E",
