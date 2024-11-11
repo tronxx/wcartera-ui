@@ -38,8 +38,12 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     super();
     this.submitData = new EventEmitter<ClientesDto>();
     this.carga_catalogos();
+    const fecha =  this.datePipe.transform(new Date(),"yyMMdd");
+    const codigo = "27" + fecha + "99";
+    const rfc = "XAXX010101000";
+
     this.form = this.builder.group({
-      codigo : ["", [Validators.required]],
+      codigo : [codigo, [Validators.required]],
       appat: [""],
       apmat: [""],
       nompil1: [""],
@@ -52,10 +56,8 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
       telefono: [""],
       email: [""],
       regimen: [""],
-      rfc: [""],
+      rfc: [rfc],
     });
-
-    this.inicializaForm();
 
   }
 
@@ -64,7 +66,12 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
       this.upload = false;
       this.form.get("codigo").enable();
     }
-    this.inicializaForm();
+    console.log("Clientes form component Modo", this.modo);
+    if(this.modo == "EDIT" || this.modo == "DETALLES") {
+        this.inicializaForm();
+    }
+     
+      
     this.sololectura = (this.modo == "DETALLES");
     console.log("clientesForm modo", this.modo, "Sololectura", this.sololectura);
 
@@ -100,7 +107,7 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
   }
 
   set_idregimen() {
-    if(!this.cliente) {
+    if(this.cliente.idregimen == -1) {
       let idregimen = 0;
       const claveregimen = "616";
       const miregimen =  this.regimenes.filter(regimen => regimen.clave === claveregimen);
@@ -215,9 +222,9 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
   }
 
   close() {
-    //console.log("Hiciste click en aceptar");
-    this.submitData.emit();
-    
+    console.log("Hiciste click en Cancelar");
+    this.nompil1.setValue("CANCELADO");
+    this.submitData.emit(this.form.value);
   }
 
 }

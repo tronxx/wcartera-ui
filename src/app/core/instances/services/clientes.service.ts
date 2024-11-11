@@ -167,4 +167,39 @@ export class ClientesService {
 
   }
 
+  crear_solicitud(solicitud: any) : Observable<any> {
+    this.url = this.configService.config.url;
+    const micia = this.cia;
+    const idcli = solicitud.idcliente;
+  
+    const miurl = `${this.url}/solicitudes`;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+
+    console.log("Estoy en post crear solicitud", solicitud, "url:",miurl);
+    return( this.http.post<any> (miurl, solicitud, {'headers':headers}) );
+
+  }
+
+  obtener_solicitud(idcliente: number) : Observable<any> {
+    this.url = this.configService.config.url;
+    const micia = this.cia;
+    const idcli = idcliente;
+  
+    const miurl = `${this.url}/solicitudes/${micia}/${idcliente} `;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+
+    console.log("Estoy en get obtener solicitud", idcliente, "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+
+  }
+
+
 }

@@ -2,4 +2,4 @@
     Datos de la Solicitud
 
 </h1>
-<app-solicitud-form></app-solicitud-form>
+<app-solicitud-form  *ngIf="solicitudextendida && yatengodatos"  [solicitudextendida]="solicitudextendida" [inicial]="modo" (submitData)="aceptar($event)"></app-solicitud-form>

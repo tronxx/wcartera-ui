@@ -15,6 +15,7 @@ export class ClientesEditComponent implements OnInit {
   public message = "Clientes";
   public cliente : ClientesDto = null;
   public modo : string;
+  listo = false;
 
   @Output() submitdata : EventEmitter<any> = new EventEmitter();
     constructor(
@@ -29,6 +30,7 @@ export class ClientesEditComponent implements OnInit {
       this.cliente = misparam_z.cliente;
       this.modo = misparam_z.modo;
       console.log("clientes edit:", misparam_z, this.cliente);
+      this.listo = true;
     }
 
     aceptar(data : any){

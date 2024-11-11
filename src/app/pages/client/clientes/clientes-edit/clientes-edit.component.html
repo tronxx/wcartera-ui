@@ -1,6 +1,6 @@
 <div class="profile-container" *ngIf="cliente">
     <mat-card class="mat-elevation-z5">
-        <app-clientes-form [modo]="modo" [cliente]="cliente" (submitData)="aceptar($event)">
+        <app-clientes-form *ngIf="listo" [modo]="modo" [cliente]="cliente" (submitData)="aceptar($event)">
     
         </app-clientes-form>
     </mat-card>

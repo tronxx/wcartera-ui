@@ -28,6 +28,7 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
   metodospago: Metodopago[] = [];
   modo = "";
   serieini = "";
+  primeravez = true;
   
 
   constructor(
@@ -40,12 +41,6 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
   ) {
     super();
     this.submitData = new EventEmitter<FacturasDto>();
-    if(this.inicial) {
-      const datosiniciales = JSON.parse(this.inicial);
-      this.modo = datosiniciales.modo;
-      this.serieini = datosiniciales.serie;
-    }
-    console.log("iniciales:", this.inicial);
     this.carga_catalogos();
     this.form = this.builder.group({
       serie : ["", [Validators.required]],
@@ -65,22 +60,32 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
       this.upload = false;
       this.form.get("codigo").enable();
     }
+    if(this.primeravez && this.inicial) {
+      const datosiniciales = JSON.parse(this.inicial);
+      this.modo = datosiniciales.modo;
+      this.serieini = datosiniciales.serie;
+      this.serie.setValue(this.serieini);
+      const ultimofolio = this.buscaUltimoFolioFactura();
+      this.numero.setValue(ultimofolio);
+      console.log("iniciales:", this.inicial);
+    }
+
     //this.inicializaForm();
   }
 
   inicializaForm() {
     console.log("valor Inicla de Factura", this.factura);
     if(this.factura) {
-      this.form.get("serie").setValue(this.factura.serie);
-      this.form.get("numero").setValue(this.factura.numero);
-      this.form.get("fecha").setValue(this.factura.fecha);
-      this.form.get("usocfdi").setValue(this.factura.idusocfdi);
-      this.form.get("metodopago").setValue(this.factura.idmetodopago);
+      this.serie.setValue(this.factura.serie);
+      this.numero.setValue(this.factura.numero);
+      this.fecha.setValue(this.factura.fecha);
+      this.usocfdi.setValue(this.factura.idusocfdi);
+      this.metodopago.setValue(this.factura.idmetodopago);
     } else {
       const fecha =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       this.set_idusocfdi();
       this.set_metodopago();
-      this.form.get("fecha").setValue(fecha);
+      this.fecha.setValue(fecha);
     }
     if(this.modo == "NUEVAFACTURA") {
       this.serie.setValue(this.serieini);
@@ -96,8 +101,8 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
       const miusocfdi =  this.usoscfdi.filter(usocfdi => usocfdi.clave === claveusocfdi);
       if(miusocfdi.length) {
         idusocfdi = miusocfdi[0].id;
-        this.form.get("usocfdi").setValue(idusocfdi);
-        this.form.get("claveusocfdi").setValue(miusocfdi[0].clave + " " + miusocfdi[0].nombre)
+        this.usocfdi.setValue(idusocfdi);
+        this.claveusocfdi.setValue(miusocfdi[0].clave + " " + miusocfdi[0].nombre)
 
       }
 
@@ -145,7 +150,7 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
     this.metodopago.setValue(event.value);
     const mimetodopago =  this.metodospago.filter(metodopago => metodopago.id === clavemetodopago);
     if(mimetodopago.length) {
-      this.form.get("clavemetodopago").setValue(mimetodopago[0].clave + " " + mimetodopago[0].nombre)
+      this.clavemetodopago.setValue(mimetodopago[0].clave + " " + mimetodopago[0].nombre)
     }
 
   } 
@@ -170,6 +175,15 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
     return this.form.get("metodopago");
   }
 
+  get claveusocfdi(){
+    return this.form.get("claveusocfdi");
+  }
+
+  get clavemetodopago(){
+    return this.form.get("clavemetodopago");
+  }
+
+
   buscaUltimoFolioFactura(){
     const serie = this.serie.value;
     let folio = 1;
@@ -178,7 +192,7 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
         folio = respu.ultimo || 0;
         folio++;
         this.factura.numero = folio;
-        this.form.get("numero").setValue(this.factura.numero);
+        this.numero.setValue(this.factura.numero);
       }
     );
     return (folio);

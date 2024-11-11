@@ -10,6 +10,8 @@ export interface SolcitudExtendida {
     clientedirectrabajo: string;
     clienteantiguedadtrabajo: string;
     clienteconyugenombre: string;
+    clienteconyugetrabajo: string;
+    clienteconyugedirectrabajo: string;
     clienteconyugeocupacion: string;
     clienteconyugeteltrabajo: string;
     clienteconyugeantiguedad: string;
@@ -22,8 +24,9 @@ export interface SolcitudExtendida {
     avalconyugeocupacion: string;
     avalconyugeingresos: string;
     avalconyugetrabajo: string;
+    avalconyugedirectrabajo: string;
     avalconyugeantiguedad: string;
-    avalconyugeatelefono: string;
+    avalconyugetelefono: string;
     familiarnombre:string;
     familiardirec:string;
     conocidonombre:string;

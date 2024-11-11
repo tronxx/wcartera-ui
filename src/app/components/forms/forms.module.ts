@@ -22,6 +22,7 @@ import { ClientesFormComponent } from './shared-components/clientes/clientes-for
 import { MatCardModule } from '@angular/material/card';
 import { VentasFormComponent } from './shared-components/ventas/ventas-form/ventas-form.component';
 import { SolicitudFormComponent } from './shared-components/solicitud/solicitud-form/solicitud-form.component';
+import { MovimientostablaComponent } from './shared-components/ventas/movimientostabla/movimientostabla.component';
 
 const forms = [
   LoginFormComponent,
@@ -52,6 +53,7 @@ const materialImports = [
 @NgModule({
   declarations: [
     ...forms,
+    MovimientostablaComponent,
   ],
   imports: [
     CommonModule,

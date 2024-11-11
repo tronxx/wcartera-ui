@@ -77,8 +77,31 @@ export class ClientesComponent {
     }
   
   agregar_cliente() {
+    this.cliente = {
+      id: -1,
+      codigo: "",
+      idciudad: -1,
+      codpostal: "",
+      idnombre: -1,
+      nombre: "",
+      calle: "",
+      numpredio: "",
+      colonia: "",
+      telefono: "",
+      email: "",
+      idregimen: -1,
+      rfc: "",
+      status: "",
+      cia: 1,
+      created_at: "",
+      updated_at: ""
+  
+    }
     const params_z = {
-      titulo: "Teclee los datos del Cliente"
+      titulo: "Teclee los datos del Cliente",
+      cliente : this.cliente,
+      modo: "NUEVO"
+
     }
     const dialogref = this.dialog.open(ClientesEditComponent, {
       width:'600px',
@@ -86,7 +109,6 @@ export class ClientesComponent {
     });
     dialogref.afterClosed().subscribe(res => {
       if(res) {
-
         const nvocliente = {
           id: 0,
           idnombre: 0,
@@ -176,6 +198,8 @@ export class ClientesComponent {
       data: JSON.stringify( params_z)
     });
     dialogref.afterClosed().subscribe(res => {
+      console.log("Regreso del Edit", res);
+      if(res.nompil1 == "CANCELADO") res = null;
       if(res) {
 
         const nvocliente = {
