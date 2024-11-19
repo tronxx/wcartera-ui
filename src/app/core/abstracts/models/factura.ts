@@ -1,3 +1,4 @@
+import { Renfac } from './renfac';
 export interface Factura  {
     id: number;
     serie: string;
@@ -12,6 +13,16 @@ export interface Factura  {
     total: number;
     status: string;
     cia: number;
-    usocfdi: string;
-    metodopago: string;
+    codigousocfdi: string;
+    conceptousocfdi: string;
+    codigometodopago: string;
+    conceptometodopago: string;
+}
+
+export interface FacturaCompleta extends Factura {
+    uuid: string;
+    regimen: string;
+    email: string;
+    rfc: string;
+    renglones: Renfac[]
 }

@@ -16,6 +16,8 @@ import { MatInput } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatTab, MatTabsModule } from '@angular/material/tabs';
+
 import { FormsModule as localforms } from '@forms/forms.module';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { DatePipe } from '@angular/common';
@@ -56,6 +58,7 @@ const routes : Routes = [
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatTabsModule,
     localforms,
     CdkMenu,
     CdkMenuTrigger,

@@ -78,31 +78,16 @@
         <input type="text" style="width: 100%;" [readOnly]="true" [(ngModel)]="compras">
     </div>
     <div style="width: 100%;">        
-        <table border="1" >
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>Concepto</th>
-                    <th>Bonificacion</th>
-                    <th>Recargos</th>
-                    <th>Cargos</th>
-                    <th>Abonos</th>
-                    <th>Saldo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let movto of movclis">
-                    <td>{{movto.fecha}} </td>
-                    <td>{{movto.concepto}} </td>
-                    <td>{{movto.tipopago}} </td>
-                    <td>{{movto.bonifica}} </td>
-                    <td>{{movto.recargo}} </td>
-                    <td>{{movto.cargos}} </td>
-                    <td>{{movto.abonos}} </td>
-                    <td> </td>
-                </tr>
-            </tbody>
-        </table>
+        <mat-tab-group mat-align-tabs="start">
+            <div class="movtos">
+                <mat-tab label="Movimientos">
+                    <app-movimientostabla *ngIf="yatengomovclis" [movimientos]="movclis"></app-movimientostabla>
+                </mat-tab>
+                <mat-tab label="Factura">
+                    <app-factura *ngIf="yatengofactura" [factura]="facturacompleta"></app-factura>
+                </mat-tab>
+                </div>
+        </mat-tab-group>
 
     </div>
 

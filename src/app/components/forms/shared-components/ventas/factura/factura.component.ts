@@ -18,22 +18,22 @@ import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { lastValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { Movclis, Movcliscsaldo } from '@models/movclis';
+import { FacturaCompleta, Renfac } from '@models/index';
 
 @Component({
-  selector: 'app-movimientostabla',
-  templateUrl: './movimientostabla.component.html',
-  styleUrls: ['./movimientostabla.component.scss']
+  selector: 'app-factura',
+  templateUrl: './factura.component.html',
+  styleUrls: ['./factura.component.scss']
 })
-export class MovimientostablaComponent {
+export class FacturaComponent {
 
-  @Input() public  movimientos: Movcliscsaldo[];
-  //datasource = this.movimientos;
-  displayedColumns: string[] = ['fecha', 'concepto', 'tipopago', 'recargo', 'bonifica', 'abonos', 'saldo', 'options'];
+  @Input() public factura: FacturaCompleta;
+  displayedColumns: string[] = ['codigo', 'descri', 'canti', 'preciou', 'importe', 'folio', 'serie', 'options'];
   
   public headers : Array<string> = ["Fecha", "Concepto", "tipo", "Recargos", "Bonificaciones", "Abonos", "Saldo", "Opciones"];
   public arrayContent : Array<string> = ['fecha', 'concepto', 'tipopago', 'recargo', 'bonifica', 'abonos', 'saldo', 'options'];
   public body : Array<any> = [];
-  public tableName = "Movimientos";
+  public tableName = "Renglones";
   public page : PageIndex;
   public idventa: number;
   
@@ -67,8 +67,8 @@ export class MovimientostablaComponent {
       this.iduser = micompania_z.usuario.iduser;
     }
 
-    edit(movto: Movclis) {}
-    delete(movto: Movclis) {}
+    edit(renglon: Renfac) {}
+    delete(renglon: Renfac) {}
 
 
 }

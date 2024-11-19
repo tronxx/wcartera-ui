@@ -1,1 +1,68 @@
-<p>movimientostabla works!</p>
+<div>
+    <table mat-table [dataSource]="movimientos" style="width: 100%;">
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef> Fecha </th>
+            <td mat-cell *matCellDef="let element">  {{element.fecha | date : "YYYY-MM-dd"}} </td>
+        </ng-container>
+        <ng-container matColumnDef="concepto">
+            <th mat-header-cell *matHeaderCellDef> Concepto </th>
+            <td mat-cell *matCellDef="let element">  {{element.concepto}} 
+    
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="tipopago">
+            <th mat-header-cell *matHeaderCellDef>Tipo </th>
+            <td mat-cell *matCellDef="let element">  {{element.tipopago}} </td>
+        </ng-container>
+        <ng-container matColumnDef="recargo">
+            <th mat-header-cell *matHeaderCellDef> Recargos </th>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.recargo }} </td>
+        </ng-container>
+        <ng-container matColumnDef="bonifica">
+            <th mat-header-cell *matHeaderCellDef> Bonificación </th>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.bonifica | currency }} </td>
+        </ng-container>
+        <ng-container matColumnDef="abonos">
+            <th mat-header-cell *matHeaderCellDef> Abonos </th>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.importe | currency }} </td>
+        </ng-container>
+        <ng-container matColumnDef="saldo">
+            <th mat-header-cell *matHeaderCellDef> Saldo </th>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.saldo | currency }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let element">
+                <div>
+                    <button mat-raised-button color="primary" [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
+                    <ng-template #menu>
+                        <div class="example-menu" cdkMenu>
+                            <ul>
+                                <li>
+                                    <button mat-raised-button color="primary" 
+                                    (click)="edit(element)" type="button">
+                                        <mat-icon>edit</mat-icon>
+                                        Modificar
+                                    </button>
+                                </li>
+                                <li>
+                                    <button mat-raised-button color="warn" 
+                                    (click)="delete(element)" type="button">
+                                        <mat-icon>delete</mat-icon>
+                                        Eliminar
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-template>
+    
+                </div>
+            </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+</div>

@@ -11,6 +11,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +24,9 @@ import { MatCardModule } from '@angular/material/card';
 import { VentasFormComponent } from './shared-components/ventas/ventas-form/ventas-form.component';
 import { SolicitudFormComponent } from './shared-components/solicitud/solicitud-form/solicitud-form.component';
 import { MovimientostablaComponent } from './shared-components/ventas/movimientostabla/movimientostabla.component';
+import { MatIconModule } from '@angular/material/icon';
+import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
+import { FacturaComponent } from './shared-components/ventas/factura/factura.component';
 
 const forms = [
   LoginFormComponent,
@@ -33,7 +37,10 @@ const forms = [
   FacturacionFormComponent,
   ClientesFormComponent,
   VentasFormComponent,
+  MovimientostablaComponent,
   SolicitudFormComponent,
+  MovimientostablaComponent,
+  FacturaComponent,
 
 ]
 
@@ -46,14 +53,17 @@ const materialImports = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatCardModule,
-  MatProgressSpinnerModule
+  MatTableModule,
+  MatIconModule,
+  CdkMenu,
+  CdkMenuTrigger,
+MatProgressSpinnerModule
 
 ]
 
 @NgModule({
   declarations: [
     ...forms,
-    MovimientostablaComponent,
   ],
   imports: [
     CommonModule,

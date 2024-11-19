@@ -1,0 +1,110 @@
+<div>
+    <div>
+        <div>
+            <label class="ancho80" for="seriefac">Serie</label> 
+            <input type="text" size="5" readonly name="serifac" id="seriefac" value=" {{factura.serie}}"> 
+            <label for="numfac">Numero</label> 
+            <input type="text" readonly size="8" name="numfac" id="numfac" value = "{{factura.numero}}" > 
+            <label for="fechafac">Fecha</label> 
+            <input type="text" readonly size="10" name="fechafac" id="fechafac" value ="{{factura.fecha | date : 'YYYY-MM-dd'}}"> 
+        </div>
+        <div>
+            <label class="ancho80" for="prodfin">Prod.F</label>
+            <input type="text" readonly size="10" name="prodfin" id="prodfin" value =" {{factura.importe | currency }}" >
+            <label for="impfac"> Importe</label> 
+            <input type="text" readonly size="10" name="impfac" id="impfac" value ="{{factura.importe | currency}}" >
+            <label for="ivafac">Iva</label>
+            <input type="text" readonly size="10" name="ivafac" id="ivafac" value = "{{factura.iva | currency}}" >
+            <label for="totalfac">Total</label> 
+            <input type="text" readonly size="10" name="totalfac" id="totalfac" value ="{{factura.total | currency}}">
+        </div>
+        <div>
+            <label class="ancho80" for="uuidfac">UUID</label> 
+            <input type="text" size="40" readonly  name="uuidfac" id="uuidfac" value ="{{factura.uuid}}">
+        </div>
+        <div>
+            <label class="ancho80" for="metpag">Met.Pago</label> 
+            <input type="text" readonly size="20" name="matpag" id="metpag" value ="{{factura.codigometodopago}} {{factura.conceptometodopago}}">
+            <label for="usocfdi">Uso CFDI</label>
+            <input type="text" readonly size="20" name="usocfdi" id="usocfdi" value ="{{factura.codigousocfdi}} {{factura.conceptousocfdi}}">
+        </div>
+        <div>
+            <label class="ancho80" for="rfcfac">RFC</label>
+            <input type="text" readonly size="15"  name="rfcfac" id="rfcfac" value ="{{factura.rfc}}">
+            <label for="emailfac">Correo</label>
+            <input type="text" readonly size="50" name="emailfac" id="emailfac" value ="{{factura.email}}">
+        </div>
+        <div>
+            <label class="ancho80" for="regimen">Regimen</label>
+            <input type="text" readonly size="50" name="regimen" id="regimen" value = {{factura.regimen}} >
+        </div>
+    </div>
+</div>
+<div>
+    <table mat-table [dataSource]="factura.renglones" style="width: 100%;">
+        <ng-container matColumnDef="codigo">
+            <th mat-header-cell *matHeaderCellDef> Codigo </th>
+            <td mat-cell *matCellDef="let element">  {{element.codigo}} </td>
+        </ng-container>
+        <ng-container matColumnDef="descri">
+            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+            <td mat-cell *matCellDef="let element">  {{element.descri}} 
+    
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="canti">
+            <th mat-header-cell *matHeaderCellDef>Cantidad </th>
+            <td mat-cell *matCellDef="let element">  {{element.canti}} </td>
+        </ng-container>
+        <ng-container matColumnDef="preciou">
+            <th mat-header-cell *matHeaderCellDef> Precio.U </th>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.preciou }} </td>
+        </ng-container>
+        <ng-container matColumnDef="importe">
+            <th mat-header-cell *matHeaderCellDef> Importe </th>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.importe | currency }} </td>
+        </ng-container>
+        <ng-container matColumnDef="folio">
+            <th mat-header-cell *matHeaderCellDef> Folio </th>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.folio }} </td>
+        </ng-container>
+        <ng-container matColumnDef="serie">
+            <th mat-header-cell *matHeaderCellDef> Serie </th>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.serie}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let element">
+                <div>
+                    <button mat-raised-button color="primary" [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
+                    <ng-template #menu>
+                        <div class="example-menu" cdkMenu>
+                            <ul>
+                                <li>
+                                    <button mat-raised-button color="primary" 
+                                    (click)="edit(element)" type="button">
+                                        <mat-icon>edit</mat-icon>
+                                        Modificar
+                                    </button>
+                                </li>
+                                <li>
+                                    <button mat-raised-button color="warn" 
+                                    (click)="delete(element)" type="button">
+                                        <mat-icon>delete</mat-icon>
+                                        Eliminar
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-template>
+    
+                </div>
+            </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+</div>

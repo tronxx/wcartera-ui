@@ -217,7 +217,6 @@ export class VentasService {
   }
 
 
-
   delete(venta: VentasCompletas): Observable<VentasCompletas>{
     this.url = this.configService.config.url;
     const miurl = `${this.url}/ventas/${venta.id}`;

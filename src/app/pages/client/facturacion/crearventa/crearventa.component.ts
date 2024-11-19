@@ -534,8 +534,10 @@ export class CrearventaComponent implements OnInit {
             total: 0,
             status: "A",
             cia: -1,
-            usocfdi: res.claveusocfdi,
-            metodopago: res.clavemetodopago,
+            codigousocfdi: res.claveusocfdi,
+            codigometodopago: res.clavemetodopago,
+            conceptometodopago: "",
+            conceptousocfdi: "",
             serie : res.serie,
             numero : res.numero,
             idusocfdi: res.usocfdi,
@@ -571,8 +573,10 @@ export class CrearventaComponent implements OnInit {
       total: 0,
       status: "A",
       cia: -1,
-      usocfdi: "",
-      metodopago: ""
+      codigousocfdi: "",
+      conceptousocfdi:"",
+      codigometodopago: "",
+      conceptometodopago: ""
   
     }
     console.log("Nueva Factura", this.factura);

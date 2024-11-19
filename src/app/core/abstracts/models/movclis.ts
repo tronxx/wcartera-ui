@@ -21,3 +21,7 @@ export interface Movclis {
     bonifica: number;
     recargo: number;
 }
+
+export interface Movcliscsaldo extends Movclis {
+    saldo: number;
+}

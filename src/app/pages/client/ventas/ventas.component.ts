@@ -7,8 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCard } from '@angular/material/card';
 import { VentasCompletas, Nombres, Clientes, Ciudades, Vendedores,
-        Promotores, Factura, Renfac,
-        Movclis } 
+        Promotores, Factura, Renfac, FacturaCompleta,
+        Movclis, Movcliscsaldo, Metodopago, Usocfdi, Regimenes } 
        from '@models/index';
 import { ComplementosService } from '@services/complementos.service';
 
@@ -24,7 +24,8 @@ import { lastValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { PiderangofechasComponent } from '@components/piderangofechas/piderangofechas.component';
 import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.component';
-
+import { MovimientostablaComponent } from '@forms/shared-components/ventas/movimientostabla/movimientostabla.component';
+import { FacturaComponent } from '@forms/shared-components/ventas/factura/factura.component';
 
 @Component({
   selector: 'app-ventas',
@@ -35,16 +36,24 @@ export class VentasComponent {
   clientes: Clientes[] = [];
   cliente?: Clientes;
   ciudades: Ciudades[] = [];
-  movclis: Movclis[] = [];
+  movclisssaldo: Movclis[] = [];
+  movclis: Movcliscsaldo[] = [];
   ventascompletas : VentasCompletas[] = [];
   venta?:VentasCompletas;
   vendedor?: Vendedores;
   promotor?: Promotores;
   renglonesfac: Renfac[] = [];
+  metodpago?: Metodopago;
+  usocfdi?: Usocfdi;
   factura?: Factura;
+  regimen?: Regimenes;
+  facturacompleta?: FacturaCompleta;
   codigo = "";
   escredito = false;
   compras = "";
+
+  yatengomovclis = false;
+  yatengofactura = false;
   
   fechainicial = "";
   fechafinal = "";
@@ -83,6 +92,7 @@ export class VentasComponent {
         res => {
           this.venta = res;
           this.escredito =  (this.venta.qom != 'C');
+          this.buscarcliente(this.venta.idcliente);
           this.buscarvendedor(this.venta.idvendedor);
           this.buscarpromotor(this.venta.idpromotor);
           this.buscarmovclis(this.venta.id);
@@ -102,7 +112,30 @@ export class VentasComponent {
 
     }
 
-    buscarpromotor(id:number) {
+    buscarcliente(id:number) {
+      this.clientesService.obten_cliente(id).subscribe( res => {
+         this.cliente = res;
+         this.obten_regimen (this.cliente.idregimen);
+      })
+
+   }
+
+   obten_uso_cfdi(id: number) {
+    this.complementosService.obten_usocfdi_x_id(id).subscribe(res => {
+      this.usocfdi = res;
+    });
+
+   }
+
+   obten_regimen(id: number) {
+    this.complementosService.obten_regimen_x_id(id).subscribe(res => {
+      this.regimen = res;
+    });
+
+   }
+
+
+   buscarpromotor(id:number) {
       this.ventasService.buscarPromotorPorId(id).subscribe( res => {
          this.promotor = res;
       })
@@ -111,7 +144,18 @@ export class VentasComponent {
 
    buscarmovclis(id: number) {
       this.ventasService.buscarMovimientosVentas(id).subscribe( res => {
-        this.movclis = res;
+        this.movclisssaldo = res;
+        this.movclis = [];
+        this.yatengomovclis = false;
+
+        let saldo = this.venta.cargos;
+        for(let mov of this.movclisssaldo) {
+          saldo -= mov.abonos;
+           const movcli = { ...mov, saldo: saldo}
+           this.movclis.push(movcli);
+        }
+        console.log("movclis", this.movclis);
+        this.yatengomovclis = true;
       });
 
     }    
@@ -120,20 +164,49 @@ export class VentasComponent {
       this.facturasSerice.obtenerFacturaPorId(id).subscribe( res => {
         this.factura = res;
         this.buscarRenfac(this.factura.id);
+        //this.buscarUsoCfdi(this.factura.idusocfdi);
       });
 
-    }    
+    }
+
+    buscarUsoCfdi(id: number) {
+      this.complementosService.obten_usocfdi_x_id(id).subscribe( res => {
+        this.usocfdi = res;
+      });
+
+    }
     
     buscarRenfac(id: number) {
+      this.yatengofactura = false;
+      let rfc = "";
+      let email = "";
+      let regimen = "";
+      let usocfdi = "";
       this.facturasSerice.obtenerRenfac(id).subscribe( res => {
         this.renglonesfac = res;
         this.compras = "";
+        if(this.cliente) {
+          rfc = this.cliente.rfc;
+          email = this.cliente.email;
+
+        }
+        if(this.regimen) regimen = this.regimen.clave + " " + this.regimen.nombre;
         for(let mirenfac of this.renglonesfac) {
           this.compras += mirenfac.descri;
           if(mirenfac.folio) this.compras += " # " + mirenfac.folio.toString();
           if(mirenfac.serie) this.compras += " S/" + mirenfac.serie;
           this.compras += " ";
         }
+        this.facturacompleta = {
+          ...this.factura, 
+          rfc:rfc,
+          uuid: "",
+          regimen: regimen,
+          email: email,
+          renglones: this.renglonesfac
+        }
+        this.yatengofactura = true;
+  
       });
 
     }    

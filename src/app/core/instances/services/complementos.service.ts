@@ -73,6 +73,22 @@ export class ComplementosService {
 
   }
 
+  obten_regimen_x_id(id: number) : Observable<Regimenes> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/regimenes/${this.cia}/${id} `;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("regimenes service url", miurl);
+    
+    return( this.http.get<Regimenes> (miurl, {'headers':headers}) );
+
+  }
+
+
   obten_lista_usocfdi() : Observable<Usocfdi[]> {
     this.url = this.configService.config.url;
   
@@ -88,6 +104,22 @@ export class ComplementosService {
 
   }
 
+  obten_usocfdi_x_id(id: number) : Observable<Usocfdi> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/usocfdi/${this.cia}/${id} `;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("usocfdi url", miurl);
+    
+    return( this.http.get<Usocfdi> (miurl, {'headers':headers}) );
+
+  }
+
+
   obten_lista_metodopago() : Observable<Metodopago[]> {
     this.url = this.configService.config.url;
   
@@ -100,6 +132,21 @@ export class ComplementosService {
     if(this.debug) console.log("metodopago url", miurl);
     
     return( this.http.get<Metodopago[]> (miurl, {'headers':headers}) );
+
+  }
+
+  obten_metodopago_x_id(id:number) : Observable<Metodopago> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/metodopago/${this.cia}/${id} `;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("metodopago url", miurl);
+    
+    return( this.http.get<Metodopago> (miurl, {'headers':headers}) );
 
   }
 
