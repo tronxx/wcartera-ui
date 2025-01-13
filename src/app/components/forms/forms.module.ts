@@ -27,6 +27,8 @@ import { MovimientostablaComponent } from './shared-components/ventas/movimiento
 import { MatIconModule } from '@angular/material/icon';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { FacturaComponent } from './shared-components/ventas/factura/factura.component';
+import { PolizacajaFormComponent } from './shared-components/polizacaja/polizacaja-form/polizacaja-form.component';
+import { VencimientosComponent } from './shared-components/vencimientos/vencimientos/vencimientos.component';
 
 const forms = [
   LoginFormComponent,
@@ -41,6 +43,8 @@ const forms = [
   SolicitudFormComponent,
   MovimientostablaComponent,
   FacturaComponent,
+  PolizacajaFormComponent,
+  VencimientosComponent,
 
 ]
 

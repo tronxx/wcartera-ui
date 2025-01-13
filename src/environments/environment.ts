@@ -39,6 +39,11 @@ export const environment = {
       name: 'Ventas',
       url: 'detalleventas',
     },
+    {
+      icon: 'payment',
+      name: 'Polizas',
+      url: 'polizas',
+    },
 
 
   ],

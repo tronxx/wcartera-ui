@@ -48,8 +48,6 @@ export class MovimientostablaComponent {
   numcia = -1;
   iduser = -1;
   
-
-
   constructor(
     private clientesService : ClientesService,
     private complementosService: ComplementosService,

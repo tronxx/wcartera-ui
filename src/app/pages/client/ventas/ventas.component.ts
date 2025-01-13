@@ -91,11 +91,12 @@ export class VentasComponent {
       this.ventasService.buscarVentaPorId(this.idventa).subscribe(
         res => {
           this.venta = res;
+          console.log("Venta ", this.venta);
           this.escredito =  (this.venta.qom != 'C');
           this.buscarcliente(this.venta.idcliente);
           this.buscarvendedor(this.venta.idvendedor);
           this.buscarpromotor(this.venta.idpromotor);
-          this.buscarmovclis(this.venta.id);
+          this.buscarmovclis(this.venta.idventa);
           this.buscarfactura(this.venta.idfactura);
 
         }

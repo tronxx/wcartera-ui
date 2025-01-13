@@ -1,0 +1,24 @@
+
+Vencimientos:
+<div class="boxscroll">
+    <table border="1">
+        <tr bgColor="lightgray">
+            <th>Letra</th>
+            <th>Vence</th>
+            <th>Pagado</th>
+        </tr>
+        
+        <tr *ngFor="let mivencimiento of vencimientos"
+        [class.letravencida] = "mivencimiento.vencido"
+        [class.letrapagada] = "mivencimiento.pagado"
+        >
+            <td>{{mivencimiento.letra}}/{{nulets}}</td>
+            <td>{{mivencimiento.vence}}</td>
+            <td >
+                <mat-icon *ngIf="mivencimiento.pagado">done</mat-icon>
+                <mat-icon *ngIf="mivencimiento.vencido" color="warn">close</mat-icon>
+            </td>
+        </tr>
+    </table>
+</div>
+

@@ -61,6 +61,10 @@ const routes : Routes = [
     loadChildren: () => import('./ventas/ventas.module').then(m => m.VentasModule),
   },
   {
+    path: 'polizas',
+    loadChildren: () => import('./polizacaja/polizacaja.module').then(m => m.PolizacajaModule),
+  },
+  {
     path: '**',
     redirectTo: 'landing',
   }

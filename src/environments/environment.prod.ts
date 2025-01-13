@@ -26,6 +26,11 @@ export const environment = {
       name: 'Ventas',
       url: 'detalleventas',
     },
+    {
+      icon: 'payment',
+      name: 'Polizas',
+      url: 'polizas',
+    },
 
   ],
   primaryColor: "#F85A3E",

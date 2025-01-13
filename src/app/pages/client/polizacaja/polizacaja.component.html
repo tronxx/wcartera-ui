@@ -1,0 +1,94 @@
+<div>
+    <div>
+        <label >Fecha Inicial</label>
+        <input type="date" [(ngModel)]="fechainicial">
+        <label >Fecha Inicial</label>
+        <input type="date" [(ngModel)]="fechafinal">
+    </div>
+    <div>
+        <mat-label>
+            Tienda
+            <select  name="codtda" id="codtda" value="{{codtda}}" 
+            [(ngModel)]= "codtda" >
+           <option *ngFor="let micodigocaja of codigoscaja" value="{{micodigocaja.tda}}"
+             [selected]="codtda == micodigocaja.tda">
+             {{micodigocaja.tda}} {{micodigocaja.nombre}}
+             </option>
+       </select>
+       </mat-label>
+
+    </div>
+    <div>
+        <button mat-raised-button color="primary" 
+        (click)="buscar_polizas()" type="button">
+            <mat-icon>ok</mat-icon>
+            Aceptar
+        </button>
+        <button mat-raised-button color="primary" 
+        (click)="crear_poliza_caja()" type="button">
+            <mat-icon>attach_money</mat-icon>
+            Crear Póliza
+        </button>
+    
+    </div>
+    <div>
+        <table mat-table [dataSource]="polizas" style="width: 100%;">
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                <td mat-cell *matCellDef="let element">  {{element.fecha | date : "YYYY-MM-dd" }} </td>
+            </ng-container>
+            <ng-container matColumnDef="importe">
+                <th mat-header-cell *matHeaderCellDef> Importe </th>
+                <td mat-cell *matCellDef="let element">  {{element.importe}} 
+
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="bonif">
+                <th mat-header-cell *matHeaderCellDef> Bonificaciones </th>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.bonif | currency }} </td>
+            </ng-container>
+            <ng-container matColumnDef="recar">
+                <th mat-header-cell *matHeaderCellDef>Recargos </th>
+                <td mat-cell *matCellDef="let element">  {{element.recar | currency }} </td>
+            </ng-container>
+            <ng-container matColumnDef="efectivo">
+                <th mat-header-cell *matHeaderCellDef> Efectivo </th>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.importe | currency  }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="options">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                    <div>
+                        <button mat-raised-button color="primary" [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
+                        <ng-template #menu>
+                            <div class="example-menu" cdkMenu>
+                                <ul>
+                                    <li>
+                                        <button mat-raised-button color="primary" 
+                                        (click)="poliza_caja(element)" type="button">
+                                            <mat-icon>edit</mat-icon>
+                                            Detalles
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button mat-raised-button color="warn" 
+                                        (click)="delete(element)" type="button">
+                                            <mat-icon>delete</mat-icon>
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-template>
+    
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        
+    </div>
+</div>

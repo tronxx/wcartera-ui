@@ -1,0 +1,152 @@
+<mat-card class="mat-elevation-z5" style="padding: 1rem;">
+
+    <div mat-dialog-content>
+        <div *ngIf="venta">
+            <div class="grid-container">
+                <mat-label>
+                    Código
+                    <input type="text" value = "{{venta.codigo}}">
+                </mat-label>
+                <mat-label>
+                    Nombre
+                    <input type="text" value = "{{venta.nombre}}">
+                </mat-label>
+                <mat-label>
+                    Enganche
+                    <input type="text" value = "{{venta.enganc}}">
+                </mat-label>
+                <mat-label>
+                    Servicio
+                    <input type="text" value = "{{venta.servicio}}">
+                </mat-label>
+    
+                <mat-label>
+                    Letras
+                    <input type="text" value = "{{venta.nulets}}">
+                </mat-label>
+                <mat-label>
+                    Importe x Letra
+                    <input type="text" value = "{{venta.canle}}">
+                </mat-label>
+                <mat-label>
+                    Total Facturacion
+                    <input type="text" value = "{{venta.cargos}}">
+                </mat-label>
+                <mat-label>
+                    Abonos
+                    <input type="text" value = "{{venta.abonos}}">
+                </mat-label>
+                <mat-label>
+                    Saldo
+                    <input type="text" value = "{{venta.saldo}}">
+                </mat-label>
+                <div>
+                    <mat-label>
+                        Compra
+                        <input type="text" value = "{{compra}}">
+                    </mat-label>
+                </div>
+            </div>
+            <div class = "boxscroll">
+                <div class="vencimientos">
+                    <app-vencimientos *ngIf="yatengovencimientos" [nulets]="venta.nulets" [vencimientos]="vencimientos"></app-vencimientos>
+                </div>
+            </div>
+            <div>
+                <p>{{msgsigpago}} </p>
+                <div id="errores"  *ngIf="errorespago()">
+                    <p style="background:orange; font-weight:bold; padding:15px;">
+                        <mat-icon class="red-icon">warning</mat-icon>
+                        {{errores}} 
+                        </p>
+                </div>
+                <form >
+                    <div class="row">
+                        <mat-form-field (blur)="sel_tipopago()">
+                            <mat-label>Pago</mat-label>
+                            <mat-select placeholder="Tipo de Pago"
+                            name="pago"
+                            (selectionChange)="tipopagoSelectionChange($event)" 
+                            [(ngModel)]="tipopagosel" [value]="tipopagosel">
+                                <mat-option *ngFor="let tipopago of tipospagos"
+                                 [value]="tipopago.clave" >
+                                  {{tipopago.descri}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field >
+                        <mat-form-field>
+                            <mat-label>Letra Inicial</mat-label>
+                            <input matInput placeholder="Letra Inicial" 
+                            [readonly]="true" 
+                            type="number" name="ltaini" id="ubicafin" [(ngModel)]= "ltaini"> 
+                        </mat-form-field>
+                        <mat-form-field *ngIf="!ultltaoculto_z" (blur)="calcula_bonif_extra()">
+                            <mat-label>Letra Final</mat-label>
+                            <mat-select  
+                            (selectionChange)="tipopagoSelectionChange($event)" 
+                            [(ngModel)]="ltafin" [value]="ltafin"
+                            name="ltafin" >
+                                <mat-option *ngFor="let miltafin of listaletras"
+                                 [value]="miltafin">
+                                  {{miltafin}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field >
+                        <mat-form-field>
+                            <mat-label>Concepto</mat-label>
+                            <input matInput placeholder="Concepto" 
+                            readonly="true"
+                            type="text" name="concepto" id="concepto" [(ngModel)]= "concepto"> 
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Continuación del Concepto</mat-label>
+                            <input matInput  
+                              type="text" name="concepto2" id="concepto2" 
+                              [(ngModel)]= "conceptocompl" 
+                              (blur)="define_bonif_abierta()"
+                            > 
+                        </mat-form-field>
+                        <mat-form-field *ngIf="!tipomovcerrado">
+                            <mat-label>Es Con</mat-label>
+                            <mat-select  
+                            (selectionChange)="tipomovSelectionChange($event)" 
+                            [(ngModel)]="tipomovsel" 
+                            name="tipopago"
+                            (blur)="sel_tipopago()">
+                                <mat-option *ngFor="let tipomov of tiposmov"
+                                 [value]="tipomov">
+                                  {{tipomov.descri}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field >
+                            <mat-label *ngIf="esconrec" >Recargo </mat-label>
+                            <mat-label *ngIf="!esconrec" >Bonificación </mat-label>
+                            <input matInput placeholder="Importe de Recargo o Bonificacion" 
+                              type="number" name="recobon" id="recobon" 
+                              [(ngModel)]= "recobon" 
+                              [readonly]="bonif_cerrada" (blur)="calculaNeto()"
+                              
+                            > 
+                        </mat-form-field>
+
+
+                </div>
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <div  style="display: flex; justify-content: center; padding-top: .5rem; gap: 4px;">
+            <button mat-raised-button  color="primary" (click)="close()">Aceptar</button>
+            <button mat-raised-button style="margin-right: 5px;"  color="warn" (click)="closeno()">Cancelar</button>
+            </div>
+    </div>
+    </mat-card>
+    

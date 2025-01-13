@@ -526,7 +526,7 @@ export class CrearventaComponent implements OnInit {
         if(res) {
           console.log("Datos de Factura", res);
           this.factura = {
-            id: .1,
+            id: -1,
             idventa: -1,
             iduuid: -1,
             importe: 0,
@@ -596,7 +596,6 @@ export class CrearventaComponent implements OnInit {
 
   }
 
-
   grabar_venta() {
     const qom = this.escredito ? 'Q' : 'C';
     const precon = Math.round(this.total * 100 / 1.16) / 100;
@@ -605,8 +604,10 @@ export class CrearventaComponent implements OnInit {
     const idvendedor = this.vendedor.id;
     const idpromotor = this.promotor.id;
     const comision = precon * this.busca_porcentaje_comision(this.nulet);
+    const idcli = this.configservice.calcula_idcli(this.codigovta);
+
     const nvaventa = {
-      idventa: 1,
+      idventa: idcli,
       codigo: this.codigovta,
       idcliente: this.cliente.id,
       fecha: this.fechafinal,

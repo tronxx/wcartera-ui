@@ -75,9 +75,24 @@ export class VentasService {
 
   }
 
+  buscarVentaPorCodigo(codigo:string): Observable<VentasCompletas>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/ventas/${this.cia}/-1/${codigo}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarVentaPorCodigo", miurl);
+    return( this.http.get<VentasCompletas> (miurl,  {'headers':headers}) );
+
+  }
+
+
   buscarMovimientosVentas(id:number): Observable<Movclis[]>{
     this.url = this.configService.config.url;
-    const miurl = `${this.url}/movclis/${this.cia}/-1/${id} `;
+    const miurl = `${this.url}/movclis/${this.cia}/-1/${id}`;
     //let miurl = this.config.url + "/almacenes/" + almacen.id;
 
     const headers = { 
@@ -219,7 +234,7 @@ export class VentasService {
 
   delete(venta: VentasCompletas): Observable<VentasCompletas>{
     this.url = this.configService.config.url;
-    const miurl = `${this.url}/ventas/${venta.id}`;
+    const miurl = `${this.url}/ventas/${venta.idventa}`;
     //let miurl = this.config.url + "/almacenes/" + almacen.id;
 
     const headers = { 

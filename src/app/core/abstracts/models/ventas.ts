@@ -1,5 +1,5 @@
 export interface Ventas {
-        id: number;
+        idventa: number;
         codigo: string;
         idcliente: number;
         fecha: string;

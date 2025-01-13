@@ -27,3 +27,7 @@ export * from './promotores';
 export * from './movclis';
 export * from './renfac';
 export * from './solicitud';
+export * from './polizas';
+export * from './codigoscaja';
+export * from './renpol';
+export * from './vencimientos';
