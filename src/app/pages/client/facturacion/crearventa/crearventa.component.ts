@@ -538,6 +538,7 @@ export class CrearventaComponent implements OnInit {
             codigometodopago: res.clavemetodopago,
             conceptometodopago: "",
             conceptousocfdi: "",
+            uuid:"",
             serie : res.serie,
             numero : res.numero,
             idusocfdi: res.usocfdi,
@@ -576,7 +577,8 @@ export class CrearventaComponent implements OnInit {
       codigousocfdi: "",
       conceptousocfdi:"",
       codigometodopago: "",
-      conceptometodopago: ""
+      conceptometodopago: "",
+      uuid: ""
   
     }
     console.log("Nueva Factura", this.factura);

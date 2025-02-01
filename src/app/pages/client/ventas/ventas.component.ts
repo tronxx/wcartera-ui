@@ -26,6 +26,9 @@ import { PiderangofechasComponent } from '@components/piderangofechas/piderangof
 import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.component';
 import { MovimientostablaComponent } from '@forms/shared-components/ventas/movimientostabla/movimientostabla.component';
 import { FacturaComponent } from '@forms/shared-components/ventas/factura/factura.component';
+import { SolicitudFormComponent } from '@forms/shared-components/solicitud/solicitud-form/solicitud-form.component';
+import { SolcitudExtendida } from '@dtos/solicitud-dto';
+import { CLAVES_SOLICIT } from '@models/solicitud';
 
 @Component({
   selector: 'app-ventas',
@@ -48,12 +51,16 @@ export class VentasComponent {
   factura?: Factura;
   regimen?: Regimenes;
   facturacompleta?: FacturaCompleta;
+  public solicitudextendida : SolcitudExtendida = null;
+  public modo = "modo inicial";
+
   codigo = "";
   escredito = false;
   compras = "";
 
   yatengomovclis = false;
   yatengofactura = false;
+  yatengosolicit = false;
   
   fechainicial = "";
   fechafinal = "";
@@ -83,11 +90,18 @@ export class VentasComponent {
       this.iduser = micompania_z.usuario.iduser;
       this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       this.fechafinal =  this.fechainicial;
+      const datosiniciales = {
+        modo:"CONSULTA"
+      }
+      this.modo = JSON.stringify(datosiniciales);
+
       if(this.idventa) this.buscar_mi_venta();
     }
 
     buscar_mi_venta() {
       console.log("idventa", this.idventa);
+      this.yatengosolicit = false;
+
       this.ventasService.buscarVentaPorId(this.idventa).subscribe(
         res => {
           this.venta = res;
@@ -98,6 +112,7 @@ export class VentasComponent {
           this.buscarpromotor(this.venta.idpromotor);
           this.buscarmovclis(this.venta.idventa);
           this.buscarfactura(this.venta.idfactura);
+          this.buscar_solicitud(this.venta.idcliente);
 
         }
         
@@ -201,7 +216,6 @@ export class VentasComponent {
         this.facturacompleta = {
           ...this.factura, 
           rfc:rfc,
-          uuid: "",
           regimen: regimen,
           email: email,
           renglones: this.renglonesfac
@@ -211,5 +225,126 @@ export class VentasComponent {
       });
 
     }    
+
+    buscar_solicitud(idcliente: number) {
+      this.solicitudextendida = {
+        idcliente : idcliente,
+        ocupacion : "",
+        ingresos:  "",
+        sexo:  "",
+        edad:  "",
+        edocivil:  "",
+        clientelugartrabajo:  "",
+        clienteteltrabajo:  "",
+        clientedirectrabajo:  "",
+        clienteantiguedadtrabajo:  "",
+        clienteconyugenombre:  "",
+        clienteconyugeocupacion:  "",
+        clienteconyugeteltrabajo:  "",
+        clienteconyugeantiguedad:  "",
+        clienteconyugetrabajo: "",
+        clienteconyugedirectrabajo: "",
+        avalgenerales: "",
+        avalocupacion: "",
+        avaltelefono: "",
+        avalantiguedad: "",
+        avaltrabajo: "",
+        avalconyugenombre:  "",
+        avalconyugeocupacion:  "",
+        avalconyugeingresos:  "",
+        avalconyugetrabajo:  "",
+        avalconyugedirectrabajo: "",
+        avalconyugeantiguedad:  "",
+        avalconyugetelefono:  "",
+        familiarnombre: "",
+        familiardirec: "",
+        conocidonombre: "",
+        conocidodirec: "",
+        referencia1: "",
+        referencia2: "",
+        observaciones: "",
+    
+      }
+
+      this.solicitudextendida.idcliente = idcliente;
+      //console.log("Estoy en buscar_solcitud", idcliente);
+      
+      this.clientesService.obtener_solicitud(idcliente).subscribe( res => {
+        //console.log("clientesService.obtener_solicitud", res);
+        for(let mires of res) {
+          switch (mires.iddato) {
+            case  CLAVES_SOLICIT.OCUPACION:
+              this.solicitudextendida.ocupacion = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_LGAR_TRABAJO:
+              this.solicitudextendida.clientelugartrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_TEL_TRABAJO:
+              this.solicitudextendida.clienteteltrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_DIREC_TRABAJO:
+              this.solicitudextendida.clientedirectrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_CONYUGE_NOMBRE:
+                this.solicitudextendida.clienteconyugenombre = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_CONYUGE_OCUPACION:
+                this.solicitudextendida.clienteconyugeocupacion = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_CONYUGE_TRABAJO:
+                this.solicitudextendida.clienteconyugetrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_CONYUGE_NOMBRE:
+                this.solicitudextendida.clienteconyugenombre = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_CONYUGE_TEL_TRABAJO:
+                this.solicitudextendida.clienteconyugeteltrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_CONYUGE_DIREC_TRABAJO:
+                this.solicitudextendida.clienteconyugedirectrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.AVAL_GENERALES:
+                this.solicitudextendida.avalgenerales = mires.concepto; break;
+            case  CLAVES_SOLICIT.AVAL_CONYUGE_NOMBRE:
+                this.solicitudextendida.avalconyugenombre = mires.concepto; break;
+            case  CLAVES_SOLICIT.AVAL_CONYUGE_TRABAJO:
+                this.solicitudextendida.avalconyugetrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.AVAL_OCUPACION:
+                this.solicitudextendida.avalocupacion = mires.concepto; break;
+            case  CLAVES_SOLICIT.AVAL_TELFONO:
+                this.solicitudextendida.avaltelefono = mires.concepto; break;
+            case  CLAVES_SOLICIT.AVAL_TRABAJO:
+                this.solicitudextendida.avaltrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.CONOCIDO_NOMBRE:
+                this.solicitudextendida.conocidonombre = mires.concepto; break;
+            case  CLAVES_SOLICIT.CONOCIDO_DIREC:
+                  this.solicitudextendida.conocidodirec = mires.concepto; break;
+            case  CLAVES_SOLICIT.FAMILIAR_NOMBRE:
+                  this.solicitudextendida.familiarnombre = mires.concepto; break;
+            case  CLAVES_SOLICIT.FAMILIAR_DIREC:
+                  this.solicitudextendida.familiardirec = mires.concepto; break;          
+            case  CLAVES_SOLICIT.AVAL_CONYUGE_OCUPACION:
+                  this.solicitudextendida.avalconyugeocupacion = mires.concepto; break;
+            case  CLAVES_SOLICIT.AVAL_CONYUGE_TELEFONO:
+                    this.solicitudextendida.avalconyugetelefono = mires.concepto; break;
+            case  CLAVES_SOLICIT.AVAL_CONYUGE_DIREC_TRABAJO:
+                  this.solicitudextendida.avalconyugedirectrabajo = mires.concepto; break;
+            case  CLAVES_SOLICIT.CLIENTE_INGRESOS:
+                  this.solicitudextendida.ingresos = mires.concepto; break; 
+            case  CLAVES_SOLICIT.CLIENTE_SEXO:
+                  this.solicitudextendida.sexo = mires.concepto; break;   
+            case  CLAVES_SOLICIT.CLIENTE_EDAD:
+                  this.solicitudextendida.edad = mires.concepto; break;   
+            case  CLAVES_SOLICIT.CLIENTE_EDOCIVIL:
+                  this.solicitudextendida.edocivil = mires.concepto; break;   
+            case  CLAVES_SOLICIT.CLIENTE_ANTIGUEDAD_TRABAJO:
+                  this.solicitudextendida.clienteantiguedadtrabajo = mires.concepto; break;   
+            case  CLAVES_SOLICIT.AVAL_ANTIGUEDAD_TRABAJO:
+                  this.solicitudextendida.avalantiguedad = mires.concepto; break;   
+            case  CLAVES_SOLICIT.AVAL_CONYUGE_ANTIGUEDAD:
+                  this.solicitudextendida.avalconyugeantiguedad = mires.concepto; break;   
+            case  CLAVES_SOLICIT.REFERENCIA1:
+                  this.solicitudextendida.referencia1 = mires.concepto; break;   
+            case  CLAVES_SOLICIT.REFERENCIA2:
+                    this.solicitudextendida.referencia2 = mires.concepto; break;   
+            case  CLAVES_SOLICIT.OBSERVACIONES:
+                      this.solicitudextendida.observaciones = mires.concepto; break;   
+          }
+        }
+        console.log("Solicitud extendida", this.solicitudextendida);
+        this.yatengosolicit = true;
+      });
+
+    }
     
 }

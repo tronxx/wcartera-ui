@@ -17,10 +17,11 @@ export interface Factura  {
     conceptousocfdi: string;
     codigometodopago: string;
     conceptometodopago: string;
+    uuid: string;
+
 }
 
 export interface FacturaCompleta extends Factura {
-    uuid: string;
     regimen: string;
     email: string;
     rfc: string;

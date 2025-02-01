@@ -86,6 +86,9 @@
                 <mat-tab label="Factura">
                     <app-factura *ngIf="yatengofactura" [factura]="facturacompleta"></app-factura>
                 </mat-tab>
+                <mat-tab label="Solicitud">
+                    <app-solicitud-form  *ngIf="solicitudextendida && yatengosolicit"  [solicitudextendida]="solicitudextendida" [inicial] = "modo"></app-solicitud-form>
+                </mat-tab>
                 </div>
         </mat-tab-group>
 

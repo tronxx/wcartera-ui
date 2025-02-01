@@ -196,7 +196,7 @@ export class ClientesService {
       'Authorization': `Bearer ${this.registro_z.token}`      
     };    
 
-    console.log("Estoy en get obtener solicitud", idcliente, "url:",miurl);
+    //console.log("Estoy en get obtener solicitud", idcliente, "url:",miurl);
     return( this.http.get<any> (miurl, {'headers':headers}) );
 
   }

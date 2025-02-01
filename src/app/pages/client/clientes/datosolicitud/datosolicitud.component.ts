@@ -44,7 +44,7 @@ export class DatosolicitudComponent  implements OnInit {
         modo:"CONSULTA"
       }
       this.modo = JSON.stringify(datosiniciales);
-      console.log("datosolicitud modo", this.modo, "idcliente", this.idcliente);
+      //console.log("datosolicitud modo", this.modo, "idcliente", this.idcliente);
       this.buscar_solicitud(this.idcliente);
     }
 
@@ -163,7 +163,7 @@ export class DatosolicitudComponent  implements OnInit {
                       this.solicitudextendida.observaciones = mires.concepto; break;   
           }
         }
-        console.log("Solicitud extendida", this.solicitudextendida);
+        //console.log("Solicitud extendida", this.solicitudextendida);
         this.yatengodatos = true;
       });
 
@@ -233,5 +233,6 @@ export class DatosolicitudComponent  implements OnInit {
     
     }
 
+    aceptarSolicit(data : any){}
    
 }
