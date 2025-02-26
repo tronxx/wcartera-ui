@@ -1,20 +1,22 @@
-<div mat-dialog-header style="overflow-y: auto; max-height: 30rem;">
+<div mat-dialog-header >
     Teclee el Nombre del Cliente
 </div>
 <div mat-dialog-content style="overflow-y: auto; max-height: 30rem;">
-    {{message}}
     <label for="nombre">
         Nombre
         <input type="text" placeholder="Codigo" [(ngModel)]="nombre" >
     </label>
    
-    <button mat-raised-button  color="primary" (click)="buscar_cliente_nombre()" > 
+    <button *ngIf="escliente" mat-raised-button  color="primary" (click)="buscar_cliente_nombre(nombre)" > 
+        <mat-icon aria-hidden="false" aria-label="Example home icon">search</mat-icon>
+        Buscar
+    </button>
+    <button *ngIf="esventa" mat-raised-button  color="primary" (click)="buscar_lista_ventas(nombre)" > 
         <mat-icon aria-hidden="false" aria-label="Example home icon">search</mat-icon>
         Buscar
     </button>
 
-</div>
-<div>
+<div *ngIf="escliente">
     <table width="100%">
         <thead>
             <tr>
@@ -23,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr
+            <tr 
               [class.trselected] = "clien.codigo == codigo"
               (click)="select_cliente(clien)"
              *ngFor="let clien of clientes">
@@ -36,6 +38,30 @@
         </tbody>
     </table>
 </div>
+<div *ngIf="esventa">
+    <table width="100%">
+        <thead>
+            <tr>
+                <th width="30%">Código</th>
+                <th width="70%">Nombre</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr 
+              [class.trselected] = "miventa.codigo == codigo"
+              (click)="select_venta(miventa)"
+             *ngFor="let venta of ventas">
+                <td>
+                    <input type="checkbox" [checked] = "venta.codigo == codigo"> 
+                    {{venta.codigo}} 
+                </td>
+                <td>{{venta.nombre}} </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
 <div mat-dialog-actions>
     <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
         <button mat-raised-button color="primary" (click)="closeyes()" >

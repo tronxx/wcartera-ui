@@ -159,10 +159,10 @@ export class FacturacionComponent {
       return (element.status == "A");
     }
 
-    detalles_venta(id: number) {
-      let url_z = `/app/detalleventas/${id}`;
+    detalles_venta(codigo: number) {
+      let url_z = `/app/detalleventas/${codigo}`;
       //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
-      console.log('Venta', id, url_z);
+      console.log('Venta', codigo, url_z);
       
       this.router.navigateByUrl(url_z).then( (e) => {
         if (e) {

@@ -20,7 +20,7 @@ import { FacturacionService } from '@services/facturacion.service';
 import { ComplementosService } from '@services/complementos.service';
 import { PolizasService } from '@services/polizas.service';
 import { ConfigService } from '@services/config.service';
-
+import { DatosventaComponent } from '@forms/shared-components/ventas/datosventa/datosventa.component';
 
 @Component({
   selector: 'app-dlgpagos',
@@ -29,7 +29,7 @@ import { ConfigService } from '@services/config.service';
 })
 export class DlgpagosComponent implements OnInit {
 
-  venta?: VentasCompletas;
+  public venta?: VentasCompletas;
   public vencimientos: Vencimientos[] = [];
   yatengovencimientos = false;
   cobratario: Promotores;
@@ -37,12 +37,19 @@ export class DlgpagosComponent implements OnInit {
   comxrec = 0;
   compra = "";
   idpoliza = 0;
-  errores = "";
+  idusuario = 0;
+  iniciales = "";
+  errores = [""];
   esmoroso = false;
   comision = 0;
   importe = 0;
   recobon = 0;
+  recibido = 0;
+  impxcob = 0;
+  recargoscobrados = 0;
+  neto = 0;
   bonifi = 0;
+  cambio = 0;
   ltaini = "";
   ltafin = "";
   dias = 0;
@@ -56,13 +63,15 @@ export class DlgpagosComponent implements OnInit {
   conceptocompl = "";
   bonif_cerrada = true;
   esconrec = false;
+  importecerrado = true;
   tipomovsel = "";
-  recargo = 0;
   fechaactual = new Date();
   tipomovcerrado = false;
   msgsigpago = "";
+  yatengoventa = false;
+  aceptarpago = false;
 
-  tipospagos =[ 
+  tipospagos =  [ 
     { "clave":"C", "descri":"COMPLETO"  },
     { "clave":"A", "descri":"A CUENTA"  },
     { "clave":"S", "descri":"SALDO"  }
@@ -91,17 +100,27 @@ export class DlgpagosComponent implements OnInit {
 
   ngOnInit(): void {
     const datosiniciales = JSON.parse(this.message);
+    this.errores = [];
     this.venta = datosiniciales.venta;
-    this.compra = datosiniciales.compra;  
+    this.venta.saldo = this.venta.cargos - this.venta.abonos;
+    //this.compra = datosiniciales.compra;  
     this.idpoliza = datosiniciales.idpoliza;
+    this.idusuario = datosiniciales.idusuario;
+    this.iniciales = datosiniciales.iniciales;
     this.vencimientos = datosiniciales.vencimientos;
+    this.yatengoventa = true;
     this.yatengovencimientos = true;
+    this.cobratario = datosiniciales.cobratario;
     this.calcula_siguiente_pago();
+    
     //console.log("vencimientos", this.vencimientos)
     
   }
 
-  calcula_siguiente_pago() {
+
+  async calcula_siguiente_pago() {
+    console.log("Estoy en calcula_siguiente_pago");
+
     const letrapagada = ""
     let letraspagadas = 0;
     let sigletra = 0;
@@ -114,8 +133,10 @@ export class DlgpagosComponent implements OnInit {
     const canle = this.venta.canle;
     const enganche = this.venta.enganc;
     const servicio = this.venta.servicio;
-    const totabonos = abonos + enganche + servicio;
+    const totabonos = abonos;
     let msg = "";
+    let prletconrec_z = ""
+    let atrasos = "";
     if(canle) {
       letraspagadas = Math.floor ((abonos - enganche - servicio) / canle);
     }
@@ -123,21 +144,30 @@ export class DlgpagosComponent implements OnInit {
     if(sigpago == totabonos ) {
       sigletra = letraspagadas + 1;
       importexpagar = canle;
-      msg = "Debe Pagar la letra " + sigletra;
-      this.activartipomov(["A", "C"]);
+      msg = "la letra " + sigletra + "/" + this.venta.nulets;
+      this.activartipospago(["A", "C"]);
+      this.tipopagosel = "C";
     } else {
-      sigletra = letraspagadas;
+      sigletra = letraspagadas + 1;
       importexpagar = canle - (totabonos - (canle * letraspagadas + enganche + servicio))
-      msg = "Debe Pagar Saldo " + sigletra +  "/" + 
-      this.activartipomov(["S"]);
-      this.venta.nulets  + " por " +  formatCurrency ( Number(importexpagar) , 'en-US', '$');
+      msg = "Saldo " + sigletra  + "/" + this.venta.nulets; 
+      this.activartipospago(["A", "S"]);
+      this.tipopagosel = "S";
+      msg  + " por " +  formatCurrency ( Number(importexpagar) , 'en-US', '$');
     }
+    this.msgsigpago = "Debe Pagar " +  msg;
     let ii_z = 0;
     let importevencido = 0;
     let recargo = 0;
     const minumlet_z = sigletra.toString();
+    this.ltaini = minumlet_z;
+    this.ltafin = minumlet_z;
+
     this.listaletras = []
     this.listaletras.push(minumlet_z);
+    prletconrec_z = this.calcula_bonif_o_rec(sigletra);
+    this.tipomovsel = prletconrec_z;
+    console.log("calcula_siguiente_pago", this.tipomovsel);
     for (ii_z = sigletra + 1 ; ii_z <= nulets; ii_z++) {
       const minumlet_z = ii_z.toString();
       this.listaletras.push(minumlet_z);
@@ -147,24 +177,106 @@ export class DlgpagosComponent implements OnInit {
          recargo += Math.round (canle * this.tasarecargo_z / 100);
       }
     }
-    const primerletra = Number(this.ltaini)
-    const fecven = this.vencimientos[primerletra].fecven;
-    const fmax =  this.configService.SumaDiasaFecha(new Date(), -5);
-    console.log("fecven", fecven, "type", typeof(fecven), "fmax", fmax);
-    //const fehavenstr = this.configService.fecha_a_str(fecven, "YYYYmmdd")
-    const fechamax = this.configService.fecha_a_str(fmax, "YYYYmmdd");
+    this.recargoscobrados = 0;
+    const letra = Number(this.ltaini);
+    prletconrec_z = this.calcula_bonif_o_rec(letra);
+    this.esconrec = false;
+    if(prletconrec_z == 'R' ) {
+      this.esconrec = true;
+      const reccobrado = await this.ventasService.obtenerRecargosLetra(this.venta.idventa, letra );
+      this.recargoscobrados  = reccobrado.recargos;
 
+      this.recobon = recargo  - this.recargoscobrados;
+      if(this.recobon < 0) this.recobon = 0;
+      this.calculaNeto();
+      this.bonif_cerrada = true;
+    }
 
-    importexpagar += importevencido;
-    this.ltaini = sigletra.toString();
-    this.ltafin = this.ltaini;
+    this.importe = importexpagar;
+    this.msgsigpago += " Por $ " + formatNumber (importexpagar, 'en-US', '1.0-0') 
+    if(importevencido) {
+      this.msgsigpago += " Tiene Vencido $ " + formatNumber (importevencido + importexpagar, 'en-US', '1.0-0') + " mas Recargos";
+      this.alerta(this.msgsigpago);
+      this.tipomovsel = 'R';
+    }
+    this.impxcob = this.importe;
     this.calculaConcepto();
+    this.calculaNeto();
 
+  }
+
+  activartipospago(tiposdepago: string[]){
+    this.tipospagos = [];
+    tiposdepago.forEach(tipo => {
+      if(tipo == "A") {
+        this.tipospagos.push({ "clave":"A", "descri":"A CUENTA" });
+      }
+      if(tipo == "C") {
+        this.tipospagos.push({ "clave":"C", "descri":"COMPLETO" });
+      }
+      if(tipo == "S") {
+        this.tipospagos.push({ "clave":"S", "descri":"SALDO" });
+      }
+    });
   }
 
   calculaNeto() {
+    this.validarpago();
+   
+    if(this.tipomovsel == "B") {
+      this.neto = this.importe - this.recobon;
+      //console.log("Debug Bonif:", this.datospago.importe, " ", this.datospago.recobon, " Neto", this.datospago.neto);
+    } else {
+      this.neto = this.importe + this.recobon;
+      //console.log("Debug Recargos:", this.datospago.importe, " ", this.datospago.recobon, " Neto", this.datospago.neto);
+    }
+    
+    this.recibido = this.neto;
+    console.log("Voy a Calcular cambio: recibido:", this.recibido);
+    this.calcula_comision();
+    this.calcula_cambio();
+    //console.log("Debug nETO:", this.datospago.neto);
+  
   }
 
+  calcula_cambio() {
+    this.cambio = this.recibido -  this.neto;
+  }
+
+  validarpago() {
+    this.errores=[];
+    if(Number(this.ltafin) <  Number(this.ltaini ) ) {
+      this.errores.push("La letra Final no puede ser mayor a la inicial");
+    }
+    if(this.tipopagosel == "A" && this.importe >= this.impxcob) {
+      this.errores.push("Si es A cuenta el Importe debe ser menor al saldo de la letra " + this.impxcob.toString());
+    }
+    if(this.conceptocompl.includes('/')) {
+      this.errores.push("El complemento del concepto no puede contener el caracter / ");
+    }
+    let prletconrec_z = this.calcula_bonif_o_rec(Number(this.ltaini));
+    let ulletconrec_z = this.calcula_bonif_o_rec(Number(this.ltafin));
+    if(prletconrec_z != ulletconrec_z) {
+      this.errores.push("No puede mezclar letras atrasadas y al día");
+    }
+    if(this.importe < this.recobon && this.tipopagosel == "B" ) {
+      this.errores.push("Bonificación Excesiva ");
+  
+    }
+  
+    this.aceptarpago = !this.errorespago();
+    return(!this.errorespago());
+  }
+  
+  errorespago () {
+    if(this.errores.length) {
+      return (true);
+    }
+    else {
+      return(false);
+    }
+  }
+  
   calcula_bonif_extra () {
     let mesesanticip_z = 0;
     let mub_z = 0;
@@ -219,22 +331,16 @@ export class DlgpagosComponent implements OnInit {
   calcula_comision () {
     let comxlet_z = 0;
     let comxrec_z = 0;
-    const tipomovsel_z = "R";
     if(this.cobratario) {
       comxlet_z = this.comxlet;
       comxrec_z = this.comxrec;
     }
-    if(this.esmoroso && tipomovsel_z == "R") {
+    if(this.esmoroso && this.tipomovsel == "R") {
         this.comision = Math.round( this.importe * comxlet_z ) / 100;
     }
   }
   
   
-  errorespago() {
-    this.errores = "";
-    return false;
-  }
-
   tipomovSelectionChange(event: MatSelectChange) {
     this.sel_tipopago();
   } 
@@ -243,28 +349,28 @@ export class DlgpagosComponent implements OnInit {
   
   sel_tipopago() {
     let numerodeletras_z = Number(this.ltafin) - Number (this.ltaini) + 1;
+    if(this.venta.bonifi > 0 )  this.bonif_cerrada = false; else this.bonif_cerrada = true; 
     if(this.tipomovsel == "N") {
       this.recobon = 0;
       this.bonif_cerrada = true;
-    } else if (this.tipomovsel == "R") {
-      this.recargo = Math.round( this.venta.canle * this.tasarecargo_z / 100);
-      this.recobon = this.recargo * numerodeletras_z;
-      //this.bonif_cerrada = false;
-    } else {
-      let conrec_z = this.calcula_bonif_o_rec(Number(this.ltaini));
-      if(conrec_z == "R") {
-        this.recobon = this.recargo * numerodeletras_z;
-        //this.bonif_cerrada = false;
-        this.tipomovsel = "R";
-      } else {
+      this.calculaNeto();
+      return;
+    } 
+    let recargo = 0;
+    if (this.tipomovsel == "R") {
+      recargo = Math.round( this.venta.canle * this.tasarecargo_z / 100);
+      this.recobon = recargo * numerodeletras_z - this.recargoscobrados;
+      if(this.recobon < 0) this.recobon = 0;
+      this.bonif_cerrada = false;
+      this.calculaNeto();
+      return;
+    } 
+    if (this.tipomovsel == "B") {
         this.recobon = this.recobon * numerodeletras_z;
+        this.calculaNeto();
       }
-      
-    }
-    if(this.venta.bonifi > 0 )  this.bonif_cerrada = false; else this.bonif_cerrada = true; 
     // this.alerta("Bonificacion del Cliente:" + this.bonifi_z.toString() + " Bonif Cerrada:" + this.bonif_cerrada);
     //this.sigletra_z = Number (this.datospago.ltaini);
-    this.calculaNeto();
   }
   
   activartipomov( tipos:string[]) {
@@ -289,16 +395,17 @@ export class DlgpagosComponent implements OnInit {
   
   calcula_bonif_o_rec(miletra_z:number) {
     let esrecobon_z = "B";
-    let dias_z = 0;
     let mivenc_z = new Date();
-      mivenc_z = this.configService.calcula_venc(this.venta.fecha, this.venta.qom, miletra_z);
-      dias_z = Math.floor( ( this.fechaactual.getTime() - mivenc_z.getTime()  ) / (86400000));
-      //console.log("Debug: dias", this.datospago.dias, " Hoy:", this.fechahoy_z.getTime(), " Vence:", this.vence_z.getTime() );
-      if(dias_z > this.diasbon ) {
+    let fechavta = this.venta.fecha.substring(0,10);
+    mivenc_z = this.configService.calcula_venc(fechavta, this.venta.qom, miletra_z);
+    console.log("Venta Fecha:", fechavta,  "Debug: vence", mivenc_z,  " Vence:", mivenc_z.getTime() );
+    this.dias = Math.floor( ( this.fechaactual.getTime() - mivenc_z.getTime()  ) / (86400000));
+    console.log("Debug: dias", this.dias,  " Vence:", mivenc_z.getTime() );
+    if(this.dias > this.diasbon ) {
         esrecobon_z = "R";
-      } else {
+    } else {
         esrecobon_z = "B";
-      }
+    }
   
     return esrecobon_z;
   }
@@ -313,29 +420,99 @@ export class DlgpagosComponent implements OnInit {
     let factor_z = 0;
     let iniconcep = "";
     console.log("Estoy en calculaConcepto");
+    this.ultltaoculto_z = false;
+    if(this.bonifi < 1) {
+      this.bonif_cerrada = true;
+    }
+
     if(this.tipopagosel == "A") {
       iniconcep = "ACTA ";
       this.ultltaoculto_z = true;
       this.ltafin = this.ltaini;
       factor_z = 0;
       this.recobon = 0;
-      if(this.bonifi < 1) {
-        this.bonif_cerrada = true;
+      this.importecerrado = false;
+
+    }
+    if(this.tipopagosel == "C")  {
+      this.importecerrado = true;
+       iniconcep = "LETRA " 
+    };
+    if(this.tipopagosel == "S") {
+      iniconcep = "SALDO ";
+      this.ultltaoculto_z = true;
+      this.ltafin = this.ltaini;
+      factor_z = 0;
+      this.recobon = 0;
+      this.importecerrado = true;
+    } 
+
+    nuletxpag_z = Number(this.ltafin) -  Number(this.ltaini ) + 1;
+    iniconcep += this.ltaini.padStart(2, ' ');
+    if( Number(this.ltafin) != Number(this.ltaini) ) {
+      iniconcep += " - " + this.ltafin.padStart(2, ' ');
+      let prletconrec_z = this.calcula_bonif_o_rec(Number(this.ltaini));
+      let ulletconrec_z = this.calcula_bonif_o_rec(Number(this.ltafin));
+      if(prletconrec_z != ulletconrec_z) {
+         this.alerta("No puede mezclar letras atrasadas y al día");
+         //this.closeno();
       }
 
     }
-    if(this.tipopagosel == "C") iniconcep = "LETRA ";
-    if(this.tipopagosel == "S") iniconcep = "SALDO ";
-
-
-    this.concepto = iniconcep + this.ltaini;
-    if(this.ltafin > this.ltaini) {
-       this.concepto += " - " + this.ltafin 
+    this.recargoscobrados = 0;
+    const letra = Number(this.ltaini);
+    const reccobrado = await this.ventasService.obtenerRecargosLetra(this.venta.idventa, letra );
+    this.recargoscobrados  = reccobrado.recargos;
+    console.log("X- letra", letra, "Recargoscobrados:", this.recargoscobrados);
+    this.esconrec = false;
+    if(this.dias > 5 ) {
+      this.tipomovsel = 'R';
+    } else {
+      this.tipomovsel = 'B';
     }
-    this.concepto += "/" +
-      this.venta.nulets;
-  }
 
+    let recargo = Math.round (this.venta.canle * this.tasarecargo_z / 100);
+
+    if(this.dias > 5 ) {
+      this.esconrec = true;
+      this.recobon = recargo * nuletxpag_z  - this.recargoscobrados;
+      if(this.recobon < 0) this.recobon = 0;
+      this.neto = this.importe + this.recobon;
+      this.bonif_cerrada = true;
+      factor_z = 1;
+    }
+
+    this.concepto = iniconcep + "/" + this.venta.nulets;
+    if (this.tipopagosel == "C" || this.tipopagosel == "S" ) {
+      if (this.tipopagosel == "C") {
+        this.importe = this.venta.canle * nuletxpag_z;
+      }
+
+      if(this.dias > 5 ) {
+        this.esconrec = true;
+        this.recobon = Math.round (recargo * nuletxpag_z  ) - this.recargoscobrados;
+        if(this.recobon < 0) this.recobon = 0;
+        this.neto = this.importe + this.recobon;
+        this.bonif_cerrada = true;
+        factor_z = 1;
+
+      } else {
+        this.recobon = this.recobon * nuletxpag_z;
+        this.neto = this.importe - this.recobon;
+        factor_z = -1;
+      }
+    } else {
+      this.importe = this.venta.canle * nuletxpag_z;
+    }
+    //this.importecobrado = this.neto;
+    this.neto = this.importe + this.recobon * factor_z;
+    this.calcula_bonif_extra();
+    this.validarpago();
+    this.recibido = this.neto;
+    console.log("Saliendo de calculaConcepto", this.neto, "tipomovsel", this.tipomovsel);
+  
+  }
+  
   define_bonif_abierta() {
     //this.validarpago();
     let bonifcliente = 0;
@@ -352,12 +529,61 @@ export class DlgpagosComponent implements OnInit {
     }
   }
     
-  
  
   close() {
-    this.dialogRef.close(true);
+    this.confirma_aceptar_pago();
   }
 
+  confirma_aceptar_pago() {
+    const dialogref = this.dialog.open(DlgyesnoComponent, {
+      width:'350px',
+      data: 'Seguro de aceptar este Pago?'
+    });
+    let result = {}
+    dialogref.afterClosed().subscribe(res => {
+      //console.log("Debug", res);
+      if(res) {
+          let moroso = "SI";
+          const letra = Number(this.ltaini)
+          const fechavta = this.venta.fecha.substring(0,10);
+          const vence = this.configService.calcula_venc(fechavta, this.venta.qom, letra);
+          const strvence = this.configService.fecha_a_str(vence, "YYYY-mm-dd");
+          const inicialescobrtario = this.cobratario.codigo;
+          const idcobratario = this.cobratario.id;
+          let tipo = 'AB';
+          if(this.tipomovsel == 'R') tipo = 'AR';
+          result = {
+              idventa: this.venta.idventa,
+              concepto: this.concepto,
+              letraini: this.ltaini,
+              letrafin: this.ltafin,
+              ace: this.tipopagosel,
+              tipo: tipo,
+              dias: this.dias,
+              importe: this.importe,
+              recobon: this.recobon,
+              vence: strvence,
+              letra: letra,
+              iduuid: -1,
+              idfactura: -1,
+              cia: this.configService.obtenNumeroCia(),
+              idusuario: this.idusuario,
+              comision: this.comision,
+              cobratario: inicialescobrtario,
+              idcobratario: idcobratario,
+              siono: this.venta.siono,
+              usuario: this.iniciales,
+              conplazo: "this.conplazo",
+              datosplazo: "this.datosplazo"
+          }
+        this.dialogRef.close( result);    
+      } else {
+        this.closeno();
+      }
+    });
+  
+  }
+  
   closeno() {
     this.dialogRef.close(false);
   }

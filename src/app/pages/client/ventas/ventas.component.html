@@ -1,6 +1,6 @@
 <div>
     <label for="numventa">Código</label>
-    <input type="text" [(ngModel)]="idventa">
+    <input type="text" [(ngModel)]="codigo">
     <button mat-raised-button color="primary" 
     (click)="buscar_mi_venta()" type="button">
         <mat-icon>search</mat-icon>
@@ -9,10 +9,6 @@
 
 </div>
 <div *ngIf="venta">
-    <div>
-        <label for="nombre">Codigo </label>
-        <input type="text" [readOnly]="true" [(ngModel)]="venta.codigo">
-    </div>
     <div>
         <label for="nombre">Nombre </label>
         <input type="text" [readOnly]="true" [(ngModel)]="venta.nombre">
@@ -52,6 +48,14 @@
             <label for="nombre">Letra 1/1 </label>
             <input type="text" [readOnly]="true" [(ngModel)]="venta.letra1">
         </div>
+        <div *ngIf="aval">
+            <label >Aval Nombre</label>
+            <input type="text" [readOnly]="true" [(ngModel)]="aval.nombre">
+            <label >Direccion</label>
+            <input type="text" [readOnly]="true" [(ngModel)]="aval.calle">
+            <label >Poblacion</label>
+            <input type="text" [readOnly]="true" [(ngModel)]="aval.ciudad">
+        </div>
     
     </div>
     <div>
@@ -64,19 +68,25 @@
         
     </div>
     <div>
-        <label for="nombre">Vendedor </label>
+        <label >Vendedor </label>
         <input type="text" [readOnly]="true" *ngIf="vendedor" [(ngModel)]="vendedor.codigo">
-        <label for="nombre">Comision </label>
+        <label >Comision </label>
         <input type="text" [readOnly]="true" [(ngModel)]="venta.comision">
-        <label for="nombre">Entrega</label>
+        <label >Entrega</label>
         <input type="text" [readOnly]="true" [(ngModel)]="promotor.codigo">
-        <label for="nombre">Comision</label>
+        <label >Comision</label>
         <input type="text" [readOnly]="true" [(ngModel)]="venta.comisionpromotor">
     </div>
     <div style="width: 100%;">
-        <label for="">Compra:</label> 
-        <input type="text" style="width: 100%;" [readOnly]="true" [(ngModel)]="compras">
+        <label >Compra:</label> 
+        <input type="text" style="width: 80%;" [readOnly]="true" [(ngModel)]="compras">
+        <label>{{venta.idventa}} </label>
     </div>
+    <div style="width: 100%;">
+        <button mat-raised-button color="primary" 
+        type="button" (click)="imprime_letras()"> Impresión Letras</button>
+    </div>
+
     <div style="width: 100%;">        
         <mat-tab-group mat-align-tabs="start">
             <div class="movtos">

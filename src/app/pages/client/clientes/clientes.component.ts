@@ -4,7 +4,7 @@ import { Form, FormBuilder, FormGroup, FormsModule, UntypedFormBuilder } from '@
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCard } from '@angular/material/card';
-import { Nombres, Clientes, Ciudades } from '@models/index';
+import { Nombres, Clientes, Ciudades, ClienteCompleto } from '@models/index';
 import { ComplementosService } from '@services/complementos.service';
 
 import { MatPaginator } from '@angular/material/paginator';
@@ -21,6 +21,7 @@ import { PiderangofechasComponent } from '@components/piderangofechas/piderangof
 import { ClientesEditComponent } from './clientes-edit/clientes-edit.component';
 import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.component';
 import { DatosolicitudComponent } from './datosolicitud/datosolicitud.component';
+import { ClienteDtoCompleto } from '@dtos/clientes.dto';
 
 @Component({
   selector: 'app-clientes',
@@ -31,6 +32,7 @@ export class ClientesComponent {
 
   clientes: Clientes[] = [];
   cliente?: Clientes;
+  clientecompleto?: ClienteCompleto;
   ciudades: Ciudades[] = [];
   codigo = "";
   
@@ -155,12 +157,14 @@ export class ClientesComponent {
   }
 
   buscar_cliente() {
+    const datos = {tipo:'CLIENTE', nombre:''};
     const dialogref = this.dialog.open(DlgbusclienteComponent, {
       width:'600px',
-      data: ''
+      data: JSON.stringify(datos)
     });
     dialogref.afterClosed().subscribe(res => {
       this.cliente = res;
+     
     }
     )
   }
@@ -169,12 +173,13 @@ export class ClientesComponent {
 
   impresionCliente() {}
 
-  detalles(cliente: Clientes) {
-    console.log("Estoy en Detalles", cliente);
+  async detalles(cliente: Clientes) {
+    const nombres = await this.clientesService.obtenerNombresAsync(cliente.idnombre);
+    this.clientecompleto = { ...cliente, ...nombres}
     const idcli = cliente.id;
     const params_z = {
       titulo: "Datos del Cliente",
-      cliente: cliente,
+      cliente: this.clientecompleto,
       modo: "DETALLES"
     }
     const dialogref = this.dialog.open(ClientesEditComponent, {

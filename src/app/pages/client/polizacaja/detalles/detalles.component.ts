@@ -26,6 +26,8 @@ import { lastValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { PolizasService } from '@services/polizas.service';
 import { DlgpagosComponent } from '../dlgpagos/dlgpagos.component';
+import { DatosventaComponent } from '@forms/shared-components/ventas/datosventa/datosventa.component';
+import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.component';
 
 @Component({
   selector: 'app-detalles',
@@ -35,9 +37,10 @@ import { DlgpagosComponent } from '../dlgpagos/dlgpagos.component';
 export class DetallesComponent implements OnInit {
 
   numcia = -1;
-  iduser = -1;
+  idusuario = -1;
   idpoliza = -1;
   idtienda = -1;
+  iniciales = "";
   codtda = "";
   codvta = "";
   codigoscaja: Codigocaja[] = [];
@@ -49,6 +52,8 @@ export class DetallesComponent implements OnInit {
   renglon?: Renpolcompleto;
   venta: VentasCompletas;
   renglonesfac: Renfac[] = [];
+  cobratarios: Promotores[] = [];
+  cobratario?: Promotores;
 
   polizacaja? : PolizasCompletas;
   cliente?: VentasCompletas;
@@ -57,14 +62,14 @@ export class DetallesComponent implements OnInit {
 
 
   displayedColumns: string[] = ['codigo', 'nombre', 'concepto', 
-    'vence', 'dias', 'bonif', 'recar', 'importe', 'neto', 'options'];
+    'vence', 'dias', 'tipo', 'bonificacion', 'recargos', 'importe', 'neto', 'options'];
 
 public headers : Array<string> = 
-["Codigo", "Nombre", "Concepto", "Vence", "Dias",
+["Codigo", "Nombre", "Concepto", "Vence", "Dias", "Tipo",
   "Bonificacion", "Recargos", "Importe", "Efectivo",  "Acciones"];
 public arrayContent : Array<string> = [
   'codigo', 'nombre', 'concepto', 
-    'vence', 'dias', 'bonif', 'recar', 'importe', 'neto', 
+    'vence', 'dias', 'tipo', 'bonificacion', 'recargos', 'importe', 'neto', 
 ];
 
 public body : Array<any> = [];
@@ -81,6 +86,7 @@ public tableOptions : TableOptions = {
 
 public vencimientos: Vencimientos[] = [];
 yatengovencimientos = false;
+public miventa: VentasCompletas;
 
 //dataSource = this.productos;
 
@@ -105,12 +111,14 @@ yatengovencimientos = false;
       var mistorage_z  = localStorage.getItem('token') || "{}";
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
-      this.iduser = micompania_z.usuario.iduser;
+      this.idusuario = micompania_z.usuario.idusuario;
+      this.iniciales = micompania_z.usuario.iniciales;
       this.fecha =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       const misdatospoliza  = localStorage.getItem('poliza_' + this.numcia) || "{}";
       const datospoliza =  JSON.parse(misdatospoliza);
       this.codtda = datospoliza.codtda;
       this.buscar_codigos_caja();
+      this.obtencobratarios();
 
       this.nuevapoliza = true;
       if(this.idpoliza != -1)  { 
@@ -130,6 +138,15 @@ yatengovencimientos = false;
       
 
     }
+
+    obtencobratarios() {
+      this.ventasService.buscarPromotores().subscribe( res => {
+        this.cobratarios = res;
+        this.cobratario = this.cobratarios.filter(mi => mi.codigo === this.iniciales)[0];
+  
+      });
+    }
+  
 
     buscar_codigos_caja() {
       this.polizasService.buscar_Codigos_Caja().subscribe(res => {
@@ -189,25 +206,37 @@ yatengovencimientos = false;
 
 
     buscarcompra(id:number) {
-      this.facturasSerice.obtenerRenfac(id).subscribe( res => {
-        this.renglonesfac = res;
-        this.compra = "";
-        for(let mirenfac of this.renglonesfac) {
-          this.compra += mirenfac.descri;
-          if(mirenfac.folio) this.compra += " # " + mirenfac.folio.toString();
-          if(mirenfac.serie) this.compra += " S/" + mirenfac.serie;
-          this.compra += " ";
-        }
+      this.facturasSerice.obtenerCompra(id).subscribe( res => {
+        const compra = res;
+        this.compra = compra.compra,
+        this.venta.compra = this.compra;
       });
-
     }
+
+    buscar_por_nombre() {
+        const datos = {tipo:'CLIENTE', nombre:''};
+        const dialogref = this.dialog.open(DlgbusclienteComponent, {
+          width:'600px',
+          data: JSON.stringify(datos)
+        });
+        dialogref.afterClosed().subscribe(res => {
+          this.venta = res;
+          this.codvta = res.codigo;
+          this.buscar_cliente();
+        }
+        )
+      }
+    
 
     cobrar(miventa: VentasCompletas) {
       const datospoliza = {
         idpoliza: this.idpoliza,
+        idusuario: this.idusuario,
+        iniciales: this.iniciales,
         venta: this.venta,
         compra: this.compra,
         vencimientos: this.vencimientos,
+        cobratario: this.cobratario
       }
       const mensaje = JSON.stringify (datospoliza);
       const dialogref = this.dialog.open(DlgpagosComponent, {
@@ -216,13 +245,26 @@ yatengovencimientos = false;
       });
       dialogref.afterClosed().subscribe(res => {
           if(res) {
-            this.buscar_renglones(this.idpoliza);
+            let datospago = res;
+            datospago = {...datospago, idpoliza: this.idpoliza, tienda: this.polizacaja.tda, fecha: this.polizacaja.fecha};
+            this.agregar_renglon(datospago);
           }
-        //console.log("Debug", res);
-  
       });
 
     }
+
+    agregar_renglon(datospago: any) {
+      //console.log("agrego renpol", datospago);
+      this.polizasService.agrega_Renglon_Poliza(datospago).subscribe( res => {
+        this.buscar_renglones(this.idpoliza);
+        this.venta = null;
+      },(error: any) => {
+        this.alerta('Error: ' + error.error.message);
+      }
+      );
+    }
+
+
 
     edit(renglon: any) {}
     delete(renglon: any) {}

@@ -1,0 +1,42 @@
+
+<div style="width: 100%;">
+    <div class="row">
+        <div style="width: 100%;">
+            <mat-label >
+                Nombre: {{venta.nombre}}
+            </mat-label>
+        </div>
+    
+    </div>
+    <div class="row">
+        <mat-label>
+            Enganche : {{venta.enganc | currency}}
+        </mat-label>
+        <mat-label>
+            Servicio : {{venta.servicio | currency}}
+        </mat-label>
+        <mat-label>
+            Letras : {{venta.nulets}}
+        </mat-label>
+        <mat-label>
+            Importe x Letra : {{venta.canle | currency}} 
+        </mat-label>
+    </div>
+    <div class="row">
+        <mat-label>
+            Total Facturacion : {{venta.cargos | currency}}
+        </mat-label>
+        <mat-label>
+            Abonos : {{venta.abonos | currency}}
+        </mat-label>
+        <mat-label>
+            Saldo: {{venta.saldo | currency}}
+        </mat-label>
+    </div>
+    <div class="row">
+        <mat-label>
+            Compra: {{venta.compra}}
+        </mat-label>
+    </div>
+
+</div>

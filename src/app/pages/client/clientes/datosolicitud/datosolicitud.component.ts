@@ -10,7 +10,7 @@ import { DlgyesnoComponent } from '@components/dlgyesno/dlgyesno.component';
 import { SolicitudFormComponent } from '@forms/shared-components/solicitud/solicitud-form/solicitud-form.component';
 import { SolcitudExtendida } from '@dtos/solicitud-dto';
 import { Solicitudcompleta } from '@models/solicitud';
-import { CLAVES_SOLICIT } from '@models/solicitud';
+import { CLAVES_SOLICIT, TIPOS_SOLICIT } from '@models/solicitud';
 
 @Component({
   selector: 'app-datosolicitud',
@@ -90,8 +90,9 @@ export class DatosolicitudComponent  implements OnInit {
 
       this.solicitudextendida.idcliente = idcliente;
       console.log("Estoy en buscar_solcitud", idcliente);
-      
-      this.clientesService.obtener_solicitud(idcliente).subscribe( res => {
+      const tipo = TIPOS_SOLICIT.VENTA;
+
+      this.clientesService.obtener_solicitud(idcliente, tipo).subscribe( res => {
         console.log("clientesService.obtener_solicitud", res);
         for(let mires of res) {
           switch (mires.iddato) {
@@ -205,8 +206,10 @@ export class DatosolicitudComponent  implements OnInit {
         {id: CLAVES_SOLICIT.REFERENCIA2, concepto: data.referencia2},
         {id: CLAVES_SOLICIT.OBSERVACIONES, concepto: data.observaciones},
       ];
+      const tipo = TIPOS_SOLICIT.VENTA;
       const solicitud = {
         cia: this.cia,
+        tipo: tipo,
         idcliente: this.idcliente,
         datos: datossolicit
       }

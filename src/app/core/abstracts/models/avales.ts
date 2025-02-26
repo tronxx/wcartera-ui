@@ -1,13 +1,14 @@
-export interface ClientesDto {
+export interface Avales {
     id: number;
     codigo: string;
+    idventa: number;
     idciudad: number;
     codpostal: string;
     idnombre: number;
+    nombre: string;
     calle: string;
     numpredio: string;
     colonia: string;
-    direc: string;
     telefono: string;
     email: string;
     idregimen: number;
@@ -19,9 +20,6 @@ export interface ClientesDto {
 
 }
 
-export interface ClienteDtoCompleto extends ClientesDto {
-    appat: string;
-    apmat: string;
-    nompil1: string;
-    nompil2: string;
+export interface AvalCompleto extends Avales {
+    ciudad: string;
 }

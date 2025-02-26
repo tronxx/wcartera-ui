@@ -3,7 +3,7 @@ import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Form } from '@classes/forms/form';
 import { Message } from '@models/message';
 import {  Router } from '@angular/router';
-import { ClientesDto } from '@dtos/clientes.dto';
+import { ClientesDto, ClienteDtoCompleto } from '@dtos/clientes.dto';
 import { ComplementosService } from '@services/complementos.service';
 import { ClientesService } from '@services/clientes.service';
 import { Ciudades, Regimenes, } from '@models/index'
@@ -21,11 +21,12 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
   @Output() public submitData: EventEmitter<ClientesDto>;
   @Input() public message: Message;
   @Input() public modo: string;
-  @Input() public cliente: ClientesDto;
+  @Input() public cliente: ClienteDtoCompleto;
   
   regimenes: Regimenes[] = [];
   ciudades: Ciudades[] = [];
   sololectura = false;
+  titulo = "";
 
   constructor(
     public builder : UntypedFormBuilder,
@@ -41,6 +42,7 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     const fecha =  this.datePipe.transform(new Date(),"yyMMdd");
     const codigo = "27" + fecha + "99";
     const rfc = "XAXX010101000";
+    this.titulo = "Teclee los Datos del Cliente";
 
     this.form = this.builder.group({
       codigo : [codigo, [Validators.required]],
@@ -67,6 +69,10 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
       this.form.get("codigo").enable();
     }
     console.log("Clientes form component Modo", this.modo);
+    if(this.modo == "DETALLES") {
+      this.titulo = "Detalles del Cliente";
+    }
+
     if(this.modo == "EDIT" || this.modo == "DETALLES") {
         this.inicializaForm();
     }
@@ -90,10 +96,10 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
       this.form.get("codpostal").setValue(this.cliente.codpostal);
       this.form.get("telefono").setValue(this.cliente.telefono);
       this.form.get("regimen").setValue(this.cliente.idregimen);
-      this.form.get("appat").setValue("Apellido Paterno");
-      this.form.get("apmat").setValue("Apellido Materno");
-      this.form.get("nompil1").setValue("nombre 1");
-      this.form.get("nompil2").setValue("nombre 2");
+      this.form.get("appat").setValue(this.cliente.appat);
+      this.form.get("apmat").setValue(this.cliente.apmat);
+      this.form.get("nompil1").setValue(this.cliente.nompil1);
+      this.form.get("nompil2").setValue(this.cliente.nompil2);
       this.form.get("email").setValue(this.cliente.email);
       this.busca_nombres ();
     } else {
@@ -143,19 +149,21 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     let nombre = {
       appat: "",
       apmat: "",
-      nombre1: "",
-      nombre2: ""
+      nompil1: "",
+      nompil2: ""
    }
    
    const nombres = this.clientesService.obten_nombres(this.cliente.idnombre).subscribe( res => {
+    console.log("Estoy en Clietes-form busca_nombres", res);
+
        nombre.appat = res.appat;
        nombre.apmat = res.apmat;
-       nombre.nombre1 = res.nombre1;
-       nombre.nombre2 = res.nombre2;
+       nombre.nompil1 = res.nompil1;
+       nombre.nompil2 = res.nompil2;
        this.form.get("appat").setValue(nombre.appat);
        this.form.get("apmat").setValue(nombre.apmat);
-       this.form.get("nompil1").setValue(nombre.nombre1);
-       this.form.get("nompil2").setValue(nombre.nombre2);
+       this.form.get("nompil1").setValue(nombre.nompil1);
+       this.form.get("nompil2").setValue(nombre.nompil2);
 
    });
 

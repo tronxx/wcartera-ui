@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { lastValueFrom, Observable, of } from 'rxjs';
+import { firstValueFrom, lastValueFrom, Observable, of } from 'rxjs';
 import { VentasCompletas, Ubivtas, Clientes, Vendedores, 
         Token, Tarjetatc, Articulo, Factorvtacred,
-        Nulets, Promotores, Tabladesctocont, Serie,
-        Ventas, Movclis} 
+        Nulets, Promotores, Tabladesctocont, Serie, AvalCompleto,
+        Ventas, Movclis,
+        TIPOS_SOLICIT} 
         from '@models/index';
 
 @Injectable({
@@ -75,6 +76,22 @@ export class VentasService {
 
   }
 
+  buscarVentaPorNombre(nombre:string): Observable<VentasCompletas[]>{
+    this.url = this.configService.config.url;
+    const minombre = encodeURIComponent(nombre);
+    const miurl = `${this.url}/ventas/busquedaxnombre/${this.cia}/${minombre}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarVentaPorNombre", miurl);
+    return( this.http.get<VentasCompletas[]> (miurl,  {'headers':headers}) );
+
+  }
+
+
   buscarVentaPorCodigo(codigo:string): Observable<VentasCompletas>{
     this.url = this.configService.config.url;
     const miurl = `${this.url}/ventas/${this.cia}/-1/${codigo}`;
@@ -89,6 +106,18 @@ export class VentasService {
 
   }
 
+  buscarAvalporIdventa(idventa:number): Observable<AvalCompleto>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/avales/${this.cia}/-1/${idventa}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarAvalporIdventa", miurl);
+    return( this.http.get<AvalCompleto> (miurl,  {'headers':headers}) );
+  }
 
   buscarMovimientosVentas(id:number): Observable<Movclis[]>{
     this.url = this.configService.config.url;
@@ -101,6 +130,30 @@ export class VentasService {
     };    
     if(this.debug) console.log("Estoy en buscarMovimientosVentas", miurl);
     return( this.http.get<Movclis[]> (miurl,  {'headers':headers}) );
+
+  }
+
+  async obtenerRecargosLetra(idventa:number, letra:number): Promise<any>{
+    try {
+      const recargos = await firstValueFrom(this.buscarRecargosLetra(idventa, letra));
+      return recargos;
+    } catch (error) {
+      console.error("Error al obtener Recargos:", error);
+      throw error;
+    }
+  }
+  
+  buscarRecargosLetra(idventa:number, letra:number): Observable<any>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/movclis/recargos/${this.cia}/${idventa}/${letra}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("buscarRecargosLetra", miurl);
+    return( this.http.get<any> (miurl,  {'headers':headers}) );
 
   }
 
@@ -231,6 +284,44 @@ export class VentasService {
 
   }
 
+  buscarLetrasImpresas(id: number): Observable<any>{
+    this.url = this.configService.config.url;
+    const tipo = TIPOS_SOLICIT.VENTA;
+    const miurl = `${this.url}/solicitudes/letrasimpresas/${this.cia}/${id}/${tipo}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarLetrasImpresas", "url:",miurl);
+    return( this.http.get<any> (miurl,  {'headers':headers}) );
+
+  }
+
+  grabarLetrasImpresas(id: number, ltaini: number, ltafin:number): Observable<any>{
+    this.url = this.configService.config.url;
+    const tipo = TIPOS_SOLICIT.VENTA;
+ 
+    const miurl = `${this.url}/solicitudes/grabarletrasimpresas`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+    const letrasimpresas = {
+      idcliente: id,
+      cia: this.cia,
+      tipo: tipo,
+      ltaini: ltaini,
+      ltafin: ltafin
+    }
+    const strletrasimpresas = JSON.stringify(letrasimpresas);
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en grabarLetrasImpresas", strletrasimpresas, "url:",miurl);
+    return( this.http.post<any> (miurl, strletrasimpresas, {'headers':headers}) );
+
+  }
 
   delete(venta: VentasCompletas): Observable<VentasCompletas>{
     this.url = this.configService.config.url;
@@ -363,5 +454,34 @@ export class VentasService {
 
   }
 
+  impresionLetras(datosletras: string) {
+    let misdatos = JSON.parse(datosletras);
+    let miurl = this.configService.config.oldurl + "altas/impriletras.php";
+    const nombrecliente = encodeURIComponent(misdatos.nombrecliente);
+    const nombreaval = encodeURIComponent(misdatos.nombreaval);
+    const dircliente = encodeURIComponent(misdatos.dircliente);
+    const diraval = encodeURIComponent(misdatos.diraval);
+    const poblac = encodeURIComponent(misdatos.poblac);
+    const pobaval = encodeURIComponent(misdatos.pobaval);
+
+    miurl += "?modo=impresionLetras";
+    miurl += `&codigo=${misdatos.codigo}`;
+    miurl += `&idcli=${misdatos.idcli}`;
+    miurl += `&letrainicial=${misdatos.letrainicial}`;
+    miurl += `&letrafinal=${misdatos.letrafinal}`;
+    miurl += `&fechavta=${misdatos.fechavta}`;
+    miurl += `&diasprom=${misdatos.diasprom}`;
+    miurl += `&nombrecliente=${nombrecliente}`;
+    miurl += `&dircliente=${dircliente}`;
+    miurl += `&diraval=${diraval}`;
+    miurl += `&poblac=${poblac}`;
+    miurl += `&nombreaval=${nombreaval}`;
+    miurl += `&pobaval=${pobaval}`;
+    miurl += `&impletra=${misdatos.impletra}`;
+    miurl += `&totletras=${misdatos.totletras}`;
+    if(this.debug) console.log("Estoy en Imprimir Letras",  "url:",miurl);
+    window.open(miurl, "_blank");
+  }
+  
 
 }

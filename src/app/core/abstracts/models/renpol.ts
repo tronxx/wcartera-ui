@@ -8,6 +8,8 @@ export interface Renpol {
     tipo: string;
     rob: number;
     importe: number;
+    recargos: number;
+    bonificacion: number;
     vence: string;
     comision: number;
     dias: number;

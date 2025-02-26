@@ -1,0 +1,40 @@
+<mat-card class="mat-elevation-z5" style="padding: 1rem;">
+
+    <div mat-dialog-content>{{title}}
+        <form [formGroup]="form" (submit)="aceptar()">    
+            <mat-form-field style="width: 100%;">
+                <mat-label>
+                    Letra Inicial
+                </mat-label>
+                <input type="number" matInput formControlName="ltainicial">
+                <mat-error *ngIf="ltainicial.hasError('required')">
+                    ¡Introduce La letra Inicial!
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field style="width: 100%;">
+                <mat-label>
+                    Letra Final
+                </mat-label>
+                <input type="number" matInput formControlName="ltafinal">
+                <mat-error *ngIf="ltafinal.hasError('required')">
+                    ¡Introduce la letra Final!
+                </mat-error>
+            </mat-form-field>
+            </form>
+        
+    </div>
+    <div mat-dialog-actions>
+        <div style="width: 100%; display: flex; justify-content: center; padding-top: .5rem;">
+            <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="aceptar()">
+                <span style="margin: 0; padding: 0;">
+                    Aceptar
+                </span>
+            </button>
+            <button mat-raised-button color="cancel" (click)="closeno()">
+                <span style="margin: 0; padding: 0;">
+                    Cancelar
+                </span>
+            </button>
+        </div>
+    </div>
+</mat-card>

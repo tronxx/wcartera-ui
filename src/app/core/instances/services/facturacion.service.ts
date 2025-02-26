@@ -112,4 +112,18 @@ export class FacturacionService {
     if(this.debug) console.log("Estoy en obtenerRenfac ", "url:",miurl);
     return( this.http.get<any> (miurl, {'headers':headers}) );
   }
+
+  obtenerCompra(id: number) {
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/renfac/compra/${id}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en obtenerRenfac ", "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+  }
+
 }

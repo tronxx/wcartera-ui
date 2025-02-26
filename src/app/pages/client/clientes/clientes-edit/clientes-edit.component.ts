@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ClientesFormComponent } from '@forms/shared-components/clientes/clientes-form/clientes-form.component'
-import { ClientesDto } from '@dtos/clientes.dto';
+import { ClientesDto, ClienteDtoCompleto } from '@dtos/clientes.dto';
 import { ComplementosService } from '@services/complementos.service';
 import { NombreDto } from '@dtos/nombres.dto'
 
@@ -13,7 +13,7 @@ import { NombreDto } from '@dtos/nombres.dto'
 export class ClientesEditComponent implements OnInit {
   title = "";
   public message = "Clientes";
-  public cliente : ClientesDto = null;
+  public cliente : ClienteDtoCompleto = null;
   public modo : string;
   listo = false;
 

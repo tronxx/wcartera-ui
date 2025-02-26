@@ -3,7 +3,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ConfigService } from './config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom, Observable, of } from 'rxjs';
-import { Nombres, Clientes, Token } from '@models/index'
+import { Nombres, Clientes, Token, TIPOS_SOLICIT } from '@models/index'
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -104,6 +105,17 @@ export class ClientesService {
 
   }
 
+  async obtenerNombresAsync(id: number): Promise<Nombres> {
+    try {
+      const nombres = await firstValueFrom(this.obten_nombres(id));
+      console.log("Respuesta obtenida:", nombres);
+      return nombres;
+    } catch (error) {
+      console.error("Error al obtener nombres:", error);
+      throw error;
+    }
+  }  
+
   obten_nombres(id: number) : Observable<Nombres> {
     this.url = this.configService.config.url;
     const micia = this.cia;
@@ -184,12 +196,13 @@ export class ClientesService {
 
   }
 
-  obtener_solicitud(idcliente: number) : Observable<any> {
+  obtener_solicitud(idcliente: number, tipo:number) : Observable<any> {
     this.url = this.configService.config.url;
     const micia = this.cia;
     const idcli = idcliente;
+    
   
-    const miurl = `${this.url}/solicitudes/${micia}/${idcliente} `;
+    const miurl = `${this.url}/solicitudes/${micia}/${idcliente}/${tipo} `;
     
     const headers = { 
       'content-type': 'application/json',
@@ -201,5 +214,22 @@ export class ClientesService {
 
   }
 
+  obtener_letras_impresas(idcliente: number) : Observable<any> {
+    this.url = this.configService.config.url;
+    const micia = this.cia;
+    const idcli = idcliente;
+    const tipo = TIPOS_SOLICIT.VENTA;
+  
+    const miurl = `${this.url}/solicitudes/${micia}/${idcliente}/${tipo} `;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+
+    //console.log("Estoy en get obtener solicitud", idcliente, "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+
+  }
 
 }

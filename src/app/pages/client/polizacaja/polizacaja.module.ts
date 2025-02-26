@@ -30,6 +30,7 @@ import { PolizacajaComponent } from './polizacaja.component';
 import { DetallesComponent } from './detalles/detalles.component';
 import { VencimientosComponent } from '@forms/shared-components/vencimientos/vencimientos/vencimientos.component';
 import { DlgpagosComponent } from './dlgpagos/dlgpagos.component';
+import { DatosventaComponent } from '@forms/shared-components/ventas/datosventa/datosventa.component';
 
 const routes : Routes = [
   {

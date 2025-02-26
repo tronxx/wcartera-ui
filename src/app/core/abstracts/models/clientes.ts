@@ -18,3 +18,10 @@ export interface Clientes {
     updated_at: string;
 
 }
+
+export interface ClienteCompleto extends Clientes {
+    appat: string;
+    apmat: string;
+    nompil1: string;
+    nompil2: string;
+}

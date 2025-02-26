@@ -1,101 +1,74 @@
 <div>
-    <div *ngIf="nuevapoliza">
-        <div>
-            <label >Fecha </label>
-            <input type="date" value="{{fecha }}">
+    <div *ngIf="polizacaja" >
+        <div class="row" style="align-items: flex-start; width: 100%;">
+                <label >Fecha </label>
+                <input type="tex" readonly value="{{polizacaja.fecha | date : 'YYYY-MM-dd' }}" >
+                <label >Tda </label>
+                <input type="text" readonly value = "{{polizacaja.tda}} {{polizacaja.nombretda}}">
+                <label >Cobratario</label> <input type="text" readonly value = "{{cobratario.codigo}} {{cobratario.nombre}}">
         </div>
         <div>
             <mat-label>
-                Tienda
-                <select  name="codtda" id="codtda" value="{{codtda}}" 
-                [(ngModel)]= "codtda" >
-               <option *ngFor="let micodigocaja of codigoscaja" value="{{micodigocaja.tda}}"
-                 [selected]="codtda == micodigocaja.tda">
-                 {{micodigocaja.tda}} {{micodigocaja.nombre}}
-                 </option>
-           </select>
-           </mat-label>
-           <div>
-            <button *ngIf="nuevapoliza" mat-raised-button color="primary" 
-            (click)="crear_poliza()" type="button">
-                <mat-icon>ok</mat-icon>
-                Aceptar
-            </button>
-           </div>
+                Cliente
+                <input type="text" [(ngModel)]="codvta">
+                <button  mat-raised-button color="primary" 
+                (click)="buscar_cliente()" type="button">
+                    <mat-icon>search</mat-icon>
+                    Aceptar
+                </button>
+                <button  mat-raised-button color="primary" 
+                (click)="buscar_por_nombre()" type="button">
+                    <mat-icon>search</mat-icon>
+                    Buscar Nombre
+                </button>
+            </mat-label>
     
         </div>
     </div>
     <div *ngIf="polizacaja" class="grid-container">
-        <div>
-            <label >Fecha </label>
-            <input type="tex" readonly value="{{polizacaja.fecha | date : 'YYYY-MM-dd' }}" >
-        </div>
-        <div>
-            <label >Tda </label>
-            <input type="text" readonly value = "{{polizacaja.tda}}">
-            <input type="text" readonly value = "{{polizacaja.nombretda}}">
-        </div>
-        <mat-label>
-            Cliente
-            <input type="text" [(ngModel)]="codvta">
-            <button  mat-raised-button color="primary" 
-            (click)="buscar_cliente()" type="button">
-                <mat-icon>search</mat-icon>
-                Aceptar
-            </button>
-        </mat-label>
-    </div>
-    <div *ngIf="polizacaja" class="grid-container">
-        <div *ngIf="venta">
-            <div class="grid-container">
+        <div *ngIf="venta" style="width: 100%;">
+            <div class="grid-container" style="width: 70%;">
                 <div>
                     <mat-label>
                         Nombre
                         <input type="text" value = "{{venta.nombre}}">
                     </mat-label>
-                    <mat-label>
-                        Enganche
-                        <input type="text" value = "{{venta.enganc}}">
-                    </mat-label>
-                    <mat-label>
-                        Servicio
-                        <input type="text" value = "{{venta.servicio}}">
-                    </mat-label>
-        
-                    <mat-label>
-                        Letras
-                        <input type="text" value = "{{venta.nulets}}">
-                    </mat-label>
-                    <mat-label>
-                        Importe x Letra
-                        <input type="text" value = "{{venta.canle}}">
-                    </mat-label>
-                    <mat-label>
-                        Total Facturacion
-                        <input type="text" value = "{{venta.cargos}}">
-                    </mat-label>
-                    <mat-label>
-                        Abonos
-                        <input type="text" value = "{{venta.abonos}}">
-                    </mat-label>
-                    <mat-label>
-                        Saldo
-                        <input type="text" value = "{{venta.saldo}}">
-                    </mat-label>
-                    <div>
-                        <mat-label>
-                            Compra
-                            <input type="text" value = "{{compra}}">
-                        </mat-label>
-                    </div>
-                    <button mat-raised-button color="primary" 
-                    (click)="cobrar(venta)" type="button">
-                        <mat-icon>payment</mat-icon>
-                        Cobrar
-                    </button>
-
                 </div>
-
+                <mat-label>
+                    Enganche
+                    <input type="text" value = "{{venta.enganc}}">
+                </mat-label>
+                <mat-label>
+                    Servicio
+                    <input type="text" value = "{{venta.servicio}}">
+                </mat-label>
+    
+                <mat-label>
+                    Letras
+                    <input type="text" value = "{{venta.nulets}}">
+                </mat-label>
+                <mat-label>
+                    Importe x Letra
+                    <input type="text" value = "{{venta.canle}}">
+                </mat-label>
+                <mat-label>
+                    Total Facturacion
+                    <input type="text" value = "{{venta.cargos}}">
+                </mat-label>
+                <mat-label>
+                    Abonos
+                    <input type="text" value = "{{venta.abonos}}">
+                </mat-label>
+                <mat-label>
+                    Saldo
+                    <input type="text" value = "{{venta.saldo}}">
+                </mat-label>
+                <div style="width: 100%;">
+                    <mat-label>
+                        Compra
+                        <input type="text" value = "{{compra}}">
+                    </mat-label>
+                </div>
 
             </div>
             <div class="boxscroll">
@@ -103,11 +76,18 @@
                     <app-vencimientos *ngIf="yatengovencimientos" [nulets]="venta.nulets" [vencimientos]="vencimientos"></app-vencimientos>
                 </div>
             </div>
-                    
         </div>
-
     </div>
+    <div *ngIf="venta" >
+        <button mat-raised-button color="primary" 
+        (click)="cobrar(venta)" type="button">
+            <mat-icon>payment</mat-icon>
+            Cobrar
+        </button>
+    </div>
+
     <div>
+    
         <table mat-table [dataSource]="renglones" style="width: 100%;">
             <ng-container matColumnDef="codigo">
                 <th mat-header-cell *matHeaderCellDef> Código </th>
@@ -130,13 +110,18 @@
                 <td mat-cell *matCellDef="let element">  {{element.dias }} </td>
             </ng-container>
 
-            <ng-container matColumnDef="bonif">
-                <th mat-header-cell *matHeaderCellDef> Bonificación </th>
-                <td mat-cell *matCellDef="let element">  {{element.bonif | currency }} </td>
+            <ng-container matColumnDef="tipo">
+                <th mat-header-cell *matHeaderCellDef> Tipo </th>
+                <td mat-cell *matCellDef="let element">  {{element.tipo }} </td>
             </ng-container>
-            <ng-container matColumnDef="recar">
+
+            <ng-container matColumnDef="bonificacion">
+                <th mat-header-cell *matHeaderCellDef> Bonificación </th>
+                <td mat-cell *matCellDef="let element">  {{element.bonificacion | currency }} </td>
+            </ng-container>
+            <ng-container matColumnDef="recargos">
                 <th mat-header-cell *matHeaderCellDef>Recargos </th>
-                <td mat-cell *matCellDef="let element">  {{element.recar | currency }} </td>
+                <td mat-cell *matCellDef="let element">  {{element.recargos | currency }} </td>
             </ng-container>
             <ng-container matColumnDef="importe">
                 <th mat-header-cell *matHeaderCellDef> importe </th>

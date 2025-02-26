@@ -18,8 +18,11 @@ import { DlgimportarComponent } from './dlgimportar/dlgimportar.component';
 import { PidepasswdComponent } from './pidepasswd/pidepasswd.component';
 import { PiderangofechasComponent } from './piderangofechas/piderangofechas.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field'
 import { DlgbusarticuloComponent } from './dlgbusarticulo/dlgbusarticulo.component';
 import { DlgbusclienteComponent } from './dlgbuscliente/dlgbuscliente.component';
+import { DlgimpriletrasComponent } from './dlgimpriletras/dlgimpriletras.component';
+import { MatInputModule } from '@angular/material/input';
 
 const components = [
   TableComponent,
@@ -36,6 +39,7 @@ const components = [
     PiderangofechasComponent,
     DlgbusarticuloComponent,
     DlgbusclienteComponent,
+    DlgimpriletrasComponent,
 
   ],
   imports: [
@@ -50,6 +54,8 @@ const components = [
     MatPaginatorModule,
     ReactiveFormsModule,
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatIconModule
   ],
   exports: [

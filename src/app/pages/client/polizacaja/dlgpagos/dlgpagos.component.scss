@@ -1,0 +1,48 @@
+/* Estilos base */
+.contenedor {
+    display: flex;
+    flex-direction: column; /* Organiza las filas verticalmente */
+    width: 100%;
+    max-width: 1200px; /* Ajusta según sea necesario */
+    margin: 0 auto; /* Centra el contenedor */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .fila-superior {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las columnas se apilen en pantallas pequeñas */
+    width: 100%;
+  }
+  
+  .fila-inferior {
+    width: 100%;
+    margin-top: 20px; /* Espacio entre las filas */
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #f0f0f0; /* Color de fondo para distinguir el área libre */
+  }
+  
+  .columna {
+    box-sizing: border-box;
+    padding: 10px;
+  }
+  
+  .izquierda {
+    flex: 0 0 70%; /* Ocupa el 70% del ancho */
+    max-width: 70%; /* Asegura que no exceda el 70% */
+  }
+  
+  .derecha {
+    flex: 0 0 30%; /* Ocupa el 30% del ancho */
+    max-width: 30%; /* Asegura que no exceda el 30% */
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .izquierda, .derecha {
+      flex: 0 0 100%; /* En pantallas pequeñas, cada columna ocupa el 100% */
+      max-width: 100%;
+    }
+  }
+  

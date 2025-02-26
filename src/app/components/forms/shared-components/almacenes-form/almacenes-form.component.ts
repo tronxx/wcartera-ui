@@ -74,7 +74,7 @@ export class AlmacenesFormComponent extends Form<AlmacenesDto> implements OnChan
   }
 
   aceptar() {
-    console.log("Hiciste click en aceptar");
+    //console.log("Hiciste click en aceptar");
     this.submitData.emit(this.form.value);
     
   }

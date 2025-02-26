@@ -34,7 +34,7 @@ const routes : Routes = [
     component: VentasComponent
   },
   {
-    path: 'detalleventas/:idventa',
+    path: 'detalleventas/:codigo',
     component: VentasComponent
 
   }

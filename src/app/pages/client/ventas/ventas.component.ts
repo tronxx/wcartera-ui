@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCard } from '@angular/material/card';
 import { VentasCompletas, Nombres, Clientes, Ciudades, Vendedores,
-        Promotores, Factura, Renfac, FacturaCompleta,
+        Promotores, Factura, Renfac, FacturaCompleta, AvalCompleto,
         Movclis, Movcliscsaldo, Metodopago, Usocfdi, Regimenes } 
        from '@models/index';
 import { ComplementosService } from '@services/complementos.service';
@@ -24,11 +24,12 @@ import { lastValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { PiderangofechasComponent } from '@components/piderangofechas/piderangofechas.component';
 import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.component';
+import { DlgimpriletrasComponent } from '@components/dlgimpriletras/dlgimpriletras.component';
 import { MovimientostablaComponent } from '@forms/shared-components/ventas/movimientostabla/movimientostabla.component';
 import { FacturaComponent } from '@forms/shared-components/ventas/factura/factura.component';
 import { SolicitudFormComponent } from '@forms/shared-components/solicitud/solicitud-form/solicitud-form.component';
 import { SolcitudExtendida } from '@dtos/solicitud-dto';
-import { CLAVES_SOLICIT } from '@models/solicitud';
+import { CLAVES_SOLICIT, TIPOS_SOLICIT } from '@models/solicitud';
 
 @Component({
   selector: 'app-ventas',
@@ -39,18 +40,21 @@ export class VentasComponent {
   clientes: Clientes[] = [];
   cliente?: Clientes;
   ciudades: Ciudades[] = [];
+  ciudad?: Ciudades;
   movclisssaldo: Movclis[] = [];
   movclis: Movcliscsaldo[] = [];
   ventascompletas : VentasCompletas[] = [];
   venta?:VentasCompletas;
   vendedor?: Vendedores;
   promotor?: Promotores;
+  aval?: AvalCompleto;
   renglonesfac: Renfac[] = [];
   metodpago?: Metodopago;
   usocfdi?: Usocfdi;
   factura?: Factura;
   regimen?: Regimenes;
   facturacompleta?: FacturaCompleta;
+  letrasyaimpresas_z = [0];
   public solicitudextendida : SolcitudExtendida = null;
   public modo = "modo inicial";
 
@@ -83,7 +87,7 @@ export class VentasComponent {
     ) { }
   
     ngOnInit(): void {
-      this.idventa = Number (String(this.router.snapshot.paramMap.get('idventa')));
+      this.codigo = String(this.router.snapshot.paramMap.get('codigo'));
       var mistorage_z  = localStorage.getItem('token') || "{}";
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
@@ -95,14 +99,14 @@ export class VentasComponent {
       }
       this.modo = JSON.stringify(datosiniciales);
 
-      if(this.idventa) this.buscar_mi_venta();
+      if(this.codigo)  {         this.buscar_mi_venta();       } 
     }
 
     buscar_mi_venta() {
-      console.log("idventa", this.idventa);
+      console.log("codigo", this.codigo);
       this.yatengosolicit = false;
 
-      this.ventasService.buscarVentaPorId(this.idventa).subscribe(
+      this.ventasService.buscarVentaPorCodigo(this.codigo).subscribe(
         res => {
           this.venta = res;
           console.log("Venta ", this.venta);
@@ -113,6 +117,9 @@ export class VentasComponent {
           this.buscarmovclis(this.venta.idventa);
           this.buscarfactura(this.venta.idfactura);
           this.buscar_solicitud(this.venta.idcliente);
+          if(this.escredito) {
+            this.buscaraval(this.venta.idventa);
+          }
 
         }
         
@@ -132,8 +139,22 @@ export class VentasComponent {
       this.clientesService.obten_cliente(id).subscribe( res => {
          this.cliente = res;
          this.obten_regimen (this.cliente.idregimen);
+         this.obtenCiudad(this.cliente.idciudad);
       })
 
+   }
+
+   buscaraval(id:number) {
+    this.ventasService.buscarAvalporIdventa (id).subscribe( res => {
+       this.aval = res;
+    })
+
+ }
+
+ obtenCiudad(id: number) {
+    this.complementosService.obten_ciudad_x_id(id).subscribe( res => {
+      this.ciudad = res;
+    });
    }
 
    obten_uso_cfdi(id: number) {
@@ -170,7 +191,7 @@ export class VentasComponent {
            const movcli = { ...mov, saldo: saldo}
            this.movclis.push(movcli);
         }
-        console.log("movclis", this.movclis);
+        //console.log("movclis", this.movclis);
         this.yatengomovclis = true;
       });
 
@@ -268,8 +289,9 @@ export class VentasComponent {
 
       this.solicitudextendida.idcliente = idcliente;
       //console.log("Estoy en buscar_solcitud", idcliente);
+      const tipo = TIPOS_SOLICIT.VENTA;
       
-      this.clientesService.obtener_solicitud(idcliente).subscribe( res => {
+      this.clientesService.obtener_solicitud(idcliente, tipo).subscribe( res => {
         //console.log("clientesService.obtener_solicitud", res);
         for(let mires of res) {
           switch (mires.iddato) {
@@ -346,5 +368,133 @@ export class VentasComponent {
       });
 
     }
+
+    async imprime_letras() {
+      const letrasimpresas = await this.buscar_letras_impresas();
+      this.letrasyaimpresas_z = letrasimpresas;
+      let nletrasimpresas = this.letrasyaimpresas_z.length;
+      const nulets = this.venta.nulets;
+  
+      if(nletrasimpresas >= nulets) {
+         this.alerta("Ya se han impreso todas las letras");
+         return;
+      }
+      let ltaini_z = nulets;
+      let ltafin_z = 0;
+      for (let mii_z = 1; mii_z <= nulets; mii_z++) {
+         if (!this.letrasyaimpresas_z.includes(mii_z) ) {
+           if(mii_z < ltaini_z) ltaini_z = mii_z;
+           if(mii_z > ltafin_z) ltafin_z = mii_z;
+         } 
+      }
+                
+      let params_z = {
+        ltainicial: ltaini_z,
+        ltafinal: ltafin_z,
+        letrasimpresas: true,
+        title: "Seleccione Las letras a Imprimir"
+      }
+      const dialogref = this.dialog.open(DlgimpriletrasComponent, {
+        width:'350px',
+        data: JSON.stringify( params_z)
+      });
+      let yaimprimi_z = 0;
+      dialogref.afterClosed().subscribe(res => {
+        if(res) {
+          let valido = true;
+          for (let mii_z = res.ltainicial; mii_z <= res.ltafinal; mii_z++) {
+             
+             if(valido) {
+              if (this.letrasyaimpresas_z.includes(mii_z) ) {
+                valido = false; yaimprimi_z = mii_z;
+              } 
+             }
+          }
+          if(!valido) {
+            this.alerta("La letra " + yaimprimi_z.toString() + " Ya fue impresa previamente");
+            return;
+          }          
+          const misletras = this.imprimirletras(res); 
+        }
+      });
+    
+    }
+
+    async buscar_letras_impresas() {
+      let result = [];
+      if(!this.venta) {
+        this.alerta("Aun no ha accesado ningun cliente");
+      } else {
+        const id  = this.venta.idventa;        
+        try {
+            let res = await this.ventasService.buscarLetrasImpresas(id).toPromise();
+            for(let mii_z of res) {
+              result.push(mii_z.iddato - CLAVES_SOLICIT.LETRASIMPRESAS);
+            }
+            
+        } catch(err) {
+            console.log(err); // you might not actually want to eat this exception.
+        }        
+    
+      }
+      return result;
+     
+    }
+    
+
+    async imprimirletras(letras: any) {
+      const dircliente = this.cliente.calle + " N." + this.cliente.numpredio +
+        this.cliente.colonia;
+      const diraval = this.aval.calle;
+      const poblac = this.ciudad.ciudad;
+      const pobaval = this.aval.ciudad;
+      const nombreaval = this.aval.nombre;
+      let ltaini = letras.ltainicial;
+      let ltafin = letras.ltafinal;
+      if(!ltaini) ltaini = 1;
+      if(!ltafin) ltafin = 1;
+
+      const datos = {
+        codigo: this.venta.codigo,
+        idcli: this.venta.idventa,
+        letrainicial: ltaini,
+        letrafinal: ltafin,
+        fechavta: this.venta.fecha,
+        diasprom: 0,
+        nombrecliente: this.venta.nombre,
+        dircliente: dircliente,
+        diraval: diraval,
+        poblac: poblac,
+        pobaval: pobaval,
+        nombreaval: nombreaval,
+        impletra: this.venta.canle,
+        totletras: this.venta.nulets
+      }
+      const datosletras = JSON.stringify(datos);
+      try {
+          this.ventasService.impresionLetras(datosletras);
+          const id = this.venta.idventa;
+          this.ventasService.grabarLetrasImpresas(id, ltaini, ltafin).subscribe( res => {
+            const datos = res;
+          }
+            
+          );
+          //console.log(resultado);
+      } catch (error) {
+          console.error("Error al obtener los datos:", error);
+      }
+  }    
+
+  alerta(mensaje: string) {
+    const dialogref = this.dialog.open(DlgyesnoComponent, {
+      width:'350px',
+      data: mensaje
+    });
+    dialogref.afterClosed().subscribe(res => {
+      //console.log("Debug", res);
+    });
+  
+  }
+
     
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { Nombres, Clientes, Ciudades } from '@models/index';
+import { Nombres, Clientes, Ciudades, VentasCompletas } from '@models/index';
 import { ClientesService } from '@services/clientes.service';
+import { VentasService } from '@services/ventas.service';
 
 @Component({
   selector: 'app-dlgbuscliente',
@@ -13,18 +14,41 @@ export class DlgbusclienteComponent implements OnInit {
 
   clientes: Clientes[] = [];
   cliente?: Clientes;
+  ventas: VentasCompletas[] = [];
+  miventa?: VentasCompletas;
   codigo = "";
   nombre = "";
+  tipo = "";
+  escliente = false;
+  esventa = false;
 
   constructor(
     public dialogRef: MatDialogRef<DlgbusclienteComponent>,
     @Inject(MAT_DIALOG_DATA) public message : string,
     private clientesService : ClientesService,
+    private ventasService: VentasService,
+
     public dialog: MatDialog,
     ) { }
   
     ngOnInit(): void {
-      this.codigo = this.message;
+      const datosrecibidos = JSON.parse(this.message);
+      this.nombre = datosrecibidos.nombre;
+      this.tipo = datosrecibidos.tipo;
+      if(this.tipo == "CLIENTE") {
+        this.escliente =  true;
+        this.buscar_cliente_nombre(this.nombre);
+      }
+      if (this.tipo == "VENTA") {
+        this.esventa = true;
+        this.buscar_lista_ventas(this.nombre);
+      }
+    }
+
+    buscar_lista_ventas(nombre: string) {
+        this.ventasService.buscarVentaPorNombre(nombre).subscribe( res => {
+          this.ventas = res;
+        });
     }
   
 
@@ -35,8 +59,8 @@ export class DlgbusclienteComponent implements OnInit {
 
   }
 
-  buscar_cliente_nombre() {
-    this.clientesService.busca_clientes_nombre(this.nombre).subscribe(res => {
+  buscar_cliente_nombre(nombre: string) {
+    this.clientesService.busca_clientes_nombre(nombre).subscribe(res => {
       this.clientes = res;
     })
 
@@ -48,8 +72,17 @@ export class DlgbusclienteComponent implements OnInit {
     this.codigo = clien.codigo;
   }
 
+  select_venta(venta: VentasCompletas) {
+    this.miventa = venta;
+    this.nombre = venta.nombre;
+    this.codigo = venta.codigo;
+  }
+
   closeyes() {
-    this.dialogRef.close(this.cliente);
+    let resultado = {};
+    if(this.escliente) resultado = this.cliente;
+    if(this.esventa) resultado = this.miventa;
+    this.dialogRef.close(resultado);
   }
 
   closeno() {

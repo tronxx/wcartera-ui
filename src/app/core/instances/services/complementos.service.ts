@@ -58,6 +58,21 @@ export class ComplementosService {
 
   }
 
+  obten_ciudad_x_id(idciudad:number) : Observable<Ciudades> {
+    this.url = this.configService.config.url;
+  
+    const miurl = `${this.url}/ciudades/${this.cia}/${idciudad}`;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("ciudades service url", miurl);
+    
+    return( this.http.get<Ciudades> (miurl, {'headers':headers}) );
+
+  }
+
   obten_lista_regimenes() : Observable<Regimenes[]> {
     this.url = this.configService.config.url;
   

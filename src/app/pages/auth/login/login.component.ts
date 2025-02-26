@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
   
   constructor(
     private loginService : LoginService,
+    private configService: ConfigService,
     public router: Router
   ) {}
 
@@ -69,6 +70,7 @@ export class LoginComponent implements OnInit {
       this.registro_z.usuario.cia = xmiuser.usuario.cia;
       this.registro_z.usuario.parent = xmiuser.usuario.padre;
       this.registro_z.token = xmiuser.token;
+      this.configService.asigna_idusuario(xmiuser.id, xmiuser.iniciales, xmiuser.maestro);
       
       localStorage.setItem("token", JSON.stringify( this.registro_z));
       this.router.navigateByUrl('/app/landing');

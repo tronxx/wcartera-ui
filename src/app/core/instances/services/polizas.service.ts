@@ -114,6 +114,21 @@ export class PolizasService {
 
   }
 
+  buscar_Codigos_Caja_Usuario(idusuario: number): Observable<Codigocaja[]>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/codigoscaja/codigosusuario/${this.cia}/${idusuario} `;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscar_Codigos_Caja_Usuario", miurl);
+    return( this.http.get<Codigocaja[]> (miurl,  {'headers':headers}) );
+
+  }
+
+
   buscar_Renglones_Poliza(idpoliza: number): Observable<Renpolcompleto[]>{
     this.url = this.configService.config.url;
     const miurl = `${this.url}/renpol/${this.cia}/${idpoliza}`;
@@ -125,6 +140,21 @@ export class PolizasService {
     };    
     if(this.debug) console.log("Estoy en buscar_Renglones_Poliza", miurl);
     return( this.http.get<Renpolcompleto[]> (miurl,  {'headers':headers}) );
+
+  }
+
+  agrega_Renglon_Poliza(nuevorenglon: any): Observable<any>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/renpol`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+    const nvaventa = JSON.stringify(nuevorenglon);
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en Agregar Renglón de Poliza", nuevorenglon, "url:",miurl);
+    return( this.http.post<any> (miurl, nvaventa, {'headers':headers}) );
 
   }
 

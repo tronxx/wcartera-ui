@@ -18,6 +18,13 @@ export class ConfigService {
 
   }
 
+  usuario = {
+    idusuario: -1,
+    iniciales: '',
+    maestro: ''
+  }
+  
+
 
   debug = true;
 
@@ -53,6 +60,12 @@ export class ConfigService {
 
   obtenNumeroCia() {
     return (this.config.cia);
+  }
+
+  asigna_idusuario(idusuario: number, iniciales: string, maestro: string) {
+    this.usuario.idusuario = idusuario;
+    this.usuario.iniciales = iniciales;
+    this.usuario.maestro = maestro;
   }
 
   obtenTiposClientesyQOM(tipo: string) {

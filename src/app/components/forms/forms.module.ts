@@ -29,6 +29,7 @@ import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { FacturaComponent } from './shared-components/ventas/factura/factura.component';
 import { PolizacajaFormComponent } from './shared-components/polizacaja/polizacaja-form/polizacaja-form.component';
 import { VencimientosComponent } from './shared-components/vencimientos/vencimientos/vencimientos.component';
+import { DatosventaComponent } from './shared-components/ventas/datosventa/datosventa.component';
 
 const forms = [
   LoginFormComponent,
@@ -45,6 +46,7 @@ const forms = [
   FacturaComponent,
   PolizacajaFormComponent,
   VencimientosComponent,
+  DatosventaComponent,
 
 ]
 
