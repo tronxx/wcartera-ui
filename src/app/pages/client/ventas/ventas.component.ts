@@ -239,6 +239,7 @@ export class VentasComponent {
           rfc:rfc,
           regimen: regimen,
           email: email,
+          codigoregimen : this.regimen.clave,
           renglones: this.renglonesfac
         }
         this.yatengofactura = true;

@@ -23,6 +23,7 @@ export interface Factura  {
 
 export interface FacturaCompleta extends Factura {
     regimen: string;
+    codigoregimen: string;
     email: string;
     rfc: string;
     renglones: Renfac[]

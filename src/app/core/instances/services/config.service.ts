@@ -14,6 +14,7 @@ export class ConfigService {
     "estado":"-1",
     "url": "",
     "oldurl":"",
+    "urlfacturacion":"",
     "cia": 0
 
   }
@@ -42,6 +43,7 @@ export class ConfigService {
       this.config.cia = this.cia.cia;
       this.config.url = this.cia.Urldatos;
       this.config.oldurl = this.cia.oldurldatos;
+      this.config.urlfacturacion = this.cia.urlfacturacion;
       if(this.debug)
         console.log("Estoy en config service ", this.config, this.cia, this.config.url);
 
@@ -60,6 +62,10 @@ export class ConfigService {
 
   obtenNumeroCia() {
     return (this.config.cia);
+  }
+
+  obtenCodigoPostalCia() {
+    return (this.cia.CP);
   }
 
   asigna_idusuario(idusuario: number, iniciales: string, maestro: string) {

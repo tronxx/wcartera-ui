@@ -338,13 +338,13 @@ export class VentasService {
 
   }
 
+  
+
   busca_codigo_inven( parametros: string): Observable<Articulo> {
     
     let respu_z = "";
     let miurl = this.configService.config.oldurl + "altas/serviciosaltas.php"
     const headers = { 'content-type': 'text/plain'};
-
-    if(this.debug) console.log("Debug: Estoy en busca_codig-inven");
 
     const body=parametros;
     let misparams = JSON.parse(parametros);

@@ -1,5 +1,6 @@
 export interface Compania  {
     Urldatos: string;
+    urlfacturacion: string;
     Empresa: string;
     Rfc: string;
     Direc: string;
