@@ -1,1 +1,30 @@
-<p>fecha-dialog works!</p>
+<mat-card class="mat-elevation-z5" style="padding: 1rem;">
+
+    <div mat-dialog-content>
+        <form [formGroup]="form" (submit)="aceptar()">
+                <mat-label>
+                    {{title}}
+                </mat-label>
+                <input type="date" formControlName="fecha">
+                <div *ngIf="fecha.hasError('invalidDate')">
+                    <mat-icon class="warning">warning</mat-icon>
+                    {{error}} 
+                </div>
+        </form>
+       
+    </div>
+    <div mat-dialog-actions>
+        <div style="width: 100%; display: flex; justify-content: center; padding-top: .5rem;">
+            <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="aceptar()">
+                <span style="margin: 0; padding: 0;">
+                    Aceptar
+                </span>
+            </button>
+            <button mat-raised-button color="cancel" (click)="closeno()">
+                <span style="margin: 0; padding: 0;">
+                    Cancelar
+                </span>
+            </button>
+        </div>
+    </div>
+</mat-card>

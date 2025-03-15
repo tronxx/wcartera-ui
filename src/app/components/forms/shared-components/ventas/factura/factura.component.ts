@@ -18,6 +18,7 @@ import { MatIcon } from '@angular/material/icon';
 import { TableOptions } from '@models/table-options';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DlgyesnoComponent } from '@components/dlgyesno/dlgyesno.component';
+import { FechaDialogComponent } from '@forms/shared-components/fecha-dialog/fecha-dialog.component';
 import { DlgimportarComponent } from '@components/dlgimportar/dlgimportar.component';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { lastValueFrom } from 'rxjs';
@@ -41,6 +42,9 @@ export class FacturaComponent {
   public tableName = "Renglones";
   public page : PageIndex;
   public idventa: number;
+
+  fechacierre = "";
+  statusfac = "";
   
   public tableOptions : TableOptions = {
     edit: false,
@@ -85,18 +89,61 @@ export class FacturaComponent {
         this.alerta("Esta factura ya ha sido cerrada previamente");
         return;
       }
+      let fmin = new Date();
+      fmin.setDate(new Date().getDate() - 3);
+      const fechaFactura = this.factura.fecha;
+      const fechaActual = this.datePipe.transform(new Date(),"yyyy-MM-dd");
+      const fechaMinima = this.datePipe.transform(fmin,"yyyy-MM-dd");
+      this.fechacierre = this.factura.fecha;
       const idventa = this.factura.idventa;
-        const machote = await this.generar_json();
-        this.manda_a_timbrar(machote);
+
+      if (fechaFactura < fechaMinima || fechaFactura > fechaActual) {
+        const dialogRef = this.dialog.open(FechaDialogComponent, {
+          width: '500px',
+          data: JSON.stringify({ minDate: fechaMinima, maxDate: fechaActual, title: "Teclee la Fecha de Cierre" })
+        });
+         dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            console.log("Regresando de pedir fecha", result);
+            this.fechacierre = result;
+            this.continuaConElTimbrado();
+          } else {
+            this.alerta("La fecha no fue proporcionada o no es válida.");
+          }
+        });
+      } else {
+        this.continuaConElTimbrado();
+      }
     }
 
-    manda_a_timbrar(documento: any) {
-      const strdocto = JSON.stringify(documento);
-      const timbrado = this.facturasService.generarTimbrefactura(strdocto).subscribe( res => {
-        const resultado = res;
-          console.log(resultado);
-      });
+    async continuaConElTimbrado() {
+      const machote = await this.generar_json();
+      const timbre = await this.manda_a_timbrar(machote);
 
+    }
+
+    async manda_a_timbrar(documento: any) {
+      const strdocto = JSON.stringify(documento);
+      const mitimbrado = await this.manda_el_timbrado(strdocto);
+      const idfactura = this.factura.id;
+      console.log("Regreso de timbrado", mitimbrado);
+      if (mitimbrado.data[0].cfdi_respuesta.timbrada == "true") {
+        const uuid = mitimbrado.data[0].cfdi_complemento.uuid;
+        this.factura.uuid = uuid;
+        this.facturasService.grabar_uuid_en_factura(idfactura, uuid).subscribe( res => {
+          this.alerta("Se ha timbrado la factura con uuid:" + uuid );
+        })
+      } else {
+        const error = mitimbrado.data[0].cfdi_respuesta.error.descripcion;
+        this.alerta("Error " + error);
+        this.facturasService.cerrar_factura(idfactura).subscribe(res => {
+          const cerrada = res;
+        });
+      }
+    }
+
+    async manda_el_timbrado(docto: string): Promise<any> {
+      return await lastValueFrom (this.facturasService.generarTimbrefactura(docto));
     }
 
     async generar_json() {
@@ -106,6 +153,7 @@ export class FacturaComponent {
       let fac_iva = 0;
       let nombrefac = "";
       let regimen = "616";
+      this.fechacierre = this.ajustaFechaCierre(this.fechacierre);
       const idventa = this.factura.idventa;
       this.venta = await this.busca_venta(idventa);
       const idcli = this.venta.idcliente;
@@ -113,19 +161,26 @@ export class FacturaComponent {
       const idnombre = this.cliente.idnombre;
       const nombres = await  this.clientesService.obtenerNombresAsync(idnombre);
       nombrefac = this.cliente.nombre;
+      let usdocfdi = this.factura.codigousocfdi;
       if(nombres) {
         const apellidos = (nombres.appat + " " + nombres.apmat).trim();
         const nompil = (nombres.nompil1 + " " + nombres.nompil2 ).trim();
         nombrefac = (nompil + " " + apellidos ).trim();
       }
-      if(!this.factura.codigoregimen.length) {
+      if(this.factura.codigoregimen.length) {
         regimen = this.factura.codigoregimen;
       }
 
       let codpostalempresa = this.configService.obtenCodigoPostalCia();
       let machote = this.facturasService.crearJsonTimbreVenta();
       let rfccliente = this.factura.rfc;
+      let codpostreceptor = this.cliente.codpostal;
       if(rfccliente == "") rfccliente = "XAXX010101000";
+      if( rfccliente == "XAXX010101000") {
+        codpostreceptor = codpostalempresa;
+        regimen = "616";
+        usdocfdi = "S01";
+      }
 
       machote.cfdi__comprobante.folio = this.factura.numero.toString();
       machote.cfdi__comprobante.serie = this.factura.serie;
@@ -135,14 +190,14 @@ export class FacturaComponent {
       const forma_pago = "01";
       machote.cfdi__comprobante.metodo_pago = this.factura.codigometodopago;
       machote.cfdi__comprobante.forma_pago = forma_pago;
-      machote.cfdi__comprobante.fecha = this.factura.fecha;
+      machote.cfdi__comprobante.fecha = this.fechacierre;
 
       machote.cfdi__comprobante.cfdi__receptor.rfc = rfccliente;
       machote.cfdi__comprobante.cfdi__receptor.nombre = nombrefac;
-      machote.cfdi__comprobante.cfdi__receptor.domicilio_fiscal = this.cliente.codpostal;
+      machote.cfdi__comprobante.cfdi__receptor.domicilio_fiscal = codpostreceptor;
       machote.cfdi__comprobante.cfdi__receptor.email = this.factura.email;
       machote.cfdi__comprobante.cfdi__receptor.regimen_fiscal = regimen;
-      machote.cfdi__comprobante.cfdi__receptor.uso_cfdi = this.factura.codigousocfdi;
+      machote.cfdi__comprobante.cfdi__receptor.uso_cfdi = usdocfdi;
       let conceptoInicial = JSON.parse(JSON.stringify(machote.cfdi__comprobante.cfdi__conceptos.cfdi__concepto[0]));
       machote.cfdi__comprobante.cfdi__conceptos.cfdi__concepto = [];
       let ii_z = 0;
@@ -151,7 +206,7 @@ export class FacturaComponent {
       const renglones = JSON.parse(JSON.stringify(await this.buscarCodSat(losrenglones))) ;
       // console.log ("Renglones combinados", renglones);
       for(let miren of renglones) {
-        const importe =  Math.round( (miren.canti * miren.preciou * 100)) /1000;
+        const importe =  Math.round( (miren.canti * miren.preciou * 1000)) /1000;
         const iva = Math.round ( ( importe * miren.piva / 100) * 1000) /1000;
         const total = importe + iva;
         let concepto = JSON.parse(JSON.stringify(conceptoInicial));
@@ -185,6 +240,19 @@ export class FacturaComponent {
       return (machote);
     }
 
+    ajustaFechaCierre(fecha: string) {
+      const hoy = this.datePipe.transform( new Date(),"yyyy-MM-dd");
+      const hora = new Date().getHours();
+      
+      let stfecha = fecha.split('T')[0];
+      if(stfecha < hoy) {
+        stfecha += 'T' + (hora+1).toString().padStart(2, '0')+':00:00';
+      } else {
+        stfecha += 'T' + (hora-1).toString().padStart(2, '0')+':00:00';
+      }
+      return stfecha;
+    }
+
     procesarconceptoFactura(renglones: Renfac[]): Renfac[] {
       return renglones
         .filter((mirenfac, index) => {
@@ -211,7 +279,11 @@ export class FacturaComponent {
       const promesas = renglones.map(async (miren) => {
         const parametros = JSON.stringify({ codigo: miren.codigo });
         const respuesta = await lastValueFrom(this.ventasService.busca_codigo_inven(parametros));
-        return { ...miren, catprodsat: respuesta.catprodsat }; // Usa la respuesta para asignar el valor correcto a catprodtsat
+        let catprodsat = '56101500';
+        if(respuesta) {
+          catprodsat = respuesta.catprodsat
+        }
+        return { ...miren, catprodsat: catprodsat }; // Usa la respuesta para asignar el valor correcto a catprodtsat
       });
     
       const nvorenglones = await Promise.all(promesas);
