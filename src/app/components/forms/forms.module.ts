@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoginFormComponent } from './auth/login-form/login-form.component';
 import { RegisterFormComponent } from './auth/register-form/register-form.component';
 import { RecoverFormComponent } from './auth/recover-form/recover-form.component';
-
 // Material imports
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
@@ -13,7 +12,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatTableModule } from '@angular/material/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AlmacenesFormComponent } from './shared-components/almacenes-form/almacenes-form.component';
@@ -48,6 +47,7 @@ const forms = [
   PolizacajaFormComponent,
   VencimientosComponent,
   DatosventaComponent,
+  FechaDialogComponent,
 
 ]
 
@@ -71,7 +71,6 @@ MatProgressSpinnerModule
 @NgModule({
   declarations: [
     ...forms,
-    FechaDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -81,6 +80,10 @@ MatProgressSpinnerModule
   ],
   exports: [
     ...forms
-  ]
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-MX' }, // Configura la localización a México
+    { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FORMATS }, // Usa el formato de Moment.js
+  ],
 })
 export class FormsModule { }

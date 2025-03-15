@@ -63,7 +63,7 @@
         </ng-container>
         <ng-container matColumnDef="preciou">
             <th mat-header-cell *matHeaderCellDef> Precio.U </th>
-            <td mat-cell align="right" *matCellDef="let element">  {{element.preciou }} </td>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.preciou | currency }} </td>
         </ng-container>
         <ng-container matColumnDef="importe">
             <th mat-header-cell *matHeaderCellDef> Importe </th>

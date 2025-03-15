@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -55,6 +55,7 @@ export const MAT_DATE_FORMATS: MatDateFormats = {
     MatProgressSpinnerModule,
     CdkMenu,
     CdkMenuTrigger,
+    FormsModule,
     StoreModule.forRoot({}, {}),
     MatNativeDateModule,
   ],
@@ -63,7 +64,7 @@ export const MAT_DATE_FORMATS: MatDateFormats = {
     DatePipe,
     //{ provide: DateAdapter, useClass: DateFnsAdapter},
     { provide: MAT_DATE_FORMATS, useValue: MAT_DATE_FORMATS},
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-MX' },
     //{ provide: LOCALE_ID, useValue: 'es' },
     //{provide: MAT_DATE_LOCALE, useValue: es}
   ],

@@ -62,14 +62,44 @@ export class FacturacionService {
     this.url = this.configService.config.url;
     const miurl = `${this.url}/facturas`;
     //let miurl = this.config.url + "/almacenes/" + almacen.id;
-    const nvaventa = JSON.parse(factura);
+    //const nvaventa = JSON.parse(factura);
 
     const headers = { 
       'content-type': 'application/json',
       'Authorization': `Bearer ${this.registro_z.token}`      
     };    
-    if(this.debug) console.log("Estoy en Agregar Venta", factura, "url:",miurl);
-    return( this.http.post<any> (miurl, nvaventa, {'headers':headers}) );
+    if(this.debug) console.log("Estoy en grabar_factura", factura, "url:",miurl);
+    return( this.http.post<any> (miurl, factura, {'headers':headers}) );
+
+  }
+
+  grabar_uuid_en_factura(idfactura: number, uuid: string) {
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/facturas/grabaruuid/${idfactura}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+    //const nvaventa = JSON.parse(factura);
+    const params = JSON.stringify({uuid: uuid})
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en grabar_uuid_en_factura", params, "url:",miurl);
+    return( this.http.put<any> (miurl, params, {'headers':headers}) );
+
+  }
+
+  cerrar_factura(idfactura: number) {
+    const url = this.configService.config.url;
+    const miurl = `${url}/facturas/${idfactura}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+    //const nvaventa = JSON.parse(factura);
+    const params = {status: 'C'};
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en cerrar_factura", params, "url:",miurl);
+    return( this.http.put<any> (miurl, params, {'headers':headers}) );
 
   }
 

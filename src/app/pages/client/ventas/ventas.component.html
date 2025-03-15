@@ -73,9 +73,9 @@
         <label >Comision </label>
         <input type="text" [readOnly]="true" [(ngModel)]="venta.comision">
         <label >Entrega</label>
-        <input type="text" [readOnly]="true" [(ngModel)]="promotor.codigo">
+        <input type="text" [readOnly]="true" *ngIf="promotor" [(ngModel)]="promotor.codigo">
         <label >Comision</label>
-        <input type="text" [readOnly]="true" [(ngModel)]="venta.comisionpromotor">
+        <input type="text" [readOnly]="true" *ngIf="promotor" [(ngModel)]="venta.comisionpromotor">
     </div>
     <div style="width: 100%;">
         <label >Compra:</label> 
