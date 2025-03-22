@@ -103,6 +103,15 @@ export class FacturacionService {
 
   }
 
+  obten_pdf_cfdi_factura(params:string) {
+    let misparams = JSON.parse(params);
+    const url = this.configService.config.oldurl;
+    // console.log("Debug: Estoy en obtenpdfcfdi ", params);
+    let miurl = `${url}/altas/serviciosaltas.php?modo=descarga_pdf_cfdi_factura&uuid=${misparams.uuid}&rotarfac=${misparams.rotar}`;
+    window.open(miurl, "_blank");
+  }
+
+
   obtenerFacturaPorSerieyNumero(serie: string, numero: number) {
     this.url = this.configService.config.url;
     const miurl = `${this.url}/facturas/${this.cia}/${numero}/${serie}/BUSQUEDA_SERIE_NUMERO`;

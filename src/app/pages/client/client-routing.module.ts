@@ -65,6 +65,10 @@ const routes : Routes = [
     loadChildren: () => import('./polizacaja/polizacaja.module').then(m => m.PolizacajaModule),
   },
   {
+    path: 'imagenes',
+    loadChildren: () => import( './imagenes/imagenes.module').then(m => m.ImagenesModule),
+  },
+  {
     path: '**',
     redirectTo: 'landing',
   }

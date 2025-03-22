@@ -45,6 +45,8 @@ export class FacturaComponent {
 
   fechacierre = "";
   statusfac = "";
+  facturacerrada = false;
+
   
   public tableOptions : TableOptions = {
     edit: false,
@@ -79,10 +81,20 @@ export class FacturaComponent {
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
       this.iduser = micompania_z.usuario.iduser;
+      this.facturacerrada = (this.factura.status == 'C');
     }
 
     edit(renglon: Renfac) {}
     delete(renglon: Renfac) {}
+
+    async imprimir_factura() {
+      const pararms = {
+        uuid: this.factura.uuid,
+        rotarfac: 'N'
+      }
+      this.facturasService.obten_pdf_cfdi_factura(JSON.stringify(pararms));
+    }
+
 
     async cerrar_factura() {
       if(this.factura.status == "C") {

@@ -23,6 +23,8 @@ import { DlgbusarticuloComponent } from './dlgbusarticulo/dlgbusarticulo.compone
 import { DlgbusclienteComponent } from './dlgbuscliente/dlgbuscliente.component';
 import { DlgimpriletrasComponent } from './dlgimpriletras/dlgimpriletras.component';
 import { MatInputModule } from '@angular/material/input';
+import { CameraComponent } from './camera/camera.component';
+import { WebcamModule } from 'ngx-webcam';
 
 const components = [
   TableComponent,
@@ -40,6 +42,7 @@ const components = [
     DlgbusarticuloComponent,
     DlgbusclienteComponent,
     DlgimpriletrasComponent,
+    CameraComponent,
 
   ],
   imports: [
@@ -56,7 +59,8 @@ const components = [
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    WebcamModule,
+    MatIconModule,
   ],
   exports: [
     ...components

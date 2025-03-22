@@ -18,6 +18,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { DatePipe } from '@angular/common';
+import { WebcamModule } from 'ngx-webcam';
 //import { DateFnsModule, DateFnsAdapter} from '@angular/material-date-fns-adapter';
 //import { es } from 'date-fns/locale';
 import { LOCALE_ID } from '@angular/core';
@@ -58,6 +59,7 @@ export const MAT_DATE_FORMATS: MatDateFormats = {
     FormsModule,
     StoreModule.forRoot({}, {}),
     MatNativeDateModule,
+    WebcamModule,
   ],
   providers: [
     ConfigService,

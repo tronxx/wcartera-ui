@@ -44,7 +44,11 @@ export const environment = {
       name: 'Polizas',
       url: 'polizas',
     },
-
+    {
+      icon: 'add_a_photo',
+      name: 'Obtener firmas e imagenes Ine',
+      url: 'imagenes',
+    },
 
   ],
   primaryColor: "#F85A3E",

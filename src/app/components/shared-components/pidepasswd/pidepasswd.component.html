@@ -1,8 +1,8 @@
 <h2 mat-dialog-title>Proporcione el password y presione Enter </h2>
 <div mat-dialog-content>
-    <div style="display: flex; justify-content: space-around; justify-items: center;">
-        <label class="ancho80" for="password">Contraseña:</label><br>
-        <input type="text" id="password" (change)="verfica_password()" 
+    <div style="display: flex; justify-content: space-around; justify-items: center; width: 100%;">
+        <label style="width: 20%;" for="password">Contraseña:</label><br>
+        <input style="width: 80%;" type="text" id="password" (change)="verfica_password()" 
         [(ngModel)]="password_z">
     </div>
     <div *ngIf="debug">

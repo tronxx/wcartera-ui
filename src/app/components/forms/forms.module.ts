@@ -30,6 +30,7 @@ import { PolizacajaFormComponent } from './shared-components/polizacaja/polizaca
 import { VencimientosComponent } from './shared-components/vencimientos/vencimientos/vencimientos.component';
 import { DatosventaComponent } from './shared-components/ventas/datosventa/datosventa.component';
 import { FechaDialogComponent } from './shared-components/fecha-dialog/fecha-dialog.component';
+import { SignaturepadComponent } from './shared-components/signaturepad/signaturepad.component';
 
 const forms = [
   LoginFormComponent,
@@ -71,6 +72,7 @@ MatProgressSpinnerModule
 @NgModule({
   declarations: [
     ...forms,
+    SignaturepadComponent,
   ],
   imports: [
     CommonModule,
