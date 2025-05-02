@@ -1,73 +1,91 @@
-<mat-card class="mat-elevation-z5 card" appearance="outlined">
-    <mat-card-header>
-        Teclee los datos de la Factura
-    </mat-card-header>    
-    <mat-card-content>
-        
-<form [formGroup]="form" (submit)="aceptar()">
-    <mat-form-field style="width: 50%;">
-        <mat-label>
-            Serie
-        </mat-label>
-        <input type="text" matInput formControlName="serie" (blur)="buscaUltimoFolioFactura()">
-        <mat-error *ngIf="serie.hasError('required')">
-            ¡Introduce La Serie de la Factura!
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field style="width: 50%;">
-        <mat-label>
-            Número
-        </mat-label>
-        <input type="number" matInput formControlName="numero">
-    </mat-form-field>
-    <mat-form-field  style="width: 100%;">
-        <mat-label>
-            Fecha 
-        </mat-label>
-        <input matInput  type="date" formControlName="fecha">
-        <mat-hint>DD/MM/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
-        <mat-datepicker #fecha></mat-datepicker>
-        <mat-error *ngIf="form.controls['fecha'].hasError('required')">
-            ¡Introduce La fecha del movimiento!
-        </mat-error>
-    </mat-form-field>
-    <mat-form-field style="width: 100%;">
-        <mat-label>
-            Uso Cfdi
-        </mat-label>
-        <mat-select formControlName="usocfdi" (selectionChange)="usocfdichanged($event)" >
-            <mat-option *ngFor="let miusocfdi of usoscfdi"
-             [value]="miusocfdi.id">
-             {{miusocfdi.clave}}
-             {{miusocfdi.nombre}}
-            </mat-option>
-          </mat-select>        
-
-    </mat-form-field>
-    <mat-form-field style="width: 100%;">
-        <mat-label>
-            Método de Pago
-        </mat-label>
-        <mat-select formControlName="metodopago" (selectionChange)="metodopagochanged($event)" >
-            <mat-option *ngFor="let mimetodopago of metodospago"
-             [value]="mimetodopago.id">
-              {{mimetodopago.clave}}
-              {{mimetodopago.nombre}}
-            </mat-option>
-          </mat-select>        
-
-    </mat-form-field>
-
-    <div mat-dialog-actions>
-        <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
-            <button mat-raised-button color="primary" (click)="aceptar()" [disabled]="form.invalid">
-                Aceptar
-        </button>
-            <button mat-raised-button  color="warn" >Cancelar</button>
+<form [formGroup]="form" (ngSubmit)="aceptar()">
+  <div class="form-container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Datos de Facturación</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- Serie y Folio en un solo renglón -->
+        <div class="form-row">
+          <div class="form-field-half">
+            <mat-form-field appearance="outline">
+              <mat-label>Serie</mat-label>
+              <input matInput formControlName="serie" placeholder="Serie">
+              <mat-error *ngIf="serie.invalid && (serie.dirty || serie.touched)">
+                Serie es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-field-half">
+            <mat-form-field appearance="outline">
+              <mat-label>Número</mat-label>
+              <input matInput formControlName="numero" placeholder="Número">
+              <mat-error *ngIf="numero.invalid && (numero.dirty || numero.touched)">
+                Número es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
-    
-    </div>
+
+        <!-- Fecha en un solo renglón -->
+        <div class="form-row">
+          <div class="form-field-full">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="fecha" placeholder="DD/MM/YYYY">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="fecha.invalid && (fecha.dirty || fecha.touched)">
+                Fecha es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Uso de CFDI en un solo renglón -->
+        <div class="form-row">
+          <div class="form-field-full">
+            <mat-form-field appearance="outline">
+              <mat-label>Uso de CFDI</mat-label>
+              <mat-select formControlName="usocfdi" (selectionChange)="usocfdichanged($event)">
+                <mat-option *ngFor="let uso of usoscfdi" [value]="uso.id">
+                  {{ uso.clave }} - {{ uso.nombre }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="usocfdi.invalid && (usocfdi.dirty || usocfdi.touched)">
+                Uso de CFDI es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Método de Pago en un solo renglón -->
+        <div class="form-row">
+          <div class="form-field-full">
+            <mat-form-field appearance="outline">
+              <mat-label>Método de Pago</mat-label>
+              <mat-select formControlName="metodopago" (selectionChange)="metodopagochanged($event)">
+                <mat-option *ngFor="let metodo of metodospago" [value]="metodo.id">
+                  {{ metodo.clave }} - {{ metodo.nombre }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="metodopago.invalid && (metodopago.dirty || metodopago.touched)">
+                Método de pago es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Campos ocultos -->
+        <input type="hidden" formControlName="claveusocfdi">
+        <input type="hidden" formControlName="clavemetodopago">
+      </mat-card-content>
+
+      <mat-card-actions style="display: flex; justify-content: space-around; justify-items: center;">
+        <button mat-raised-button color="primary" (click)="aceptar()"  [disabled]="!form.valid">Aceptar</button>
+        <button mat-raised-button  color="warn" >Cancelar</button>
+      </mat-card-actions>
+
+    </mat-card>
+  </div>
 </form>
-    </mat-card-content>
-</mat-card>

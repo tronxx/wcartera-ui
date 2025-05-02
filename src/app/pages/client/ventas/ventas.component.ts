@@ -65,9 +65,11 @@ export class VentasComponent {
   yatengomovclis = false;
   yatengofactura = false;
   yatengosolicit = false;
+  ventacerrada = false;
   
   fechainicial = "";
   fechafinal = "";
+  fechacierre = "";
   
   numcia = -1;
   iduser = -1;
@@ -120,6 +122,7 @@ export class VentasComponent {
           if(this.escredito) {
             this.buscaraval(this.venta.idventa);
           }
+          this.buscar_fecha_cierre(this.venta.idventa);
 
         }
         
@@ -128,60 +131,53 @@ export class VentasComponent {
       
     }
 
-    buscarvendedor(id:number) {
-       this.ventasService.buscarVendedorPorId(id).subscribe( res => {
-          this.vendedor = res;
-       })
-
+    async buscarvendedor(id:number) {
+      this.vendedor = await lastValueFrom(this.ventasService.buscarVendedorPorId(id));
     }
 
-    buscarcliente(id:number) {
-      this.clientesService.obten_cliente(id).subscribe( res => {
-         this.cliente = res;
-         this.obten_regimen (this.cliente.idregimen);
-         this.obtenCiudad(this.cliente.idciudad);
-      })
+    async buscarcliente(id:number) {
+      this.cliente = await lastValueFrom(this.clientesService.obten_cliente(id));
+      this.obten_regimen (this.cliente.idregimen);
+      this.obtenCiudad(this.cliente.idciudad);
 
    }
 
-   buscaraval(id:number) {
-    this.ventasService.buscarAvalporIdventa (id).subscribe( res => {
-       this.aval = res;
-    })
+  async buscaraval(id:number) {
+    this.aval = await lastValueFrom(this.ventasService.buscarAvalporIdventa (id));
+  }
 
+  async buscar_fecha_cierre(id:number) {
+    this.ventacerrada = false;
+    this.fechacierre = "";
+    const datofechacierre = await lastValueFrom(this.ventasService.obtener_fecha_cierre (id));
+    
+    if(datofechacierre) {
+      this.fechacierre = datofechacierre.concepto;
+      this.ventacerrada = true;
+    }
+    
+  }
+
+
+  async obtenCiudad(id: number) {
+   this.ciudad = await lastValueFrom(this.complementosService.obten_ciudad_x_id(id));
+  }
+
+  async obten_uso_cfdi(id: number) {
+    this.usocfdi = await lastValueFrom(this.complementosService.obten_usocfdi_x_id(id));
+  }
+
+  async obten_regimen(id: number) {
+    this.regimen = await lastValueFrom(this.complementosService.obten_regimen_x_id(id));
  }
 
- obtenCiudad(id: number) {
-    this.complementosService.obten_ciudad_x_id(id).subscribe( res => {
-      this.ciudad = res;
-    });
+
+   async buscarpromotor(id:number) {
+      this.promotor = await lastValueFrom(this.ventasService.buscarPromotorPorId(id));
    }
 
-   obten_uso_cfdi(id: number) {
-    this.complementosService.obten_usocfdi_x_id(id).subscribe(res => {
-      this.usocfdi = res;
-    });
-
-   }
-
-   obten_regimen(id: number) {
-    this.complementosService.obten_regimen_x_id(id).subscribe(res => {
-      this.regimen = res;
-    });
-
-   }
-
-
-   buscarpromotor(id:number) {
-      this.ventasService.buscarPromotorPorId(id).subscribe( res => {
-         this.promotor = res;
-      })
-
-   }
-
-   buscarmovclis(id: number) {
-      this.ventasService.buscarMovimientosVentas(id).subscribe( res => {
-        this.movclisssaldo = res;
+   async buscarmovclis(id: number) {
+      this.movclisssaldo = await lastValueFrom(this.ventasService.buscarMovimientosVentas(id));
         this.movclis = [];
         this.yatengomovclis = false;
 
@@ -193,59 +189,45 @@ export class VentasComponent {
         }
         //console.log("movclis", this.movclis);
         this.yatengomovclis = true;
-      });
-
     }    
     
-    buscarfactura(id: number) {
-      this.facturasSerice.obtenerFacturaPorId(id).subscribe( res => {
-        this.factura = res;
-        this.buscarRenfac(this.factura.id);
-        //this.buscarUsoCfdi(this.factura.idusocfdi);
-      });
-
+    async buscarfactura(id: number) {
+      this.factura = await lastValueFrom(this.facturasSerice.obtenerFacturaPorId(id));
+      this.buscarRenfac(this.factura.id);
     }
 
-    buscarUsoCfdi(id: number) {
-      this.complementosService.obten_usocfdi_x_id(id).subscribe( res => {
-        this.usocfdi = res;
-      });
-
+    async buscarUsoCfdi(id: number) {
+      this.usocfdi = await lastValueFrom(this.complementosService.obten_usocfdi_x_id(id));
     }
     
-    buscarRenfac(id: number) {
+    async buscarRenfac(id: number) {
       this.yatengofactura = false;
       let rfc = "";
       let email = "";
       let regimen = "";
       let usocfdi = "";
-      this.facturasSerice.obtenerRenfac(id).subscribe( res => {
-        this.renglonesfac = res;
-        this.compras = "";
-        if(this.cliente) {
-          rfc = this.cliente.rfc;
-          email = this.cliente.email;
-
-        }
-        if(this.regimen) regimen = this.regimen.clave + " " + this.regimen.nombre;
-        for(let mirenfac of this.renglonesfac) {
+      this.renglonesfac = await lastValueFrom(this.facturasSerice.obtenerRenfac(id));
+      this.compras = "";
+      if(this.cliente) {
+        rfc = this.cliente.rfc;
+        email = this.cliente.email;
+      }
+      if(this.regimen) regimen = this.regimen.clave + " " + this.regimen.nombre;
+      for(let mirenfac of this.renglonesfac) {
           this.compras += mirenfac.descri;
           if(mirenfac.folio) this.compras += " # " + mirenfac.folio.toString();
           if(mirenfac.serie) this.compras += " S/" + mirenfac.serie;
           this.compras += " ";
-        }
-        this.facturacompleta = {
+      }
+      this.facturacompleta = {
           ...this.factura, 
           rfc:rfc,
           regimen: regimen,
           email: email,
           codigoregimen : this.regimen.clave,
           renglones: this.renglonesfac
-        }
+      }
         this.yatengofactura = true;
-  
-      });
-
     }    
 
     buscar_solicitud(idcliente: number) {
@@ -421,6 +403,17 @@ export class VentasComponent {
     
     }
 
+    async cerrar_venta(idventa: number) {
+      if(this.venta.status == "C") {
+        this.alerta("Esta venta ya ha sido cerrada previamente");
+      }
+      const fecha = this.datePipe.transform(new Date(),"yyyy-MM-ddThh:mm:ss");
+      const fechacierre = await lastValueFrom( this.ventasService.grabar_dato_solicit(idventa, CLAVES_SOLICIT.FECHA_CIERRE_VENTA, fecha ));
+      this.alerta("Se ha cerrado " + JSON.stringify(fechacierre));
+
+    }
+
+
     async buscar_letras_impresas() {
       let result = [];
       if(!this.venta) {
@@ -441,6 +434,41 @@ export class VentasComponent {
       return result;
      
     }
+
+    async estadoCuenta() {
+      let aval = {
+        nombre:"",
+        dir:""
+      }
+      if(this.aval) {
+        aval.nombre = this.aval.nombre;
+        aval.dir = this.aval.calle + " N." + this.aval.numpredio + " " + this.aval.ciudad;
+      }
+
+      const venta = { ...this.venta, 
+        compra: this.compras,
+        direccion: this.cliente.calle + " N." + this.cliente.numpredio +
+          this.cliente.colonia + this.cliente.codpostal,
+        ciudad: this.ciudad.ciudad,
+        aval: aval.nombre,
+        diraval: aval.dir,
+        vendedor: this.vendedor.nombre,
+        promotor: this.promotor.nombre,
+
+        
+      }
+      const datoscli = {
+        modo: "impresion_edo_cuenta",
+        datoscli: venta,
+        movtos: this.movclis,
+        solicitud: this.solicitudextendida,
+      }
+      const edocta = await lastValueFrom (this.ventasService.imprimiEdoCta(JSON.stringify(
+        datoscli
+      )));
+
+    }
+
     
 
     async imprimirletras(letras: any) {

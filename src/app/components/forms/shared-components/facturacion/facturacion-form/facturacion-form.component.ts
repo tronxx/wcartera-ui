@@ -10,12 +10,35 @@ import { Usocfdi, Metodopago } from '@models/index'
 import { MatSelectChange } from '@angular/material/select';
 import { MatCard } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
+import { lastValueFrom } from 'rxjs';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
+import { CustomDateAdapter } from '../../custom-date-adapter/custom-date-adapter.component';
+
+// Define custom date format
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 
 @Component({
   selector: 'app-facturacion-form',
   templateUrl: './facturacion-form.component.html',
-  styleUrls: ['./facturacion-form.component.scss']
+  styleUrls: ['./facturacion-form.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-MX' }
+  ]
+
 })
 
 export class FacturacionFormComponent extends Form<FacturasDto> implements OnChanges{
@@ -70,77 +93,71 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
       console.log("iniciales:", this.inicial);
     }
 
-    //this.inicializaForm();
+    this.inicializaForm();
   }
 
-  inicializaForm() {
-    console.log("valor Inicla de Factura", this.factura);
+  async inicializaForm() {
+    console.log("valor Inicial de Factura", this.factura);
+    const catalogos = await this.carga_catalogos();
     if(this.factura) {
       this.serie.setValue(this.factura.serie);
       this.numero.setValue(this.factura.numero);
-      this.fecha.setValue(this.factura.fecha);
+      
+      // Convert string date to Date object properly
+      this.fecha.setValue(this.factura.fecha ? new Date(this.factura.fecha) : null);
+      
       this.usocfdi.setValue(this.factura.idusocfdi);
       this.metodopago.setValue(this.factura.idmetodopago);
     } else {
-      const fecha =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
-      this.set_idusocfdi();
-      this.set_metodopago();
-      this.fecha.setValue(fecha);
+      const fechaActual = new Date();
+      this.fecha.setValue(fechaActual);
     }
     if(this.modo == "NUEVAFACTURA") {
       this.serie.setValue(this.serieini);
       const ultimofolio = this.buscaUltimoFolioFactura();
       this.numero.setValue(ultimofolio);
     }
-  }
+    this.set_idusocfdi();
+    this.set_metodopago();
+}
 
   set_idusocfdi() {
-    if(!this.factura) {
+    if(!this.factura || this.factura.idusocfdi == -1) {
       let idusocfdi = 0;
       const claveusocfdi = "G03";
-      const miusocfdi =  this.usoscfdi.filter(usocfdi => usocfdi.clave === claveusocfdi);
-      if(miusocfdi.length) {
-        idusocfdi = miusocfdi[0].id;
-        this.usocfdi.setValue(idusocfdi);
-        this.claveusocfdi.setValue(miusocfdi[0].clave + " " + miusocfdi[0].nombre)
-
-      }
-
+      const miusocfdi =  this.usoscfdi.find(usocfdi => usocfdi.clave === claveusocfdi);
+      idusocfdi = miusocfdi.id;
+      this.usocfdi.setValue(idusocfdi);
+      this.claveusocfdi.setValue(miusocfdi.clave + " " + miusocfdi.nombre)
     }
 
   }
 
   set_metodopago() {
-    if(!this.factura) {
+    if(!this.factura || this.factura.idmetodopago == -1) {
       let idmetodopago = 0;
       const clavemetodopago = "01";
-      const mimetodopago =  this.metodospago.filter(metodopago => metodopago.clave === clavemetodopago);
-      if(mimetodopago.length) {
-        idmetodopago = mimetodopago[0].id;
-        this.form.get("metodopago").setValue(idmetodopago);
-        this.form.get("clavemetodopago").setValue(mimetodopago[0].clave + " " + mimetodopago[0].nombre)
-      }
-
+      const mimetodopago = this.metodospago.find(metodopago  => metodopago.clave === clavemetodopago);
+      idmetodopago = mimetodopago.id;
+      this.metodopago.setValue(idmetodopago);
+      this.clavemetodopago.setValue(mimetodopago.clave + " " + mimetodopago.nombre)
     }
 
   }
 
-  carga_catalogos() {
-    this.complementosService.obten_lista_usocfdi().subscribe( res => {
-      this.usoscfdi = res;
-
-    });
-    this.complementosService.obten_lista_metodopago().subscribe( res => {
-      this.metodospago = res;
-    });
+  async carga_catalogos() {
+    this.usoscfdi = await lastValueFrom(this.complementosService.obten_lista_usocfdi());
+    this.metodospago = await lastValueFrom(this.complementosService.obten_lista_metodopago());
+    // console.log("Estoy en carga_catalogos", "usoscfdi", this.usoscfdi, "MetodosPago", this.metodospago);
+    return ({status:"OK"});
   }
 
   usocfdichanged (event: MatSelectChange) {
     this.usocfdi.setValue(event.value);
     const idusocfdi = event.value;
-    const miusocfdi =  this.usoscfdi.filter(usocfdi => usocfdi.id === idusocfdi);
-    if(miusocfdi.length) {
-      this.form.get("claveusocfdi").setValue(miusocfdi[0].clave + " " + miusocfdi[0].nombre)
+    const miusocfdi =  this.usoscfdi.find(usocfdi => usocfdi.id === idusocfdi);
+    if(miusocfdi) {
+      this.form.get("claveusocfdi").setValue(miusocfdi.clave + " " + miusocfdi.nombre)
     }
 
   } 
@@ -148,9 +165,9 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
   metodopagochanged (event: MatSelectChange) {
     const clavemetodopago = event.value;
     this.metodopago.setValue(event.value);
-    const mimetodopago =  this.metodospago.filter(metodopago => metodopago.id === clavemetodopago);
-    if(mimetodopago.length) {
-      this.clavemetodopago.setValue(mimetodopago[0].clave + " " + mimetodopago[0].nombre)
+    const mimetodopago =  this.metodospago.find(metodopago => metodopago.id === clavemetodopago);
+    if(mimetodopago) {
+      this.clavemetodopago.setValue(mimetodopago.clave + " " + mimetodopago.nombre)
     }
 
   } 
@@ -184,17 +201,14 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
   }
 
 
-  buscaUltimoFolioFactura(){
+  async buscaUltimoFolioFactura(){
     const serie = this.serie.value;
     let folio = 1;
-    this.facturasservice.buscarUltimoFolio(serie).subscribe(
-      respu => {
-        folio = respu.ultimo || 0;
-        folio++;
-        this.factura.numero = folio;
-        this.numero.setValue(this.factura.numero);
-      }
-    );
+    const ultimofolio = await lastValueFrom(this.facturasservice.buscarUltimoFolio(serie));
+    folio = ultimofolio.ultimo || 0;
+    folio++;
+    this.factura.numero = folio;
+    this.numero.setValue(this.factura.numero);
     return (folio);
 
   }

@@ -6,8 +6,7 @@ import { firstValueFrom, lastValueFrom, Observable, of } from 'rxjs';
 import { VentasCompletas, Ubivtas, Clientes, Vendedores, 
         Token, Tarjetatc, Articulo, Factorvtacred,
         Nulets, Promotores, Tabladesctocont, Serie, AvalCompleto,
-        Ventas, Movclis,
-        TIPOS_SOLICIT} 
+        Ventas, Movclis, TIPOS_SOLICIT, CLAVES_SOLICIT } 
         from '@models/index';
 
 @Injectable({
@@ -157,6 +156,88 @@ export class VentasService {
 
   }
 
+  obtener_dias_gracia(idventa: number) : Observable<any> {
+    this.url = this.configService.config.url;
+    const micia = this.cia;
+    const idcli = idventa;
+    const tipodiasgracia = CLAVES_SOLICIT.DIAS_GRACIA_CLIENTE;
+    const tipo = TIPOS_SOLICIT.VENTA;
+  
+    const miurl = `${this.url}/solicitudes/${micia}/${idventa}/${tipo}/${tipodiasgracia} `;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+
+    //console.log("Estoy en get obtener solicitud", idcliente, "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+
+  }
+
+  cerrarVenta(idventa: number, fecha: string) : Observable<any> {
+    this.url = this.configService.config.url;
+    const datosventa = {
+      status: 'C'
+    }
+  
+    const miurl = `${this.url}/ventas/${idventa}`;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+
+    //console.log("Estoy en get obtener solicitud", idcliente, "url:",miurl);
+    //const ventacerrada = this.http.put<any> (miurl, JSON.stringify(datosventa), {'headers':headers});
+    const fechacierre =  this.grabar_dato_solicit(idventa, CLAVES_SOLICIT.FECHA_CIERRE_VENTA, fecha );
+    return (this.http.put<any> (miurl, JSON.stringify(datosventa), {'headers':headers}));
+      
+  }
+
+
+  obtener_fecha_cierre(idventa: number) : Observable<any> {
+    this.url = this.configService.config.url;
+    const micia = this.cia;
+    const idcli = idventa;
+    const tipodato = CLAVES_SOLICIT.FECHA_CIERRE_VENTA
+    const tipo = TIPOS_SOLICIT.VENTA;
+  
+    const miurl = `${this.url}/solicitudes/datoespecifico/${micia}/${idventa}/${tipodato}/${tipo} `;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+
+    console.log("Estoy en get obtener solicitud", idventa, "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+
+  }
+
+
+  grabar_dato_solicit(idventa: number, tipodato: number, datoagrabrar: string) : Observable<any> {
+    this.url = this.configService.config.url;
+    const dataxgrabar = {
+      micia : this.cia,
+      idcli: idventa,
+      datosol : tipodato,
+      tipo:  TIPOS_SOLICIT.VENTA,
+      concepto: datoagrabrar
+
+    }
+    const tipo = TIPOS_SOLICIT.VENTA;
+    const miurl = `${this.url}/solicitudes/agregardato`;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+
+    //console.log("Estoy en get obtener solicitud", idcliente, "url:",miurl);
+    return( this.http.post<any> (miurl, JSON.stringify(dataxgrabar), {'headers':headers}) );
+
+  }
 
   buscarUbicaciones(): Observable<Ubivtas[]>{
     this.url = this.configService.config.url;
@@ -211,8 +292,6 @@ export class VentasService {
     return this.http.post<Nulets[]>(miurl, parametros, {'headers':headers});
     
   }
-
-
 
   buscarVendedores(): Observable<Vendedores[]>{
     this.url = this.configService.config.url;
@@ -483,5 +562,12 @@ export class VentasService {
     window.open(miurl, "_blank");
   }
   
+
+  imprimiEdoCta ( datoscli: string ): Observable<any> {
+    const headers = { 'content-type': 'text/plain'};
+    let miurl = this.configService.config.oldurl + "clientes/estadocuenta.php"
+
+    return this.http.post<any>(miurl, datoscli, {'headers':headers});
+  }
 
 }

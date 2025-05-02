@@ -16,7 +16,7 @@
         </ng-container>
         <ng-container matColumnDef="recargo">
             <th mat-header-cell *matHeaderCellDef> Recargos </th>
-            <td mat-cell align="right" *matCellDef="let element">  {{element.recargo }} </td>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.recargo | currency }} </td>
         </ng-container>
         <ng-container matColumnDef="bonifica">
             <th mat-header-cell *matHeaderCellDef> Bonificación </th>
@@ -38,7 +38,7 @@
                     <button mat-raised-button color="primary" [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
                     <ng-template #menu>
                         <div class="example-menu" cdkMenu>
-                            <ul>
+                            <ul class="menudesplegable">
                                 <li>
                                     <button mat-raised-button color="primary" 
                                     (click)="edit(element)" type="button">

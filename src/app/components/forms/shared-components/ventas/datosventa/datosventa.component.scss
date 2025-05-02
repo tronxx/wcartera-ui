@@ -1,0 +1,39 @@
+
+.form-group {
+    display: flex;
+    flex-direction: inline;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    padding: 8px;
+    border: 1px;
+}
+
+  
+.full-width {
+    width: 100%;
+}
+
+.half-width {
+    width: 50%;
+}
+
+.seventy-width {
+    width: 70%;
+}
+
+.thirty-width {
+    width: 30%;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+    align-items: left;
+}

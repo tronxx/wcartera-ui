@@ -18,6 +18,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTab, MatTabsModule } from '@angular/material/tabs';
 import { MatSelectModule } from '@angular/material/select';
+import {ProgressSpinnerMode, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { FormsModule as localforms } from '@forms/forms.module';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
@@ -69,6 +70,7 @@ const routes : Routes = [
     CdkMenu,
     CdkMenuTrigger,
     ReactiveFormsModule,
+    MatProgressSpinnerModule,
     FormsModule
   ],
   providers: [

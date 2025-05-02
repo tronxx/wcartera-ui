@@ -3,7 +3,7 @@ import { Form, FormBuilder, FormGroup, FormsModule, UntypedFormBuilder } from '@
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VentasCompletas, Ubivtas, Clientes, Vendedores,
   Nulets, Tabladesctocont, Promotores,
-  Factorvtacred, QOM, Factura,
+  Factorvtacred, QOM, Factura, TIPOS_FAC,
   Tictes} from '@models/index';
 import { Tarjetatc } from '@models/index';
 import { MatPaginator } from '@angular/material/paginator';
@@ -171,6 +171,7 @@ export class CrearventaComponent implements OnInit {
     this.fechafinal =  this.fechainicial;
     let miregistroventas  = localStorage.getItem(`ventas_${this.numcia}`) || "{}";
     const ubicatemp =JSON.parse(miregistroventas); 
+    this.debug = this.configservice.debug;
     if(ubicatemp) {
       this.ubivta =  ubicatemp.ubicacion;
       this.idubica = ubicatemp.idubica;
@@ -181,30 +182,19 @@ export class CrearventaComponent implements OnInit {
       this.codigopromotor = ubicatemp.promotor;
 
     } 
-    console.log("Seriefac", this.seriefac);
+    if(this.debug) console.log("Seriefac", this.seriefac);
     this.codigovta = this.codcartera + this.datePipe.transform(new Date(),"yyMMdd") + "01";
     this.productos = [];
     this.cargaCatalogos();
   }
 
-  cargaCatalogos() {
-    this.ventasService.buscarUbicaciones().subscribe( res => {
-      this.ubivtas = res;
-    });
-
-    this.ventasService.buscarVendedores().subscribe(res => {
-      this.vendedores = res;
-      this.vendedor = this.vendedores.filter(mi => mi.codigo === this.codigovendedor)[0];
-    });
-    this.ventasService.buscarPromotores().subscribe(res => {
-      this.promotores = res;
-      this.promotor = this.promotores.filter(mi => mi.codigo === this.codigopromotor)[0];
-    });
-    this.ventasService.obtentabladesctocont().subscribe(
-      respu => {
-        this.tabladesctoscont = respu;
-      }
-    );
+  async cargaCatalogos() {
+    this.ubivtas = await lastValueFrom(this.ventasService.buscarUbicaciones());
+    this.vendedores = await lastValueFrom(this.ventasService.buscarVendedores());
+    this.vendedor = this.vendedores.find(mi => mi.codigo === this.codigovendedor);
+    this.promotores = await lastValueFrom(this.ventasService.buscarPromotores());
+    this.promotor = this.promotores.find(mi => mi.codigo === this.codigopromotor);
+    this.tabladesctoscont = await lastValueFrom(this.ventasService.obtentabladesctocont());
   
     this.busca_tipos_tarjetas();
     this.tictes = this.configservice.obtenTiposClientesyQOM("TIPOS_CLIENTES");
@@ -264,7 +254,7 @@ export class CrearventaComponent implements OnInit {
         return(precio);
       }
       const pordesc = this.buscar_tasa_descto_cont(linea, this.ticte, '');
-      console.log("Pordesc", pordesc);
+      if(this.debug) console.log("Pordesc", pordesc);
       return (preciou - pordesc /100 * preciou );
     }
     if(this.ticte == "TC") {
@@ -342,7 +332,7 @@ export class CrearventaComponent implements OnInit {
   }  
 
 
-  busca_tipos_tarjetas() {
+  async busca_tipos_tarjetas() {
     let tarjetaspermitidas : Tarjetatc[] = [];
     let mistablasdescto = this.tabladesctoscont;
     let plazomax = 0;
@@ -361,19 +351,13 @@ export class CrearventaComponent implements OnInit {
     });
     this.tarjetastc = [];
     //console.log("Plazo Max:", plazomax, " Linea:", this.linea_z);
-    
-    this.ventasService.buscarTc(this.ubivta, this.ticte).subscribe(
-      respu => {
-        if(respu) {
-          respu.forEach(mitc => {
+    const tarjetas = await lastValueFrom(this.ventasService.buscarTc(this.ubivta, this.ticte));
+    tarjetas.forEach(mitc => {
             if(mitc.plazo <= plazomax) {
               //console.log("Agregando Tarjetas:", mitc);
               this.tarjetastc.push(mitc);
             }
-          });
-        }
-      }
-    );
+    });
   
   }
 
@@ -405,7 +389,7 @@ export class CrearventaComponent implements OnInit {
         data: JSON.stringify(params_z)
        });
        dlgdatosrenfac.afterClosed().subscribe(res => {
-        console.log("Regresando del Dialog", res);
+        if(this.debug) console.log("Regresando del Dialog", res);
         if(res) {
           const preciou = this.calcula_precio(
             res.preciou, res.preciooferta,
@@ -435,7 +419,7 @@ export class CrearventaComponent implements OnInit {
           this.productos.push(this.renglonprod);
           this.productos = [...this.productos];
           //this.dataSource = this.productos;
-          console.log("Productos", this.productos);
+          if(this.debug) console.log("Productos", this.productos);
           
           this.calcular_totales();
   
@@ -459,9 +443,13 @@ export class CrearventaComponent implements OnInit {
   }
 
   buscar_cliente() {
+    const datosabuscar = {
+      nombre: '',
+      tipo: 'CLIENTE'
+    }
     const dialogref = this.dialog.open(DlgbusclienteComponent, {
       width:'600px',
-      data: ''
+      data: JSON.stringify(datosabuscar)
     });
     dialogref.afterClosed().subscribe(res => {
       this.cliente = res;
@@ -495,7 +483,12 @@ export class CrearventaComponent implements OnInit {
   
   }
 
-  continuar() {
+  async continuar() {
+    const venta = await lastValueFrom(this.ventasService.buscarVentaPorCodigo(this.codigovta));
+    if(venta) {
+      this.alerta("Ya Existe este cliente " + venta.nombre);
+      return;
+    }
     this.datoslistos = !this.datoslistos;
     this.productos = [];
     
@@ -516,15 +509,13 @@ export class CrearventaComponent implements OnInit {
         factura: this.factura
       }
       this.crear_nueva_factura(this.seriefac);
-      console.log("Params Pedir datos Factura", params_z);
+      if(this.debug) console.log("Params Pedir datos Factura", params_z);
       const dlgdatosrenfac= this.dialog.open(FacturacionEditComponent, {
         width: '700px',
         data: JSON.stringify(params_z)
        });
-       dlgdatosrenfac.afterClosed().subscribe(res => {
-        console.log("Regresando del Dialog", res);
+      dlgdatosrenfac.afterClosed().subscribe(res => {
         if(res) {
-          console.log("Datos de Factura", res);
           this.factura = {
             id: -1,
             idventa: -1,
@@ -533,6 +524,7 @@ export class CrearventaComponent implements OnInit {
             iva: 0,
             total: 0,
             status: "A",
+            tipofac: TIPOS_FAC.VENTA,
             cia: -1,
             codigousocfdi: res.claveusocfdi,
             codigometodopago: res.clavemetodopago,
@@ -549,8 +541,8 @@ export class CrearventaComponent implements OnInit {
           this.grabar_datos_venta();
         }
   
-        }
-      );
+      }
+    );
     
     
 
@@ -559,7 +551,7 @@ export class CrearventaComponent implements OnInit {
   crear_nueva_factura(seriefac: string) {
     const sigfolio = this.buscaUltimoFolioFactura(seriefac);
     const fechahoy =  this.datePipe.transform(new Date(),"yyyy-MM-ddThh:mm");
-    console.log("Siguiente Folio", sigfolio, seriefac);
+    if(this.debug) console.log("Siguiente Folio", sigfolio, seriefac);
     this.factura = {
       id: -1,
       serie: seriefac,
@@ -574,6 +566,7 @@ export class CrearventaComponent implements OnInit {
       total: 0,
       status: "A",
       cia: -1,
+      tipofac: TIPOS_FAC.VENTA,
       codigousocfdi: "",
       conceptousocfdi:"",
       codigometodopago: "",
@@ -581,7 +574,7 @@ export class CrearventaComponent implements OnInit {
       uuid: ""
   
     }
-    console.log("Nueva Factura", this.factura);
+    if(this.debug) console.log("Nueva Factura", this.factura);
 
   }
 
@@ -618,6 +611,7 @@ export class CrearventaComponent implements OnInit {
       qom : qom,
       ticte: this.ticte,
       letra1: 0,
+      piva: 16,
       enganc: this.enganche,
       nulets: this.nulet,
       canle: this.preciolet,
@@ -652,6 +646,7 @@ export class CrearventaComponent implements OnInit {
         total: 0,
         status: "A",
         cia: 1,
+        tipofac: TIPOS_FAC.VENTA,
     }
     const nuevaventa = {
       venta: nvaventa,
@@ -660,9 +655,27 @@ export class CrearventaComponent implements OnInit {
 
     }
     this.ventasService.grabar_venta(JSON.stringify(nuevaventa)).subscribe( res => {
-      console.log("Venta Nueva", res);
-      this.alerta("Se agregó la venta" + res.id.toString());
+      if(this.debug) console.log("Venta Nueva", res);
+      this.alerta("Se agregó la venta " + res.idventa.toString());
+      const codigo = res.codigo;
+      this.detalles_venta(codigo);
+
     });
+  }
+
+  detalles_venta(codigo: number) {
+    let url_z = `/app/detalleventas/${codigo}`;
+    //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
+    console.log('Venta', codigo, url_z);
+    
+    this.router.navigateByUrl(url_z).then( (e) => {
+      if (e) {
+        console.log("Navigation is successful!");
+      } else {
+        console.log("Navigation has failed!");
+      }
+    });    
+
   }
 
 

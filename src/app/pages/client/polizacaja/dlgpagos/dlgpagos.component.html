@@ -1,21 +1,20 @@
-<mat-card class="mat-elevation-z5" style="padding: 1rem;">
+<mat-card class="mat-elevation-z5" style="padding: 1rem; overflow: scroll; " >
     <div mat-dialog-content>
-        <div class="contenedor">
-    <div class="filasuperior">
-        <div class="columna izquierda">
+    <div class="contenedor">
+        <div class="filasuperior">
+            <div class="columna izquierda">
                 <app-datosventa *ngIf="yatengoventa"  [venta]="venta" ></app-datosventa>
-        </div>
-        <div class="columna derecha">
-            <div class = "boxscroll">
-                <div class="vencimientos">
-                    <app-vencimientos *ngIf="yatengovencimientos" [nulets]="venta.nulets" [vencimientos]="vencimientos"></app-vencimientos>
-                </div>
             </div>
+            <div class="columna derecha">
+                <div class = "boxscroll">
+                    <div class="vencimientos">
+                    <app-vencimientos *ngIf="yatengovencimientos" [nulets]="venta.nulets" [vencimientos]="vencimientos"></app-vencimientos>
+                    </div>
+                </div>
 
+            </div>
         </div>
-
-    </div>
-    <div class="filainferior">
+        <div class="filainferior">
         <div >
             <div>
                 <p>{{msgsigpago}} </p>
@@ -101,7 +100,9 @@
                               [readonly]="bonif_cerrada" (blur)="calculaNeto()"
                               
                             > 
-                            <mat-label *ngIf="esconrec" > Cobrado {{recargoscobrados | currency}} </mat-label>
+                            <mat-label *ngIf="esconrec && tienereccobrado" >
+                                 Cobrado {{recargoscobrados | currency}} 
+                            </mat-label>
                         </mat-form-field>
                         <div class="row" style="width:100%;">
                             <mat-form-field style="width:30%;">
@@ -137,7 +138,7 @@
 
 </div>
         
-    </div>
+</div>
 
 </mat-card>
     

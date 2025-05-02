@@ -19,6 +19,8 @@ export interface Renpol {
     iduuid: number;
     idfactura: number;
     cia: number;
+    salcli: number;
+    created_at: string;
 }
 
 export interface Renpolcompleto extends Renpol {

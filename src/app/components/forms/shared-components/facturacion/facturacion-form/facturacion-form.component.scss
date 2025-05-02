@@ -1,0 +1,45 @@
+/* facturacion-form.component.scss */
+
+.form-container {
+    padding: 16px;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -8px;
+    width: 100%;
+  }
+  
+  .form-field-half {
+    flex: 0 0 50%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  
+  .form-field-full {
+    flex: 0 0 100%;
+    padding: 0 8px;
+    box-sizing: border-box;
+  }
+  
+  /* Asegurar que mat-form-field ocupe todo el ancho disponible */
+  .form-field-half mat-form-field,
+  .form-field-full mat-form-field {
+    width: 100%;
+    display: block;
+  }
+  
+  /* Espacio entre filas */
+  .form-row {
+    margin-bottom: 8px;
+  }
+  
+  /* Estilo para botones en el footer */
+  mat-card-actions {
+    padding: 16px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  

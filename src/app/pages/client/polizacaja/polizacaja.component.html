@@ -4,18 +4,27 @@
         <input type="date" [(ngModel)]="fechainicial">
         <label >Fecha Inicial</label>
         <input type="date" [(ngModel)]="fechafinal">
+        <label *ngIf="superusuario">Super usuario</label>
     </div>
     <div>
-        <mat-label>
+        <div *ngIf="superusuario">
+            <mat-label>
+                Tienda
+                <select  name="codtda" id="codtda" value="{{codtda}}" 
+                [(ngModel)]= "codtda" >
+               <option *ngFor="let micodigocaja of codigoscaja" value="{{micodigocaja.tda}}"
+                 [selected]="codtda == micodigocaja.tda">
+                 {{micodigocaja.tda}} {{micodigocaja.nombre}}
+                 </option>
+           </select>
+           </mat-label>
+        </div>
+        <div *ngIf="!superusuario" >
+            <mat-label>
             Tienda
-            <select  name="codtda" id="codtda" value="{{codtda}}" 
-            [(ngModel)]= "codtda" >
-           <option *ngFor="let micodigocaja of codigoscaja" value="{{micodigocaja.tda}}"
-             [selected]="codtda == micodigocaja.tda">
-             {{micodigocaja.tda}} {{micodigocaja.nombre}}
-             </option>
-       </select>
-       </mat-label>
+            </mat-label>
+            <input readonly type="text" value="{{codigocaja.tda}} {{codigocaja.nombre}} ">
+        </div>
 
     </div>
     <div>
@@ -39,7 +48,7 @@
             </ng-container>
             <ng-container matColumnDef="importe">
                 <th mat-header-cell *matHeaderCellDef> Importe </th>
-                <td mat-cell *matCellDef="let element">  {{element.importe}} 
+                <td mat-cell *matCellDef="let element">  {{element.importe | currency }} 
 
                 </td>
             </ng-container>
@@ -53,17 +62,20 @@
             </ng-container>
             <ng-container matColumnDef="efectivo">
                 <th mat-header-cell *matHeaderCellDef> Efectivo </th>
-                <td mat-cell align="right" *matCellDef="let element">  {{element.importe | currency  }} </td>
+                <td mat-cell align="right" *matCellDef="let element">  {{element.importe - element.bonif + element.recar | currency  }} </td>
             </ng-container>
 
             <ng-container matColumnDef="options">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell *matCellDef="let element">
                     <div>
-                        <button mat-raised-button color="primary" [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
+                        <button  mat-stroked-button color="secondary"  [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">
+                            <mat-icon>menu</mat-icon>
+                            Acciones
+                        </button>
                         <ng-template #menu>
-                            <div class="example-menu" cdkMenu>
-                                <ul>
+                            <div  cdkMenu>
+                                <ul class="menudesplegable">
                                     <li>
                                         <button mat-raised-button color="primary" 
                                         (click)="poliza_caja(element)" type="button">

@@ -1,42 +1,63 @@
+<div>
 
 <div style="width: 100%;">
+
     <div class="row">
-        <div style="width: 100%;">
-            <mat-label >
-                Nombre: {{venta.nombre}}
-            </mat-label>
+        <div >
+            <mat-label >Código</mat-label>
+            <input class="seventy-width" type="text" value="{{venta.codigo}}">
         </div>
-    
+        <div class="seventy-width">
+            <mat-label >Nombre</mat-label>
+            <input class="seventy-width" type="text" value="{{venta.nombre}}">
+        </div>
     </div>
     <div class="row">
-        <mat-label>
-            Enganche : {{venta.enganc | currency}}
-        </mat-label>
-        <mat-label>
-            Servicio : {{venta.servicio | currency}}
-        </mat-label>
-        <mat-label>
-            Letras : {{venta.nulets}}
-        </mat-label>
-        <mat-label>
-            Importe x Letra : {{venta.canle | currency}} 
-        </mat-label>
+        <div class="thirty-width">
+            <mat-label>Enganche </mat-label>
+            <input type="text" value="{{venta.enganc | currency}}">
+        </div>
+        <div class="thirty-width">
+            <mat-label>Servicio </mat-label>
+            <input type="text" value="{{venta.servicio | currency}}">
+        </div>
     </div>
     <div class="row">
-        <mat-label>
-            Total Facturacion : {{venta.cargos | currency}}
-        </mat-label>
-        <mat-label>
-            Abonos : {{venta.abonos | currency}}
-        </mat-label>
-        <mat-label>
-            Saldo: {{venta.saldo | currency}}
-        </mat-label>
-    </div>
-    <div class="row">
-        <mat-label>
-            Compra: {{venta.compra}}
-        </mat-label>
+        <div class="thirty-width">
+            <mat-label>Letras </mat-label>
+            <input type="text" value="{{venta.nulets}}">
+        </div>
+        <div class="thirty-width">
+            <mat-label>Importe x Letra </mat-label>
+            <input type="text" value="{{venta.canle | currency}} ">
+        </div>
+        <div class="thirty-width">
+            <mat-label>Bonificación </mat-label>
+            <input type="text" value="{{venta.bonifi | currency}} ">
+        </div>
     </div>
 
+    <div class="row">
+        <div class="thirty-width">
+            <mat-label>
+                Cargos
+            </mat-label>
+            <input type="text" value="{{venta.cargos | currency}} ">
+    
+        </div>
+        <div class="thirty-width">
+            <mat-label>Abonos </mat-label>
+            <input type="text" value="{{venta.abonos | currency}} ">
+    
+        </div>
+        <div class="thirty-width">
+            <mat-label>Saldo</mat-label>
+            <input type="text" value="{{venta.saldo | currency}} ">
+        </div>
+
+    </div>
+    <div class="row full-width">
+        <mat-label> Compra</mat-label>
+        <input class="seventy-width"  type="text" value="{{venta.compra}} ">
+    </div>
 </div>

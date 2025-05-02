@@ -57,9 +57,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .boxscroll {
+    max-height: 200px;
+    max-width: 250px;
+    overflow: auto;
+    display: block;
+}
+
+.boxscroll2 {
     height:200px; 
     width: 250px;
     overflow: auto;
     display: block;
-  }
+}
 
+.lista-sin-marcadores {
+    list-style-type: none;
+    padding-left: 0;  /* Quita el padding izquierdo */
+    margin-left: 0;   /* Quita el margin izquierdo (útil para algunos navegadores) */
+}
+
+.menudesplegable {
+    list-style-type: none;
+    padding-left: 0;  /* Quita el padding izquierdo */
+    margin-left: 0;   /* Quita el margin izquierdo (útil para algunos navegadores) */
+}
+
+.example-standalone-item[aria-expanded='true'] {
+    background-color: rgb(208, 208, 208);
+  }

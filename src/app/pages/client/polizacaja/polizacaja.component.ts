@@ -25,6 +25,7 @@ import { DatePipe } from '@angular/common';
 import { PiderangofechasComponent } from '@components/piderangofechas/piderangofechas.component';
 import { PolizasService } from '@services/polizas.service';
 import { FechaDialogComponent } from '@forms/shared-components/fecha-dialog/fecha-dialog.component';
+import { ConfigService } from '@services/config.service';
 
 @Component({
   selector: 'app-polizacaja',
@@ -42,6 +43,7 @@ export class PolizacajaComponent implements OnInit {
   codigoscaja: Codigocaja[] = [];
   codigocaja?:Codigocaja;
   datoslistos = false;
+  debug = true;
   
   numcia = -1;
   iduser = -1;
@@ -80,6 +82,7 @@ public tableOptions : TableOptions = {
     private facturasSerice: FacturacionService,
     private complementosService: ComplementosService,
     private polizasService: PolizasService,
+    private configService: ConfigService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
@@ -94,12 +97,14 @@ public tableOptions : TableOptions = {
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
       this.iduser = micompania_z.usuario.iduser;
+      this.superusuario = (micompania_z.nivel == "S");
       this.fechafinal =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       this.fechainicial =  this.fechafinal.substring(0,8) + '01';
       this.fecha = this.fechafinal;
       const misdatospoliza  = localStorage.getItem('poliza_' + this.numcia) || "{}";
       const datospoliza =  JSON.parse(misdatospoliza);
       this.codtda = datospoliza.codtda;
+      this.debug = this.configService.debug;
       this.buscar_codigos_caja();
     }
 
@@ -119,11 +124,11 @@ public tableOptions : TableOptions = {
       })
     }
 
-    buscar_codigos_caja() {
-      this.polizasService.buscar_Codigos_Caja().subscribe(res => {
-        this.codigoscaja = res;
-        this.datoslistos = true;
-      })
+    async buscar_codigos_caja() {
+      this.codigoscaja = await lastValueFrom (this.polizasService.buscar_Codigos_Caja());
+      this.seleccionar_codigo_caja();
+      this.codigocaja = this.seleccionar_codigo_caja();
+      this.datoslistos = true;
     }
 
     seleccionar_codigo_caja() {
@@ -154,7 +159,7 @@ public tableOptions : TableOptions = {
       });
       dialogref.afterClosed().subscribe(result => {
         if (result) {
-          console.log("Regresando de pedir fecha", result);
+          if(this.debug) console.log("Regresando de pedir fecha", result);
           this.fecha = result;
           this.procede_a_crear_poliza();
         } else {
@@ -174,13 +179,13 @@ public tableOptions : TableOptions = {
     poliza_caja (poliza: PolizasCompletas) {  
       const idpoliza = poliza.id;
       let url_z = `/app/polizas/detallespoliza/${idpoliza}`;
-      console.log("Estoy en detalles poliza voy a url:" + url_z);
+      if(this.debug) console.log("Estoy en detalles poliza voy a url:" + url_z);
       
       this.router.navigateByUrl(url_z).then( (e) => {
         if (e) {
-          console.log("Navigation is successful!");
+          if(this.debug) console.log("Navigation is successful!");
         } else {
-          console.log("Navigation has failed!");
+          if(this.debug) console.log("Navigation has failed!");
         }
       });    
   
@@ -201,6 +206,5 @@ public tableOptions : TableOptions = {
 
     edit(poliza: any) {}
     delete(poliza: any) {}
-  
 
 }

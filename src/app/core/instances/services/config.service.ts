@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Compania } from '@models/companias';
 import { DateAdapter } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +32,16 @@ export class ConfigService {
   debug = true;
 
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private datePipe : DatePipe,
+    private http: HttpClient
+  ) {
     this.getConfig();
-   }
+  }
 
 
   async getConfig () {
-    return await this.http.get<any>("/assets/config/config.json").subscribe( datos => {
+    return this.http.get<any>("/assets/config/config.json").subscribe( datos => {
       this.cias = datos;
       this.config.estado = "OK";
       this.cia= this.cias[0];
@@ -394,5 +399,18 @@ export class ConfigService {
     return (idcli)
   }
    
+
+  ajustaFechaCierre(fecha: string) {
+    const hoy = this.datePipe.transform( new Date(),"yyyy-MM-dd");
+    const hora = new Date().getHours();
+    
+    let stfecha = fecha.split('T')[0];
+    if(stfecha < hoy) {
+      stfecha += 'T' + (hora+1).toString().padStart(2, '0')+':00:00';
+    } else {
+      stfecha += 'T' + (hora-1).toString().padStart(2, '0')+':00:00';
+    }
+    return stfecha;
+  }
 
 }

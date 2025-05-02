@@ -11,6 +11,7 @@ export interface FacturasDto {
     total: number;
     status: string;
     cia: number;
+    tipofac: number;
     usocfdi: string;
     metodopago: string;
 }

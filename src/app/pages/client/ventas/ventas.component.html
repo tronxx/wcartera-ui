@@ -36,6 +36,10 @@
         <input type="text" [readOnly]="true" [(ngModel)]="venta.precon">
     </div>
     <div>
+        <label for="nombre">Descuento</label>
+        <input type="text" [readOnly]="true" [(ngModel)]="venta.descto">
+    </div>
+    <div>
         <label for="nombre">Servicio</label>
         <input type="text" [readOnly]="true" [(ngModel)]="venta.servicio">
     </div>
@@ -83,8 +87,25 @@
         <label>{{venta.idventa}} </label>
     </div>
     <div style="width: 100%;">
+    </div>
+    <div style="width: 100%;">
         <button mat-raised-button color="primary" 
-        type="button" (click)="imprime_letras()"> Impresión Letras</button>
+            type="button" (click)="imprime_letras()"> 
+            <mat-icon>print</mat-icon>
+            Impresión Letras
+        </button>
+        <button *ngIf="!ventacerrada" mat-raised-button color="primary" 
+            type="button" (click)="cerrar_venta(venta.idventa)"> 
+            <mat-icon>lock</mat-icon>
+            Cerrar
+        </button>
+        <button mat-raised-button color="primary" 
+            type="button" (click)="estadoCuenta()"> 
+            <mat-icon>print</mat-icon>
+            Estado de Cuenta
+        </button>
+        <label *ngIf="ventacerrada">Venta Cerrada {{fechacierre}} </label>
+
     </div>
 
     <div style="width: 100%;">        

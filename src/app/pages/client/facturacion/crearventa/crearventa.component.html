@@ -252,7 +252,7 @@
                     <div *ngIf="factura">
                         Factura Serie <input type="text" readonly value="{{factura.serie}}">
                         No. <input type="text" readonly value="{{factura.numero}}">
-                        Fecha <input type="text" readonly value="{{factura.fecha}}">
+                        Fecha <input type="text" readonly value="{{factura.fecha | date : 'dd-MM-YYYY' }}">
                         Metodo de Pago <input type="text" readonly value="{{factura.codigometodopago}}">
                         Uso CFDI <input type="text" readonly value="{{factura.codigousocfdi}}">
                         <div>
@@ -278,7 +278,7 @@
     <table> 
         <tr>
             <td>
-                <img src="https://i.pinimg.com/564x/29/0d/c0/290dc0651df2c4dfa1e1119453078a55.jpg" alt="">
+                <img src="https://cdn.nubika.es/wp-content/uploads/2024/06/12143947/aves-exoticas.jpg" alt="">
             </td>
         </tr>
     </table>

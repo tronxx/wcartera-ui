@@ -1,8 +1,10 @@
 import { Component, Output, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { FacturacionFormComponent } from '@forms/shared-components/facturacion/facturacion-form/facturacion-form.component';
-import { FacturasDto } from '@dtos/facturas.dto';
+import { FacturasDto, }  from '@dtos/facturas.dto';
+import { TIPOS_FAC } from '@models/factura'
 import { FacturacionService } from '@services/facturacion.service';
+import { ConfigService } from '@services/config.service';
 import { ComplementosService } from '@services/complementos.service';
 import { DatePipe } from '@angular/common';
 
@@ -17,12 +19,14 @@ export class FacturacionEditComponent implements OnInit {
   public factura : FacturasDto = null;
   public modo = "NUEVAFACTURA";
   public inicial = "";
+  debug = true;
 
   @Output() submitdata : EventEmitter<any> = new EventEmitter();
     constructor(
       public dialog: MatDialogRef<FacturacionEditComponent>,
       @Inject(MAT_DIALOG_DATA) public params : string,
       private facturasservice: FacturacionService,
+      private configService : ConfigService,
       private datePipe : DatePipe,
 
   
@@ -39,6 +43,7 @@ export class FacturacionEditComponent implements OnInit {
           serie: misparam_z.factura.serie
         }
         this.inicial = JSON.stringify(datosiniciales);
+        this.debug = this.configService.debug;
       }
 
     }
@@ -46,7 +51,7 @@ export class FacturacionEditComponent implements OnInit {
     crear_nueva_factura(seriefac: string) {
       const sigfolio = this.buscaUltimoFolioFactura(seriefac);
       const fechahoy =  this.datePipe.transform(new Date(),"yyyy-MM-ddThh:mm");
-      console.log("Siguiente Folio", sigfolio, seriefac);
+      if(this.debug) console.log("Siguiente Folio", sigfolio, seriefac);
       this.factura = {
         serie: seriefac,
         numero: sigfolio,
@@ -60,11 +65,12 @@ export class FacturacionEditComponent implements OnInit {
         total: 0,
         status: "A",
         cia: -1,
+        tipofac: TIPOS_FAC.VENTA,
         usocfdi: "",
         metodopago: ""
     
       }
-      console.log("Nueva Factura", this.factura);
+      if(this.debug) console.log("Nueva Factura", this.factura);
 
     }
 

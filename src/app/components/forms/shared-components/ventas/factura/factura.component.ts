@@ -90,7 +90,7 @@ export class FacturaComponent {
     async imprimir_factura() {
       const pararms = {
         uuid: this.factura.uuid,
-        rotarfac: 'N'
+        rotar: 'N'
       }
       this.facturasService.obten_pdf_cfdi_factura(JSON.stringify(pararms));
     }
@@ -165,7 +165,7 @@ export class FacturaComponent {
       let fac_iva = 0;
       let nombrefac = "";
       let regimen = "616";
-      this.fechacierre = this.ajustaFechaCierre(this.fechacierre);
+      this.fechacierre = this.configService.ajustaFechaCierre(this.fechacierre);
       const idventa = this.factura.idventa;
       this.venta = await this.busca_venta(idventa);
       const idcli = this.venta.idcliente;
@@ -250,19 +250,6 @@ export class FacturaComponent {
       machote.cfdi__comprobante.cfdi__impuestos.cfdi__traslados.cfdi__traslado[0].base = (fac_importe).toFixed(2);
       machote.cfdi__comprobante.cfdi__impuestos.cfdi__traslados.cfdi__traslado[0].importe = (fac_iva).toFixed(2);
       return (machote);
-    }
-
-    ajustaFechaCierre(fecha: string) {
-      const hoy = this.datePipe.transform( new Date(),"yyyy-MM-dd");
-      const hora = new Date().getHours();
-      
-      let stfecha = fecha.split('T')[0];
-      if(stfecha < hoy) {
-        stfecha += 'T' + (hora+1).toString().padStart(2, '0')+':00:00';
-      } else {
-        stfecha += 'T' + (hora-1).toString().padStart(2, '0')+':00:00';
-      }
-      return stfecha;
     }
 
     procesarconceptoFactura(renglones: Renfac[]): Renfac[] {

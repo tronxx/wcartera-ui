@@ -113,7 +113,7 @@ export class ComplementosService {
       'content-type': 'application/json',
       'Authorization': `Bearer ${this.registro_z.token}`      
     };    
-    if(this.debug) console.log("usocfdi url", miurl);
+    if(this.debug) console.log("usocfdi url", miurl, "token");
     
     return( this.http.get<Usocfdi[]> (miurl, {'headers':headers}) );
 

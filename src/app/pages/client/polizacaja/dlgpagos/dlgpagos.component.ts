@@ -70,6 +70,7 @@ export class DlgpagosComponent implements OnInit {
   msgsigpago = "";
   yatengoventa = false;
   aceptarpago = false;
+  tienereccobrado = false;
 
   tipospagos =  [ 
     { "clave":"C", "descri":"COMPLETO"  },
@@ -178,18 +179,24 @@ export class DlgpagosComponent implements OnInit {
       }
     }
     this.recargoscobrados = 0;
+    this.tienereccobrado = false;
     const letra = Number(this.ltaini);
     prletconrec_z = this.calcula_bonif_o_rec(letra);
     this.esconrec = false;
     if(prletconrec_z == 'R' ) {
       this.esconrec = true;
+      this.activartipomov(["R"]);
       const reccobrado = await this.ventasService.obtenerRecargosLetra(this.venta.idventa, letra );
-      this.recargoscobrados  = reccobrado.recargos;
+      if(reccobrado) {this.recargoscobrados  = reccobrado.recargos; this.tienereccobrado = true;}
 
       this.recobon = recargo  - this.recargoscobrados;
       if(this.recobon < 0) this.recobon = 0;
       this.calculaNeto();
       this.bonif_cerrada = true;
+    }
+    if(prletconrec_z == 'B' ) { 
+      this.recobon = this.venta.bonifi;
+      this.activartipomov(["B"]);
     }
 
     this.importe = importexpagar;
@@ -361,13 +368,14 @@ export class DlgpagosComponent implements OnInit {
       recargo = Math.round( this.venta.canle * this.tasarecargo_z / 100);
       this.recobon = recargo * numerodeletras_z - this.recargoscobrados;
       if(this.recobon < 0) this.recobon = 0;
-      this.bonif_cerrada = false;
+      this.bonif_cerrada = true;
       this.calculaNeto();
       return;
     } 
     if (this.tipomovsel == "B") {
         this.recobon = this.recobon * numerodeletras_z;
         this.calculaNeto();
+        this.bonif_cerrada = true;
       }
     // this.alerta("Bonificacion del Cliente:" + this.bonifi_z.toString() + " Bonif Cerrada:" + this.bonif_cerrada);
     //this.sigletra_z = Number (this.datospago.ltaini);
@@ -573,6 +581,7 @@ export class DlgpagosComponent implements OnInit {
               idcobratario: idcobratario,
               siono: this.venta.siono,
               usuario: this.iniciales,
+              salcli: this.venta.saldo - this.importe,
               conplazo: "this.conplazo",
               datosplazo: "this.datosplazo"
           }

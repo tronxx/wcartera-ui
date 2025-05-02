@@ -158,5 +158,76 @@ export class PolizasService {
 
   }
 
+  cerrar_Poliza(poliza: any): Observable<any>{
+    const url = this.configService.config.url;
+    const id = poliza.id;
+    const miurl = `${this.url}/polizas/${id}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+    const params = {
+      status:'C'
+    }
+    const nvaventa = JSON.stringify(params);
 
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en cerrar_Poliza", params, "url:",miurl);
+    return( this.http.put<any> (miurl, nvaventa, {'headers':headers}) );
+
+  }
+
+  impresionPoliza(datospoliza: string): Observable<any>{
+    let misdatos = JSON.parse(datospoliza);
+    let miurl = this.configService.config.oldurl + "polizas/impresionpoliza.php";
+    const misparams = {
+      modo:"impresion_poliza_con_json",
+      poliza: misdatos
+    };
+    const headers = { 'content-type': 'text/plain'};
+    if(this.debug) console.log("impresionPoliza",  "url:",miurl);
+    return this.http.post<any>(miurl, JSON.stringify( misparams), {'headers':headers});
+  }
+
+  impresionDespacho(datospoliza: string): Observable<any>{
+    let misdatos = JSON.parse(datospoliza);
+    let miurl = this.configService.config.oldurl + "polizas/impresionpoliza.php";
+    const misparams = {
+      modo:"impresion_despacho_con_json",
+      poliza: misdatos
+    };
+    const headers = { 'content-type': 'text/plain'};
+    if(this.debug) console.log("impresionDespacho",  "url:",miurl);
+    return this.http.post<any>(miurl, JSON.stringify( misparams), {'headers':headers});
+  }
+
+  impresion_complemento_poliza(uuid: string) {
+    let miurl = this.configService.config.oldurl + "polizas/impresionpoliza.php";
+    miurl = miurl + `?modo=obtener_pdf_complemento_pol&uuid=${uuid}`;
+    if(this.debug) console.log("impresion_complemento_poliza",  "url:",miurl);
+    window.open(miurl, "_blank");
+  }
+
+  resumenPoliza(datospoliza: string): Observable<any>{
+    let misdatos = JSON.parse(datospoliza);
+    const url = this.configService.config.url;
+    let miurl =  `${this.url}/polizas/resumen/${misdatos.fechaini}/${misdatos.fechafin}/${misdatos.codigoini}/${misdatos.codigofin}/${this.cia}`;
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en resumenPoliza", "url:",miurl);
+    return( this.http.get<any>(miurl, {'headers':headers}) );
+  }
+
+  descargaArchivo(archivo: string) {
+    const mifile =   encodeURIComponent(archivo);
+    let miurl = this.configService.config.oldurl + "polizas/impresionpoliza.php";
+
+    miurl += "?modo=descargar_archivo";
+    miurl += `&file=${mifile}`;
+    if(this.debug) console.log("descargaArchivo",  "url:",miurl);
+    window.open(miurl, "_blank");
+  }
+   
 }

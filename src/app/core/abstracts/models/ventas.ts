@@ -16,6 +16,8 @@ export interface Ventas {
         precon: number;
         idvendedor: number;
         comision: number;
+        descto: number;
+        prodfin: number;
         idcarta: number;
         idfactura: number;
         idpromotor: number;
@@ -24,6 +26,7 @@ export interface Ventas {
         abonos: number;
         idubica: number;
         status: string;
+        opcion: string;
         cia: number;
         createdAt: Date;
         updatedAt: Date

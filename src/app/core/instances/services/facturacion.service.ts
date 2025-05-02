@@ -106,8 +106,8 @@ export class FacturacionService {
   obten_pdf_cfdi_factura(params:string) {
     let misparams = JSON.parse(params);
     const url = this.configService.config.oldurl;
-    // console.log("Debug: Estoy en obtenpdfcfdi ", params);
     let miurl = `${url}/altas/serviciosaltas.php?modo=descarga_pdf_cfdi_factura&uuid=${misparams.uuid}&rotarfac=${misparams.rotar}`;
+    console.log("obten_pdf_cfdi_factura ", params, "url", miurl);
     window.open(miurl, "_blank");
   }
 
@@ -137,6 +137,19 @@ export class FacturacionService {
       'Authorization': `Bearer ${this.registro_z.token}`      
     };    
     if(this.debug) console.log("Estoy en obtenerFacturaPorId ", "url:",miurl);
+    return( this.http.get<any> (miurl, {'headers':headers}) );
+  }
+
+  obtenerFacturaPorIdVenta(id: number) {
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/facturas/idventa/${this.cia}/${id}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en obtenerFacturaPorIdVenta ", "url:",miurl);
     return( this.http.get<any> (miurl, {'headers':headers}) );
   }
 
@@ -249,126 +262,90 @@ export class FacturacionService {
   }
 
   crearJsonTimbrePagos() {
-
-    let conceptos = {
-      cfdi__concepto: [
-        {
-          clave_producto_servicio: "84111506",
-          clave_unidad:"ACT",
-          cantidad: "1",
-          descripcion: "Pago",
-          unidad:"PIEZA",
-          valor_unitario: "0",
-          importe: "0",
-        }
-      ]      
-    
-    };
-
-    let pago_docto_relacionado = {
-      pago20__docto_relacionado:[{
-        id_documento:"5181DA40-22CD-4B8D-9AA1-CEA9B09F8AD0",
-        serie:"",
-        folio:"3",
-        moneda_dr:"MXN",
-        equivalencia_dr: "1",
-        numero_parcialidad: "1",
-        importe_pagado:"5800.00",
-        importe_saldo_anterior:"5800",
-        importe_saldo_insoluto:"0",
-        objeto_imp_dr:"02",
-        pago20__impuestosdr: {
-          pago20__trasladosdr: {
-            pago20__trasladodr: [{
-              base: "5000",
-              impuesto: "002",
-              tipo_factor: "Tasa",
-              tasa_cuota: "0.160000","importe": "800"
-            }
-          ]
+    const timbre = {
+      "cfdi__comprobante": {
+          "version": "4",
+          "exportacion": "01",
+          "serie": "TTPO",
+          "folio": "159",
+          "fecha": "2025-03-25T10:00:00",
+          "tipo_comprobante": "P",
+          "lugar_expedicion": "97540",
+          "moneda": "XXX",
+          "subtotal": "0",
+          "total": "0",
+          "cfdi__emisor": {
+              "rfc": "",
+              "nombre": "",
+              "regimen_fiscal": "601"
+          },
+          "cfdi__receptor": {
+              "rfc": "XAXX010101000",
+              "nombre": "PUBLICO EN GENERAL TEKIT  25/03/2025",
+              "email": "izamalab@diazysolis.com.mx",
+              "domicilio_fiscal": "97540",
+              "regimen_fiscal": "616",
+              "uso_cfdi": "CP01"
+          },
+          "cfdi__conceptos": {
+              "cfdi__concepto": [
+                  {
+                      "objeto_imp": "01",
+                      "clave_producto_servicio": "84111506",
+                      "clave_unidad": "ACT",
+                      "cantidad": "1",
+                      "descripcion": "Pago",
+                      "valor_unitario": "0",
+                      "importe": "0"
+                  }
+              ]
+          },
+          "cfdi__complemento": {
+              "pago20__pagos": {
+                  "pago20__pago": [
+                      {
+                          "fecha_pago": "2025-03-25T10:00:00",
+                          "forma_pago": "01",
+                          "tipo_cambio": "1",
+                          "moneda": "MXN",
+                          "rfc_emisor_ordenante": "",
+                          "rfc_emisor_beneficiario": "",
+                          "nombre_banco_ordenante": "",
+                          "cuenta_ordenante": "",
+                          "cuenta_beneficiario": "",
+                          "tipo_cadena_pago": "",
+                          "num_operacion": "0",
+                          "certificado_pago": "",
+                          "cadena_pago": "",
+                          "sello_pago": "",
+                          "pago20__docto_relacionado": [
+                              {
+                                  "id_documento": "d9d429b9-8ea6-41ee-add7-ee6b29e36be3",
+                                  "serie": "TTFA",
+                                  "folio": "1848",
+                                  "moneda_dr": "MXN",
+                                  "objeto_imp_dr": "01",
+                                  "equivalencia_dr": "1",
+                                  "metodo_pago_dr": "PPD",
+                                  "numero_parcialidad": "2",
+                                  "importe_pagado": "473.00",
+                                  "importe_saldo_anterior": "7095.00",
+                                  "importe_saldo_insoluto": "6622.00"
+                              }
+                          ],
+                          "monto": "473.00"
+                      }
+                  ],
+                  "pago20__totales": [
+                      {
+                          "monto_total_pagos": "473.00"
+                      }
+                  ]
+              }
           }
-          }
-        }
-        ],
-    };
-
-    let complemento = {
-      cfdi__complemento: {
-        pago20__pagos: {
-          pago20__totales: [{
-            traslados_base_iva16: "0",
-            traslados_impuestos_iva16: "0",
-            monto_total_pagos: "0"
-          }]
-        },
-        pago20__pago: [{
-          fecha_pago: "",
-          forma_pago: "01",
-          tipo_cambio: "",
-          moneda: "MXN",
-          monto: "0",
-          rfc_emisor_ordenante: "",
-          rfc_emisor_beneficiario: "",
-          nombre_banco_ordenante: "",
-          cuenta_ordenante:"",        
-          cuenta_beneficiario:"",
-          tipo_cadena_pago:"",
-          num_operacion:"1123121241",
-          certificado_pago:"",
-          cadena_pago:"",
-          sello_pago:"",
-          pago_docto_relacionado,
-        }]
-      }
-    }
-
-
-    let timbre = {
-      cfdi__comprobante: {
-        serie: "",
-        folio: "0",
-        fecha: "",
-        tipo_comprobante:"",
-        lugar_expedicion: "",
-        version: "4.0",
-        exportacion: "01",
-        moneda:"MXN",
-        tipo_cambio:"1",
-        metodo_pago: "PPD",
-        forma_pago: "99",
-        cfdi__emisor:{
-          rfc: "",
-          nombre: "",
-          regimen_fiscal:"12"
-        },
-        cfdi__receptor:{
-          rfc: "",
-          nombre: "",
-          email:"",
-          domicilio_fiscal: "",
-          regimen_fiscal:"12",
-          uso_cfdi: "S01"
-        },
-        subtotal: "0",
-        total: "0",
-        cfdi__impuestos:{
-          total_impuestos_trasladados:"0",
-          cfdi__traslados:{
-            cfdi__traslado:[
-            {
-              base:"0",
-              impuesto:"002",
-              tipo_factor:"Tasa",
-              tasa_cuota:"0.160000",
-              importe:"0",
-            }
-          ]}
-        },
-        cfdi__conceptos: conceptos,
-        complemento,
       }
     };
-
+      
     return (timbre);
       
   }
@@ -403,13 +380,5 @@ export class FacturacionService {
 
   }
 
-  manda_timbrar(timbre: any): Observable<any>{
-    let respu_z = "";
-    let miurl = this.configService.config.urlfacturacion; + "/generafactura.php"
-    const headers = { 'content-type': 'text/plain'};
-    const misparamnvo = JSON.parse(timbre);
-    return this.http.post<any>(miurl, JSON.stringify( misparamnvo), {'headers':headers});
-  }
-  
 
 }
