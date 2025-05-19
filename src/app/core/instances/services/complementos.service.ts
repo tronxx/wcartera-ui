@@ -44,9 +44,9 @@ export class ComplementosService {
   }
 
   obten_lista_ciudades() : Observable<Ciudades[]> {
-    this.url = this.configService.config.url;
+    const url = this.configService.config.url;
   
-    const miurl = `${this.url}/ciudades/${this.cia}`;
+    const miurl = `${url}/ciudades/${this.cia}`;
     
     const headers = { 
       'content-type': 'application/json',
@@ -59,9 +59,9 @@ export class ComplementosService {
   }
 
   obten_ciudad_x_id(idciudad:number) : Observable<Ciudades> {
-    this.url = this.configService.config.url;
+    const url = this.configService.config.url;
   
-    const miurl = `${this.url}/ciudades/${this.cia}/${idciudad}`;
+    const miurl = `${url}/ciudades/${this.cia}/${idciudad}`;
     
     const headers = { 
       'content-type': 'application/json',
@@ -74,9 +74,9 @@ export class ComplementosService {
   }
 
   obten_lista_regimenes() : Observable<Regimenes[]> {
-    this.url = this.configService.config.url;
+    const url = this.configService.config.url;
   
-    const miurl = `${this.url}/regimenes/${this.cia}`;
+    const miurl = `${url}/regimenes/${this.cia}`;
     
     const headers = { 
       'content-type': 'application/json',
@@ -89,9 +89,9 @@ export class ComplementosService {
   }
 
   obten_regimen_x_id(id: number) : Observable<Regimenes> {
-    this.url = this.configService.config.url;
+    const url = this.configService.config.url;
   
-    const miurl = `${this.url}/regimenes/${this.cia}/${id} `;
+    const miurl = `${url}/regimenes/${this.cia}/${id} `;
     
     const headers = { 
       'content-type': 'application/json',
@@ -105,9 +105,9 @@ export class ComplementosService {
 
 
   obten_lista_usocfdi() : Observable<Usocfdi[]> {
-    this.url = this.configService.config.url;
+    const url = this.configService.config.url;
   
-    const miurl = `${this.url}/usocfdi/${this.cia}`;
+    const miurl = `${url}/usocfdi/${this.cia}`;
     
     const headers = { 
       'content-type': 'application/json',
@@ -120,9 +120,9 @@ export class ComplementosService {
   }
 
   obten_usocfdi_x_id(id: number) : Observable<Usocfdi> {
-    this.url = this.configService.config.url;
+    const url = this.configService.config.url;
   
-    const miurl = `${this.url}/usocfdi/${this.cia}/${id} `;
+    const miurl = `${url}/usocfdi/${this.cia}/${id} `;
     
     const headers = { 
       'content-type': 'application/json',
@@ -136,9 +136,8 @@ export class ComplementosService {
 
 
   obten_lista_metodopago() : Observable<Metodopago[]> {
-    this.url = this.configService.config.url;
-  
-    const miurl = `${this.url}/metodopago/${this.cia}`;
+    const url = this.configService.config.url;
+    const miurl = `${url}/metodopago/${this.cia}`;
     
     const headers = { 
       'content-type': 'application/json',

@@ -47,10 +47,11 @@ export class MovimientostablaComponent {
 
   numcia = -1;
   iduser = -1;
+  nivel = "";
+  superusuario = false;
   
   constructor(
     private clientesService : ClientesService,
-    private complementosService: ComplementosService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
@@ -63,6 +64,8 @@ export class MovimientostablaComponent {
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
       this.iduser = micompania_z.usuario.iduser;
+      this.nivel = micompania_z.usuario.nivel;
+      this.superusuario =  (this.nivel == "S");
     }
 
     edit(movto: Movclis) {}
