@@ -30,6 +30,7 @@ import { FacturaComponent } from '@forms/shared-components/ventas/factura/factur
 import { SolicitudFormComponent } from '@forms/shared-components/solicitud/solicitud-form/solicitud-form.component';
 import { SolcitudExtendida } from '@dtos/solicitud-dto';
 import { CLAVES_SOLICIT, TIPOS_SOLICIT } from '@models/solicitud';
+import { PolizasService } from '@services/polizas.service';
 
 @Component({
   selector: 'app-ventas',
@@ -80,6 +81,7 @@ export class VentasComponent {
     private ventasService: VentasService,
     private facturasSerice: FacturacionService,
     private complementosService: ComplementosService,
+    private polizasService: PolizasService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
@@ -466,10 +468,9 @@ export class VentasComponent {
       const edocta = await lastValueFrom (this.ventasService.imprimiEdoCta(JSON.stringify(
         datoscli
       )));
+      this.polizasService.descargaArchivo(edocta.reporte);
 
     }
-
-    
 
     async imprimirletras(letras: any) {
       const dircliente = this.cliente.calle + " N." + this.cliente.numpredio +

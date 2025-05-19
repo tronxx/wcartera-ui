@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientRoutingModule } from './client-routing.module';
+import { MorososComponent } from './morosos/morosos.component';
 
 @NgModule({
   imports: [
@@ -8,6 +9,8 @@ import { ClientRoutingModule } from './client-routing.module';
     ClientRoutingModule
   ],
   declarations: [
+  
+    MorososComponent
   ]
 })
 export class ClientModule { }

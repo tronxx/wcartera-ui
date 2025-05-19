@@ -28,10 +28,10 @@ export class MovimientostablaComponent {
 
   @Input() public  movimientos: Movcliscsaldo[];
   //datasource = this.movimientos;
-  displayedColumns: string[] = ['fecha', 'concepto', 'tipopago', 'recargo', 'bonifica', 'abonos', 'saldo', 'options'];
+  displayedColumns: string[] = ['fecha', 'concepto', 'tda', 'tipopago', 'cobratario', 'usr', 'recargo', 'bonifica', 'abonos', 'saldo', 'options'];
   
-  public headers : Array<string> = ["Fecha", "Concepto", "tipo", "Recargos", "Bonificaciones", "Abonos", "Saldo", "Opciones"];
-  public arrayContent : Array<string> = ['fecha', 'concepto', 'tipopago', 'recargo', 'bonifica', 'abonos', 'saldo', 'options'];
+  public headers : Array<string> = ["Fecha", "Concepto", "Póliza" , "tipo", "Cobratario", "Usr", "Recargos", "Bonificaciones", "Abonos", "Saldo", "Opciones"];
+  public arrayContent : Array<string> = ['fecha', 'concepto', 'tda', 'tipopago', 'cobratario', 'usuario', 'recargo', 'bonifica', 'abonos', 'saldo', 'options'];
   public body : Array<any> = [];
   public tableName = "Movimientos";
   public page : PageIndex;

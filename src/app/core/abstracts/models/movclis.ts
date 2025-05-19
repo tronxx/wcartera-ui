@@ -5,6 +5,7 @@ export interface Movclis {
     coa: string;
     idconcepto: number;
     idpoliza: number;
+    poliza: string;
     consecutivo: number;
     tipopago: string;
     recobon: number;
