@@ -17,6 +17,7 @@ export class ConfigService {
     "url": "",
     "oldurl":"",
     "urlfacturacion":"",
+    "urlphp":"",
     "cia": 0
 
   }
@@ -49,6 +50,7 @@ export class ConfigService {
       this.config.url = this.cia.Urldatos;
       this.config.oldurl = this.cia.oldurldatos;
       this.config.urlfacturacion = this.cia.urlfacturacion;
+      this.config.urlphp = this.cia.urlphp;
       if(this.debug)
         console.log("Estoy en config service ", this.config, this.cia, this.config.url);
 

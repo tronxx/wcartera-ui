@@ -1,13 +1,10 @@
 
 <form [formGroup]="form" >
     <mat-form-field  style="width: 100%;">
-        <mat-label>
-            Fecha 
-        </mat-label>
-        <input matInput  type="date" formControlName="fecha">
-        <mat-hint>DD/MM/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="fecha"></mat-datepicker-toggle>
-        <mat-datepicker #fecha></mat-datepicker>
+        <mat-label>Fecha</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fecha" placeholder="DD/MM/YYYY">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
         <mat-error *ngIf="form.controls['fecha'].hasError('required')">
             ¡Introduce La fecha del movimiento!
         </mat-error>
@@ -46,13 +43,13 @@
         <mat-label *ngIf="esrec()" style="width: 100%;">
             Recargo
         </mat-label>
-        <input type="number" matInput formControlName="recbon">
+        <input type="number" matInput formControlName="recobon">
     </mat-form-field>
     <mat-form-field style="width: 100%;">
         <mat-label>
             Importe
         </mat-label>
-        <input type="number" matInput formControlName="Importe">
+        <input type="number" matInput formControlName="importe">
     </mat-form-field>
 
     <div style="width: 100%; display: flex; justify-content: center; padding-top: .5rem;">

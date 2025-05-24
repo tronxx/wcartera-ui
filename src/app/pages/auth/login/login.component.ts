@@ -18,21 +18,21 @@ export class LoginComponent implements OnInit {
   usuarios : User[] = [];
   Usuario: User;
   error = false;
-  debug = false;
+  debug = true;
 
   registro_z = {
-    "token" : "",
-      "usuario" : {
-      "cia":-1,
-      "idusuario":-1,
-      "parent":"-1",
-      "login":"",
-      "email":"",
-      "nombre":"",
-      "token":"",
-      "acceso": "false",
-      "iniciales":"",
-      "nivel":""
+    token : "",
+    usuario : {
+      cia:-1,
+      idusuario:-1,
+      parent:"-1",
+      login:"",
+      email:"",
+      nombre:"",
+      token:"",
+      nivel:"",
+      acceso: "false",
+      iniciales:"",
     }
   }
 
@@ -67,10 +67,12 @@ export class LoginComponent implements OnInit {
       this.registro_z.usuario.email = xmiuser.usuario.email;
       this.registro_z.usuario.iniciales = xmiuser.usuario.iniciales;
       this.registro_z.usuario.acceso  = "true";
+      this.registro_z.usuario.nivel  = xmiuser.usuario.maestro;
       this.registro_z.usuario.cia = xmiuser.usuario.cia;
       this.registro_z.usuario.parent = xmiuser.usuario.padre;
       this.registro_z.token = xmiuser.token;
       this.configService.asigna_idusuario(xmiuser.id, xmiuser.iniciales, xmiuser.maestro);
+      if(this.debug) console.log('this.registro_z', this.registro_z);
       
       localStorage.setItem("token", JSON.stringify( this.registro_z));
       this.router.navigateByUrl('/app/landing');

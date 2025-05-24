@@ -17,6 +17,7 @@ export class VentasService {
   cia = 1;
   url = "";
   oldurl = "";
+  urlphp = "";
   registro_z: Token = null;
   debug = true;
 
@@ -34,6 +35,7 @@ export class VentasService {
     this.url  = this.configService.config.url;
     this.cia = this.configService.config.cia;
     this.oldurl = this.configService.config.oldurl;
+    this.urlphp = this.configService.config.urlphp;
   
     //this.config =  await this.configService.getConfig();
     //this.url = this.configService.config.url;
@@ -129,6 +131,70 @@ export class VentasService {
     };    
     if(this.debug) console.log("Estoy en buscarMovimientosVentas", miurl);
     return( this.http.get<Movclis[]> (miurl,  {'headers':headers}) );
+
+  }
+
+  modificarMovimientosVentas(id:number, dtomov: any): Observable<any>{
+    const url = this.configService.config.urlphp;
+    const miurl = `${url}/movclis/movclis.php`;
+    const dataxgrabar = {
+      modo: "modificar",
+      movcli : {
+        id: id,
+        concepto: dtomov.concepto,
+        cobratario: dtomov.cobratario,
+        tipopago: dtomov.tipopago,
+        recobon: dtomov.recobon,
+        importe: dtomov.importe,
+        fecha: dtomov.fecha,
+        idventa: dtomov.idventa,
+        iduser: dtomov.iduser,
+      }
+    }
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    //const headers = { 
+      //'content-type': 'application/json',
+      // 'Authorization': `Bearer ${this.registro_z.token}`      
+    //};    
+    const headers = { 
+      'content-type': 'text/plain',
+      //'Authorization': `Bearer ${this.registro_z.token}`
+    }
+
+    if(this.debug) console.log("Estoy en modificarMovimientosVentas", miurl);
+    return( this.http.post<any> (miurl, JSON.stringify(dataxgrabar), {'headers':headers}) );
+
+  }
+
+  agregarMovimientosVentas(id:number, dtomov: any): Observable<any>{
+    const url = this.configService.config.urlphp;
+    const miurl = `${url}/movclis/movclis.php`;
+    const dataxgrabar = {
+      modo: "agregar",
+      movcli : {
+        id: id,
+        concepto: dtomov.concepto,
+        cobratario: dtomov.cobratario,
+        tipopago: dtomov.tipopago,
+        recobon: dtomov.recobon,
+        importe: dtomov.importe,
+        fecha: dtomov.fecha,
+        idventa: dtomov.idventa,
+        iduser: dtomov.iduser,
+      }
+    }
+    //const headers = { 
+      //'content-type': 'application/json',
+      // 'Authorization': `Bearer ${this.registro_z.token}`      
+    //};    
+    const headers = { 
+      'content-type': 'text/plain',
+      //'Authorization': `Bearer ${this.registro_z.token}`
+    }
+
+    if(this.debug) console.log("Estoy en agregarMovimientosVentas", miurl);
+    return( this.http.post<any> (miurl, JSON.stringify(dataxgrabar), {'headers':headers}) );
 
   }
 

@@ -112,7 +112,7 @@
         <mat-tab-group mat-align-tabs="start">
             <div class="movtos">
                 <mat-tab label="Movimientos">
-                    <app-movimientostabla *ngIf="yatengomovclis" [movimientos]="movclis"></app-movimientostabla>
+                    <app-movimientostabla *ngIf="yatengomovclis" [movimientos]="movclis" [idventa]="idventa" ></app-movimientostabla>
                 </mat-tab>
                 <mat-tab label="Factura">
                     <app-factura *ngIf="yatengofactura" [factura]="facturacompleta"></app-factura>

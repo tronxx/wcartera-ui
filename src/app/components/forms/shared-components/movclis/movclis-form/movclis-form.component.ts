@@ -15,7 +15,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 export class MovclisFormComponent extends Form<MovclisDto> implements OnChanges {
   @Output() public submitData: EventEmitter<MovclisDto>;
   @Input() public message: Message;
-  @Input() public movclis: any;
+  @Input() public movcli: any;
 
   tipos = ["AB", "AR"];
   

@@ -75,6 +75,8 @@ export class VentasComponent {
   numcia = -1;
   iduser = -1;
   idventa = -1;
+  nivel = "";
+  superusuario = false;
 
   constructor(
     private clientesService : ClientesService,
@@ -96,6 +98,9 @@ export class VentasComponent {
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
       this.iduser = micompania_z.usuario.iduser;
+      this.nivel = micompania_z.usuario.nivel;
+      this.superusuario =  (this.nivel == "S");
+
       this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       this.fechafinal =  this.fechainicial;
       const datosiniciales = {
@@ -113,6 +118,7 @@ export class VentasComponent {
       this.ventasService.buscarVentaPorCodigo(this.codigo).subscribe(
         res => {
           this.venta = res;
+          this.idventa = this.venta.idventa;
           console.log("Venta ", this.venta);
           this.escredito =  (this.venta.qom != 'C');
           this.buscarcliente(this.venta.idcliente);
