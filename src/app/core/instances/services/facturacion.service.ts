@@ -103,6 +103,21 @@ export class FacturacionService {
 
   }
 
+  abrir_factura(idfactura: number) {
+    const url = this.configService.config.url;
+    const miurl = `${url}/facturas/${idfactura}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+    //const nvaventa = JSON.parse(factura);
+    const params = {status: 'A'};
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en abrir_factura", params, "url:",miurl);
+    return( this.http.put<any> (miurl, params, {'headers':headers}) );
+
+  }
+
   obten_pdf_cfdi_factura(params:string) {
     let misparams = JSON.parse(params);
     const url = this.configService.config.oldurl;
@@ -164,6 +179,33 @@ export class FacturacionService {
     };    
     if(this.debug) console.log("Estoy en obtenerRenfac ", "url:",miurl);
     return( this.http.get<any> (miurl, {'headers':headers}) );
+  }
+
+  agregarRenfac(renfac: any) {
+    const url = this.configService.config.url;
+    const miurl = `${url}/renfac`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en agregarRenfac", renfac, "url:",miurl);
+    return( this.http.post<any> (miurl, renfac, {'headers':headers}) );
+  }
+
+  eliminarRenfac(renfac: any) {
+    const url = this.configService.config.url;
+    const id = renfac.id;
+    const miurl = `${url}/renfac/${id}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en eliminarRenfac", renfac, "url:",miurl);
+    return( this.http.delete<any> (miurl, {'headers':headers}) );
   }
 
   obtenerCompra(id: number) {

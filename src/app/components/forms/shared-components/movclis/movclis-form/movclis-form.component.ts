@@ -2,10 +2,14 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Form } from '@classes/forms/form';
 import { MovclisDto } from '@dtos/movclis.dto';
+import { Promotores } from '@models/promotores';
 import { Message } from '@models/message';
 import {  Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import { lastValueFrom } from 'rxjs';
+import { VentasService } from '@services/ventas.service';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-movclis-form',
@@ -18,15 +22,20 @@ export class MovclisFormComponent extends Form<MovclisDto> implements OnChanges 
   @Input() public movcli: any;
 
   tipos = ["AB", "AR"];
+  promotores: Promotores[] = [];
+  promotor?: Promotores = null;
   
   constructor(
     public builder : UntypedFormBuilder,
     private datePipe : DatePipe,
     private dateAdapter: DateAdapter<Date>,
+    private ventasService: VentasService,
     public router: Router
   ) {
     super();
     this.submitData = new EventEmitter<MovclisDto>();
+    this.carga_catalogos();
+
     this.form = this.builder.group({
       fecha : ["", [Validators.required]],
       concepto: ["", [Validators.required]],
@@ -68,6 +77,11 @@ export class MovclisFormComponent extends Form<MovclisDto> implements OnChanges 
     this.inicializaForm();
   }
 
+  async carga_catalogos() {
+        this.promotores = await  lastValueFrom(this.ventasService.buscarPromotores());
+        return ({status:"OK"});
+  }
+
   inicializaForm() {
     const strhoy =  this.datePipe.transform(new Date(),"yyyy-MM-ddThh:mm");
     let movto = JSON.parse(this.message.message);
@@ -87,10 +101,21 @@ export class MovclisFormComponent extends Form<MovclisDto> implements OnChanges 
     return (this.tipo.value == "AR");
   }
 
+  set_cobrtarario() {
+     this.cobratario.setValue(this.cobratario);
+  }
+
+
   aceptar() {
     this.submitData.emit(this.form.value);
    
   }
+
+  promotorChanged (event: MatSelectChange) {
+    this.cobratario.setValue(event.value);
+    const idpromotor = event.value;
+  } 
+
 
   closeno() {
     //console.log("Hiciste click en Cancelar");

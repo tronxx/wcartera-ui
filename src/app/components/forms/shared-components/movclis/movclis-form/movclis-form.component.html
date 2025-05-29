@@ -31,7 +31,11 @@
         <mat-label>
             Cobratario
         </mat-label>
-        <input type="text" matInput formControlName="cobratario">
+              <mat-select formControlName="cobratario" (selectionChange)="promotorChanged($event)">
+                <mat-option *ngFor="let promotor of promotores" [value]="promotor.codigo">
+                  {{ promotor.codigo }} - {{ promotor.nombre }}
+                </mat-option>
+              </mat-select>
         <mat-error *ngIf="form.controls['cobratario'].hasError('required')">
             ¡Introduce el cobratario!
         </mat-error>

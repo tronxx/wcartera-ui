@@ -107,6 +107,20 @@ export class VentasService {
 
   }
 
+  desplazarVentaPorCodigo(codigo:string, haciadonde: string): Observable<VentasCompletas>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/ventas/busquedaxsigteanterior/${this.cia}/${codigo}/${haciadonde}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarVentaPorCodigo", miurl);
+    return( this.http.get<VentasCompletas> (miurl,  {'headers':headers}) );
+
+  }
+
   buscarAvalporIdventa(idventa:number): Observable<AvalCompleto>{
     this.url = this.configService.config.url;
     const miurl = `${this.url}/avales/${this.cia}/-1/${idventa}`;
@@ -195,6 +209,20 @@ export class VentasService {
 
     if(this.debug) console.log("Estoy en agregarMovimientosVentas", miurl);
     return( this.http.post<any> (miurl, JSON.stringify(dataxgrabar), {'headers':headers}) );
+
+  }
+
+  eliminarMovimientosVentas(id:number): Observable<any>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/movclis/${id}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en eliminarMovimientosVentas", miurl);
+    return( this.http.delete (miurl,  {'headers':headers}) );
 
   }
 

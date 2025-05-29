@@ -25,6 +25,8 @@ import { lastValueFrom } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { Movclis, Movcliscsaldo } from '@models/movclis';
 import { FacturaCompleta, Renfac } from '@models/index';
+import { ProductosComponent } from '../../../../../pages/client/facturacion/productos/productos.component';
+
 
 @Component({
   selector: 'app-factura',
@@ -46,6 +48,7 @@ export class FacturaComponent {
   fechacierre = "";
   statusfac = "";
   facturacerrada = false;
+  piva = 16;
 
   
   public tableOptions : TableOptions = {
@@ -61,6 +64,7 @@ export class FacturaComponent {
   cliente? : Clientes;
   regimen? : Regimenes;
   venta?: Ventas;
+  superusuario = false;
   
 
   constructor(
@@ -81,11 +85,25 @@ export class FacturaComponent {
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
       this.iduser = micompania_z.usuario.iduser;
+      this.superusuario =  (micompania_z.usuario.nivel == "S");
       this.facturacerrada = (this.factura.status == 'C');
     }
 
     edit(renglon: Renfac) {}
-    delete(renglon: Renfac) {}
+
+    delete(renglon: Renfac) {
+      const dialogRef = this.dialog.open(DlgyesnoComponent, {
+          width: '50%',
+          data: "¿Desea eliminar este renglón " + renglon.descri + " ?"
+      });
+      dialogRef.afterClosed().subscribe(async result => { 
+        if(result) {
+          const eliminando = await lastValueFrom (this.facturasService.eliminarRenfac(renglon));
+          this.buscar_factura(this.factura.id);
+        }
+      });
+
+    }
 
     async imprimir_factura() {
       const pararms = {
@@ -93,6 +111,26 @@ export class FacturaComponent {
         rotar: 'N'
       }
       this.facturasService.obten_pdf_cfdi_factura(JSON.stringify(pararms));
+    }
+
+    async abrir_factura() {
+      if(this.factura.status != "C") {
+        this.alerta("Esta factura No ha sido cerrada previamente");
+        return;
+      }
+      const dialogRef = this.dialog.open(DlgyesnoComponent, {
+          width: '500px',
+          data: "¿Desea abrir esta factura para modificarla?"
+      });
+      dialogRef.afterClosed().subscribe(async result => { 
+        if(result) {
+          const abriendo = await lastValueFrom (this.facturasService.abrir_factura(this.factura.id));
+            this.alerta("Se ha abierto la factura para su modificación");
+          this.facturacerrada = (this.factura.status == 'C');
+
+        }
+      });
+
     }
 
 
@@ -306,6 +344,61 @@ export class FacturaComponent {
         //console.log("Debug", res);
       });
     
+    }
+
+    agregar_renglon() { 
+        const dialogRef = this.dialog.open(ProductosComponent, {
+          width: '500px',
+          data: ""
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            const renfac = {
+              idfactura: this.factura.id,
+              idventa: this.factura.idventa,
+              conse: this.factura.renglones.length + 1,
+              codigo: result.codigo,
+              descri: result.descri,
+              serie: result.serie,
+              folio: result.folio,
+              preciou: result.preciou,
+              importe: result.preciou,
+              piva: this.piva,
+              iva: (result.preciou * this.piva / 100),
+              status: "A",
+              canti: result.canti,  
+              cia: this.numcia,
+            }
+            this.facturasService.agregarRenfac(renfac).subscribe( res => {
+              if(res) {
+                this.buscar_factura(this.factura.id);
+              }
+          });
+          }
+        }); 
+
+    }
+
+    buscar_factura(idfactura: number) {
+      this.facturasService.obtenerFacturaPorId(idfactura).subscribe( res => {
+        if(res) {
+          this.factura = res;
+          this.buscar_renglones(idfactura);
+        }
+      });
+
+    }
+
+    buscar_renglones(idfactura: number) { 
+      this.facturasService.obtenerRenfac(idfactura).subscribe( res => {
+        if(res) {
+          this.factura.renglones = res;
+          this.body = this.factura.renglones;
+          this.tableOptions.size = this.body.length;
+        } else {
+          this.alerta("No se encontraron renglones para esta factura");
+        }
+      });
     }
   
 }

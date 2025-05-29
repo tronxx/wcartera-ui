@@ -167,9 +167,30 @@ export class MovimientostablaComponent {
     }
 
 
-    delete(movto: Movclis) {}
+    delete(movto: Movclis) {
+      const dialogref = this.dialog.open(DlgyesnoComponent, {
+        width:'350px',
+        data: "Seguro que desea eliminar el movimiento " + movto.concepto + " ?"
+      });
+      dialogref.afterClosed().subscribe(res => {
+        if(res) {
+          this.eliminar(movto);
+        }
 
-        openTimedSnackBar(message: string, action: string) {
+      });
+
+    }
+
+    async eliminar(movto: Movclis) {
+      const idventa = this.idventa;
+      const id = movto.id;
+      const movclisssaldo = await lastValueFrom(this.ventasService.eliminarMovimientosVentas(id));
+      this.openTimedSnackBar("Se Eliminó el Movimiento", "Movimiento eliminado");
+      this.buscarmovclis(idventa);
+
+    }
+
+    openTimedSnackBar(message: string, action: string) {
       this._snackBar.open(message, action, {duration: 3000});
     }
 

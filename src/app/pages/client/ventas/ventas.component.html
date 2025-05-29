@@ -6,6 +6,19 @@
         <mat-icon>search</mat-icon>
         Detalles
     </button>
+    <button mat-raised-button color="primary" 
+    (click)="buscar_por_nombre()" type="button">
+        <mat-icon>search</mat-icon>
+        Bucar por Nombre
+    </button>
+    <button class="espaciado.button" mat-raised-button color="primary" (click)="moverse_cliente('anterior')">
+        <mat-icon aria-hidden="false" aria-label="Example new icon">keyboard_arrow_left</mat-icon>
+        Anterior Cliente
+    </button>
+    <button class="espaciado.button" mat-raised-button color="primary" (click)="moverse_cliente('siguiente')">
+        <mat-icon aria-hidden="false" aria-label="Example new icon">keyboard_arrow_right</mat-icon>
+        Siguiente Cliente
+    </button>
 
 </div>
 <div *ngIf="venta">
