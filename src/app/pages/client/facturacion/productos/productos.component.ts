@@ -327,10 +327,12 @@ valida_aceptar ( ) {
 
   busca_precio_ASI(codigo: string):number {
     let precioasi = -1;
-    const newprecioasi = this.listaasi.filter((preciosasi) => preciosasi.codigo == codigo);
+    const newprecioasi = this.listaasi.find((preciosasi) => preciosasi.codigo == codigo);
+
+    //const xnewprecioasi = this.listaasi.filter((preciosasi) => preciosasi.codigo == codigo);
     //console.log("Ofertas Filtradas:", newoferta);
-    if(newprecioasi.length) {
-      precioasi = newprecioasi[0].precioasi;
+    if(newprecioasi) {
+      precioasi = newprecioasi.precioasi;
     }
     
     return (precioasi);
@@ -341,18 +343,16 @@ valida_aceptar ( ) {
   busca_oferta(codigo: string):number {
     let poferta = 0;
     let fechahoy =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
-    const newoferta = this.ofertas.filter((oferta) => oferta.codigo == codigo);
+    const newoferta = this.ofertas.find((oferta) => oferta.codigo == codigo);
+    //const newoferta = this.ofertas.filter((oferta) => oferta.codigo == codigo);
     //console.log("Ofertas Filtradas:", newoferta);
     
     if (this.qom == "C") {
-      newoferta.forEach( oferta => {
-        if(codigo == oferta.codigo) {
-          if(fechahoy >= oferta.inioferta && fechahoy <= oferta.finoferta) {
-            poferta = oferta.preciooferta;
-          }
-        }
-      });
+      if(fechahoy >= newoferta.inioferta && fechahoy <= newoferta.finoferta) {
+        poferta = newoferta.preciooferta;
+      }
     }
+
     return (poferta);
 
   }

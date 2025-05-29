@@ -32,6 +32,8 @@ import { DatosventaComponent } from './shared-components/ventas/datosventa/datos
 import { FechaDialogComponent } from './shared-components/fecha-dialog/fecha-dialog.component';
 import { SignaturepadComponent } from './shared-components/signaturepad/signaturepad.component';
 import { MovclisFormComponent } from './shared-components/movclis/movclis-form/movclis-form.component';
+import { AgregarmovtoComponent } from './shared-components/ventas/agregarmovto/agregarmovto.component';
+import { MovtoeditComponent } from './shared-components/ventas/movtoedit/movtoedit.component';
 
 const forms = [
   LoginFormComponent,
@@ -75,6 +77,8 @@ MatProgressSpinnerModule
     ...forms,
     SignaturepadComponent,
     MovclisFormComponent,
+    AgregarmovtoComponent,
+    MovtoeditComponent,
   ],
   imports: [
     CommonModule,

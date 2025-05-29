@@ -1,4 +1,12 @@
 <div>
+    <div>
+        <button *ngIf="!ventacerrada || this.superusuario" mat-raised-button color="primary" 
+            type="button" (click)="agregar_movto()"> 
+            <mat-icon>add</mat-icon>
+            Agregar
+        </button>
+    </div>
+
     <table mat-table [dataSource]="movimientos" style="width: 100%;">
         <ng-container matColumnDef="fecha">
             <th mat-header-cell *matHeaderCellDef> Fecha </th>
