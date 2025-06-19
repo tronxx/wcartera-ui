@@ -123,7 +123,7 @@ export class VentasComponent {
           this.buscar_mi_venta();
         }
         )
-      }
+    }
 
 
     buscar_mi_venta() {

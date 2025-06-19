@@ -4,7 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { VentasCompletas, Ubivtas, Clientes, Vendedores,
   Nulets, Tabladesctocont, Promotores,
   Factorvtacred, QOM, Factura, TIPOS_FAC,
-  Tictes} from '@models/index';
+  Tictes,
+  CLAVES_SOLICIT} from '@models/index';
 import { Tarjetatc } from '@models/index';
 import { MatPaginator } from '@angular/material/paginator';
 import { PageIndex } from '@models/page-index';
@@ -26,6 +27,7 @@ import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.
 import { FacturacionEditComponent } from '../facturacion-edit/facturacion-edit.component';
 import { VentasService } from '@services/ventas.service';
 import { FacturacionService } from '@services/facturacion.service';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-crearventa',
@@ -166,7 +168,7 @@ export class CrearventaComponent implements OnInit {
     let mistorage_z  = localStorage.getItem('token') || "{}";
     const micompania_z =  JSON.parse(mistorage_z);
     this.numcia = micompania_z.usuario.cia;
-    this.iduser = micompania_z.usuario.iduser;
+    this.iduser = micompania_z.usuario.idusuario;
     this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
     this.fechafinal =  this.fechainicial;
     let miregistroventas  = localStorage.getItem(`ventas_${this.numcia}`) || "{}";
@@ -258,6 +260,10 @@ export class CrearventaComponent implements OnInit {
       return (preciou - pordesc /100 * preciou );
     }
     if(this.ticte == "TC") {
+      if(preciooferta != 0) { 
+        precio = preciooferta;      
+        return(precio);
+      }
       const pordesc = this.buscar_tasa_descto_cont(linea, this.ticte, this.mitc);
       return (preciou - pordesc /100 * preciou );
     }
@@ -362,11 +368,31 @@ export class CrearventaComponent implements OnInit {
   }
 
   edit(renfac: any) {}
-  delete(renfac: any) {}
+  delete(renfac: any) {
+    const index = this.productos.indexOf(renfac);
+    if (index > -1) {
+
+    const confirmar = this.dialog.open(DlgyesnoComponent, {
+        width: '700px',
+        data: 'Seguro que desea eliminar el producto ' + renfac.codigo + ' - ' + renfac.descri
+       });
+      confirmar.afterClosed().subscribe(res => {
+        if(res) {
+                this.total = Number( this.total)  - Number( renfac.preciou);
+                this.productos.splice(index, 1);      
+                this.productos = [...this.productos];      
+                //this.dataSource = this.productos;      
+                // if(this.debug) console.log("Productos", this.productos);
+                this.calcular_totales();
+        }
+      })
+
+    }
+  }
 
   agregar() {
       // console.log("El codigo es", this.codigo_z);
-      const mitarjetatc = "-1"
+      const mitarjetatc = this.mitc;
       if(this.ticte == "TC" && mitarjetatc == "-1") {
         this.alerta("debe seleccionar el tipo de tarjeta de crédito");
         return;
@@ -442,6 +468,7 @@ export class CrearventaComponent implements OnInit {
   
   }
 
+
   buscar_cliente() {
     const datosabuscar = {
       nombre: '',
@@ -491,6 +518,16 @@ export class CrearventaComponent implements OnInit {
     }
     this.datoslistos = !this.datoslistos;
     this.productos = [];
+    this.totgral = 0;
+    this.totprodfin = 0;
+    this.total = 0;
+    this.enganche = 0;
+    this.preciolet = 0;
+    this.totiva = 0;
+    this.hayerror = false;
+    this.msgerror_z = "";
+    this.nulet = 0;
+    this.escredito = false;
     
   }
 
@@ -591,7 +628,7 @@ export class CrearventaComponent implements OnInit {
 
   }
 
-  grabar_venta() {
+  async grabar_venta() {
     const qom = this.escredito ? 'Q' : 'C';
     const precon = Math.round(this.total * 100 / 1.16) / 100;
     const prodfin = Math.round( 100 * (this.totgral - this.total)) / 100;
@@ -600,6 +637,7 @@ export class CrearventaComponent implements OnInit {
     const idpromotor = this.promotor.id;
     const comision = precon * this.busca_porcentaje_comision(this.nulet);
     const idcli = this.configservice.calcula_idcli(this.codigovta);
+    const comisiontc = 0;
 
     const nvaventa = {
       idventa: idcli,
@@ -654,13 +692,56 @@ export class CrearventaComponent implements OnInit {
       renfac: this.productos
 
     }
-    this.ventasService.grabar_venta(JSON.stringify(nuevaventa)).subscribe( res => {
-      if(this.debug) console.log("Venta Nueva", res);
-      this.alerta("Se agregó la venta " + res.idventa.toString());
-      const codigo = res.codigo;
-      this.detalles_venta(codigo);
+    const miventa = await lastValueFrom( this.ventasService.grabar_venta(JSON.stringify(nuevaventa)));
+      if(this.debug) console.log("Clave TC", this.mitc);
 
-    });
+    if(nvaventa.ticte == "TC" && this.mitc != undefined && this.mitc != "-1") {
+      this.mitarjetatc = this.tarjetastc.find( mitc => mitc.clave == this.mitc);
+      if(this.debug) console.log("Tarjeta TC", this.mitarjetatc);
+
+      const porcentc = (this.mitarjetatc.tasa + this.mitarjetatc.sobretasa) * (1 + this.mitarjetatc.poriva / 100);
+      const comisiontc = Math.round(totalvta * porcentc ) / 100;
+      const saldotc = totalvta - comisiontc;
+      const agregandotc = await lastValueFrom(
+        this.ventasService.grabar_dato_solicit(
+          nvaventa.idventa, 
+          CLAVES_SOLICIT.CLAVE_TARJETATC,
+          this.mitarjetatc.clave
+        )        
+      );
+      if(this.debug) console.log("Ya agregue los datos de la TC", agregandotc);
+
+      let movcli = {
+        fecha: nvaventa.fecha,
+        concepto: "COM.BAN " + this.mitarjetatc.clave,
+        tda: "TDA",
+        tipopago: "AB",
+        cobratario: "TDA",
+        recobon: comisiontc,
+        importe: comisiontc,
+        
+        idventa: idcli,
+        iduser: this.iduser,
+        idmovto: -1,
+      }
+
+      const movcli_z = await lastValueFrom(
+        this.ventasService.agregarMovimientosVentas(-1, movcli)
+      );
+      if(this.debug) console.log("Voy a agregar movimiento TC", movcli_z, movcli);
+
+      movcli.recobon = 0;
+      movcli.importe = saldotc;
+      movcli.concepto = "EFECTIVO TARJETA";
+      const movcli2_z = await lastValueFrom(
+        this.ventasService.agregarMovimientosVentas(-1, movcli)
+      );
+      if(this.debug) console.log("Voy a agregar saldo de TC", movcli2_z, movcli);
+    }
+    if(this.debug) console.log("Venta Nueva", miventa);
+    this.alerta("Se agregó la venta " + nvaventa.codigo.toString());
+    const codigo = miventa.codigo;
+    this.detalles_venta(codigo);
   }
 
   detalles_venta(codigo: number) {

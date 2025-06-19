@@ -626,7 +626,7 @@ export class VentasService {
     return( this.http.post<any> (miurl, nvaventa, {'headers':headers}) );
 
   }
-
+ 
   impresionLetras(datosletras: string) {
     let misdatos = JSON.parse(datosletras);
     let miurl = this.configService.config.oldurl + "altas/impriletras.php";

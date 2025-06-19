@@ -4,7 +4,7 @@
 <div mat-dialog-content style="overflow-y: auto; max-height: 30rem;">
     <label for="nombre">
         Nombre
-        <input type="text" placeholder="Codigo" [(ngModel)]="nombre" >
+        <input type="text" placeholder="Nombre" [(ngModel)]="nombre" >
     </label>
    
     <button *ngIf="escliente" mat-raised-button  color="primary" (click)="buscar_cliente_nombre(nombre)" > 

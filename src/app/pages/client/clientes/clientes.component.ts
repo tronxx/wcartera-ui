@@ -22,6 +22,7 @@ import { ClientesEditComponent } from './clientes-edit/clientes-edit.component';
 import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.component';
 import { DatosolicitudComponent } from './datosolicitud/datosolicitud.component';
 import { ClienteDtoCompleto } from '@dtos/clientes.dto';
+import { ConfigService } from '@services/config.service';
 
 @Component({
   selector: 'app-clientes',
@@ -61,6 +62,7 @@ export class ClientesComponent {
   constructor(
     private clientesService : ClientesService,
     private complementosService: ComplementosService,
+    private configservice: ConfigService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
@@ -111,8 +113,9 @@ export class ClientesComponent {
     });
     dialogref.afterClosed().subscribe(res => {
       if(res) {
+        const idcli = this.configservice.calcula_idcli(res.codigo);
         const nvocliente = {
-          id: 0,
+          id: idcli,
           idnombre: 0,
           nombre: "",
           appat: res.appat,
