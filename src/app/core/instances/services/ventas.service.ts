@@ -251,13 +251,25 @@ export class VentasService {
   }
 
   obtener_dias_gracia(idventa: number) : Observable<any> {
-    this.url = this.configService.config.url;
-    const micia = this.cia;
-    const idcli = idventa;
     const tipodiasgracia = CLAVES_SOLICIT.DIAS_GRACIA_CLIENTE;
     const tipo = TIPOS_SOLICIT.VENTA;
+    return this.obtener_dato_solicit_venta(idventa, tipo, tipodiasgracia);
+  }
   
-    const miurl = `${this.url}/solicitudes/${micia}/${idventa}/${tipo}/${tipodiasgracia} `;
+  obtener_clave_tc_venta(idventa: number) : Observable<any> {
+    const tipotarjetatc = CLAVES_SOLICIT.CLAVE_TARJETATC;
+    const tipo = TIPOS_SOLICIT.VENTA;
+    return this.obtener_dato_solicit_venta(idventa, tipo, tipotarjetatc);
+  }
+  
+
+  obtener_dato_solicit_venta(idventa: number, tipovta: number, tipodatosol: number ) : Observable<any> {
+    const url = this.configService.config.url;
+    const micia = this.cia;
+    const idcli = idventa;
+  
+    const miurl = `${url}/solicitudes/datoespecifico/${micia}/${idventa}/${tipodatosol}/${tipovta}`;
+    if(this.debug) console.log("Estoy en obtener_dato_solicit_venta", idventa, tipovta, tipodatosol, miurl);
     
     const headers = { 
       'content-type': 'application/json',

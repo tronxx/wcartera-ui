@@ -1,0 +1,83 @@
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  > div {
+    display: flex;
+    align-items: center; // Alinea verticalmente label e input
+    gap: 0.5rem; // Espacio entre label e input
+
+    label {
+      flex: 0 0 120px; // Ancho fijo para los labels (120px)
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 10%;
+    }
+    
+    input {
+      flex: 1; // Ocupa el resto del espacio disponible
+      min-width: 0; // Permite que el input se reduzca
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      
+    }
+    col-12 {
+      flex: 0 0 80%; // Ancho del 50% para columnas de 6
+      width: 10%;
+    }
+    col-6 {
+      flex: 0 0 50%; // Ancho del 50% para columnas de 6
+      width: 10%;
+    }
+    col-4 {
+      flex: 0 0 33.33%; // Ancho del 33.33% para columnas de 4
+    }
+    col-3 {
+      flex: 0 0 25%; // Ancho del 25% para columnas de 3
+    }
+    col-2 {
+      flex: 0 0 16.66%; // Ancho del 16.66% para columnas de 2
+    }
+
+  }
+}
+
+// Media queries para ajustes responsivos
+@media (max-width: 768px) {
+  .row {
+    grid-template-columns: 1fr;
+    
+    > div {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.3rem;
+      
+      label {
+        flex: 0 0 auto; // Ancho automático en móviles
+        width: 100%;
+      }
+      
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) {
+  .row {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}

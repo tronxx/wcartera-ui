@@ -31,6 +31,7 @@ import { SolicitudFormComponent } from '@forms/shared-components/solicitud/solic
 import { SolcitudExtendida } from '@dtos/solicitud-dto';
 import { CLAVES_SOLICIT, TIPOS_SOLICIT } from '@models/solicitud';
 import { PolizasService } from '@services/polizas.service';
+import { Tarjetatc } from '@models/index';
 
 @Component({
   selector: 'app-ventas',
@@ -62,6 +63,8 @@ export class VentasComponent {
   codigo = "";
   escredito = false;
   compras = "";
+  tarjetatc = "";
+  mitarjetatc: Tarjetatc = null;
 
   yatengomovclis = false;
   yatengofactura = false;
@@ -146,6 +149,7 @@ export class VentasComponent {
             this.buscaraval(this.venta.idventa);
           }
           this.buscar_fecha_cierre(this.venta.idventa);
+          this.buscar_clavetc(this.venta.idventa);
 
         }
         
@@ -187,6 +191,15 @@ export class VentasComponent {
     
   }
 
+  async buscar_clavetc(id:number) {
+    this.tarjetatc = "";
+    const datotc = await lastValueFrom(this.ventasService.obtener_clave_tc_venta (id));
+    
+    if(datotc) {
+      this.tarjetatc = datotc.concepto;
+    }
+    
+  }
 
   async obtenCiudad(id: number) {
    this.ciudad = await lastValueFrom(this.complementosService.obten_ciudad_x_id(id));
