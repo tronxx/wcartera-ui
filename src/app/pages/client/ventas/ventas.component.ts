@@ -74,6 +74,7 @@ export class VentasComponent {
   fechainicial = "";
   fechafinal = "";
   fechacierre = "";
+  diasgracia = 0;
   
   numcia = -1;
   iduser = -1;
@@ -273,6 +274,7 @@ export class VentasComponent {
     }    
 
     buscar_solicitud(idcliente: number) {
+      this.diasgracia = 0;
       this.solicitudextendida = {
         idcliente : idcliente,
         ocupacion : "",
@@ -386,6 +388,8 @@ export class VentasComponent {
                     this.solicitudextendida.referencia2 = mires.concepto; break;   
             case  CLAVES_SOLICIT.OBSERVACIONES:
                       this.solicitudextendida.observaciones = mires.concepto; break;   
+            case  CLAVES_SOLICIT.DIAS_GRACIA_CLIENTE:
+                      this.diasgracia = mires.concepto; break;
           }
         }
         console.log("Solicitud extendida", this.solicitudextendida);

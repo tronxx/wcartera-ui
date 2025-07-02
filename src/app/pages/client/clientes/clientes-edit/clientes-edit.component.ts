@@ -3,7 +3,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { ClientesFormComponent } from '@forms/shared-components/clientes/clientes-form/clientes-form.component'
 import { ClientesDto, ClienteDtoCompleto } from '@dtos/clientes.dto';
 import { ComplementosService } from '@services/complementos.service';
-import { NombreDto } from '@dtos/nombres.dto'
+import { NombreDto } from '@dtos/nombres.dto';
+import { ConfigService } from '@services/config.service';
 
 @Component({
   selector: 'app-clientes-edit',
@@ -16,10 +17,12 @@ export class ClientesEditComponent implements OnInit {
   public cliente : ClienteDtoCompleto = null;
   public modo : string;
   listo = false;
+  debug = false;
 
   @Output() submitdata : EventEmitter<any> = new EventEmitter();
     constructor(
       public dialog: MatDialogRef<ClientesEditComponent>,
+      private configservice: ConfigService,
       @Inject(MAT_DIALOG_DATA) public params : string
   
     ) { }
@@ -31,13 +34,17 @@ export class ClientesEditComponent implements OnInit {
       this.modo = misparam_z.modo;
       console.log("clientes edit:", misparam_z, this.cliente);
       this.listo = true;
+      this.debug = this.configservice.debug;
     }
 
     aceptar(data : any){
-      this.dialog.close(data);
+      if(this.debug) console.log("Cerrando con Ok", data);
+      if(!data) this.dialog.close(false)
+      else this.dialog.close(data);
     }
   
     closeno() {
+      if(this.debug) console.log("Cerrando sin aceptar");
       this.dialog.close(false);
     }
    

@@ -10,6 +10,7 @@ import { Ciudades, Regimenes, } from '@models/index'
 import { MatSelectChange } from '@angular/material/select';
 import { MatCard } from '@angular/material/card';
 import { DatePipe } from '@angular/common';
+import { ConfigService } from '@services/config.service';
 
 @Component({
   selector: 'app-clientes-form',
@@ -27,12 +28,14 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
   ciudades: Ciudades[] = [];
   sololectura = false;
   titulo = "";
+  debug = false;
 
   constructor(
     public builder : UntypedFormBuilder,
     public router: Router,
     private complementosService: ComplementosService,
     private clientesService: ClientesService,
+    private configService: ConfigService,
     private datePipe : DatePipe,
 
   ) {
@@ -43,6 +46,7 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     const codigo = "27" + fecha + "99";
     const rfc = "XAXX010101000";
     this.titulo = "Teclee los Datos del Cliente";
+    this.debug = this.configService.debug;
 
     this.form = this.builder.group({
       codigo : [codigo, [Validators.required]],
@@ -79,13 +83,13 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
      
       
     this.sololectura = (this.modo == "DETALLES");
-    console.log("clientesForm modo", this.modo, "Sololectura", this.sololectura);
+    if(this.debug) console.log("clientesForm modo", this.modo, "Sololectura", this.sololectura);
 
   }
 
   inicializaForm() {
     //console.log("changed")
-    console.log("clientes-form Mi cliente", this.cliente);
+    if(this.debug) console.log("clientes-form Mi cliente", this.cliente);
     if(this.cliente) {
       this.form.get("codigo").setValue(this.cliente.codigo);
       this.form.get("calle").setValue(this.cliente.calle);
@@ -154,7 +158,7 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
    }
    
    const nombres = this.clientesService.obten_nombres(this.cliente.idnombre).subscribe( res => {
-    console.log("Estoy en Clietes-form busca_nombres", res);
+   if(this.debug)  console.log("Estoy en Clietes-form busca_nombres", res);
 
        nombre.appat = res.appat;
        nombre.apmat = res.apmat;
@@ -224,15 +228,13 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
   }
   
   aceptar() {
-    //console.log("Hiciste click en aceptar");
-    this.submitData.emit(this.form.value);
-    
+   if(this.debug) console.log("Hiciste click en aceptar");
+   this.submitData.emit(this.form.value);
   }
 
   close() {
-    console.log("Hiciste click en Cancelar");
-    this.nompil1.setValue("CANCELADO");
-    this.submitData.emit(this.form.value);
+    if(this.debug) console.log("Hiciste click en Cancelar");
+    this.submitData.emit(null);
   }
 
 }

@@ -21,29 +21,29 @@
     </button>
 
 </div>
-<div *ngIf="venta">
+<div *ngIf="venta" >
     <div class="row">
-        <div class="col-12">
+        <div class="column-12" style="width: 40%;" >
             <label for="nombre" >Nombre </label>
-            <input type="text" id="nombre" [readOnly]="true" value="{{venta.nombre}}">
+            <input type="text" id="nombre" style="width: 60%;" [readOnly]="true" value="{{venta.nombre}}">
         </div>
-        <div class="col-6">
-            <label for="ubica">Ubicación</label>
-            <input type="text" id="ubica" [readOnly]="true" value="{{venta.ubica}}">
+        <div class="column-6" style="width: 20%;" >
+            <label for="ubica" >Ubicación</label>
+            <input type="text" id="ubica" style="width: 20%;" [readOnly]="true" value="{{venta.ubica}}">
         </div>
-        <div class="col-6">
-            <label for="factura" >Factura </label>
-            <input type="text" id="factura" [readOnly]="true" value="{{venta.seriefac}} {{venta.numfac}}">
+        <div class="column-6" style="width: 20%;" >
+            <label for="factura" style="width: 20%;" >Factura </label>
+            <input type="text" id="factura" style="width: 30%;"  [readOnly]="true" value="{{venta.seriefac}} {{venta.numfac}}">
         </div>
 
     </div>
     <div class="row">
         <div class="col-6">
-            <label for="tipoventa">Tipo de Venta </label>
-            <input type="text" id="tipoventa" [readOnly]="true" value="{{venta.ticte}}">
+            <label for="tipoventa" style="width: 20%;" >Tipo de Venta </label>
+            <input type="text" id="tipoventa" style="width: 20%;"  [readOnly]="true" value="{{venta.ticte}}">
             <div *ngIf="venta.ticte === 'TC'">
-                <input type="text" id="tartejatc" value="{{tarjetatc}}" [readOnly]="true">
-                </div>
+                <input type="text" id="tartejatc" style="width: 40%;"  value="{{tarjetatc}}" [readOnly]="true">
+            </div>
         </div>
         <div class="col-6">
             <label for="qom">Q/M/C </label>
@@ -74,6 +74,8 @@
                 <input type="text" id="bonifi" [readOnly]="true" value="{{venta.canle | currency}}">
                 <label for="sdoeng">Letra 1/1 </label>
                 <input type="text" id="sdoeng" [readOnly]="true" value="{{venta.letra1}}">
+                <label *ngIf = "diasgracia" for="diasgracia">Dias Gracia</label>
+                <input type="text" id="diasgracia" [readOnly]="true" value="{{diasgracia}}">
             </div>
 
         </div>
@@ -92,11 +94,11 @@
     </div>
     <div>
         <label for="nombre">Cargos </label>
-        <input type="text" [readOnly]="true" [(ngModel)]="venta.cargos">
+        <input type="text" [readOnly]="true" value="{{venta.cargos | currency}}">
         <label for="nombre">Abonos </label>
-        <input type="text" [readOnly]="true" [(ngModel)]="venta.abonos">
+        <input type="text" [readOnly]="true" value="{{venta.abonos | currency}}">
         <label for="nombre">Saldo </label>
-        <input type="text" [readOnly]="true" value = "{{venta.cargos - venta.abonos}}" >
+        <input type="text" [readOnly]="true" [value]="(venta.cargos - venta.abonos) | currency">
         
     </div>
     <div>

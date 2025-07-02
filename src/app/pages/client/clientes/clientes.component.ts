@@ -42,6 +42,8 @@ export class ClientesComponent {
   
   numcia = -1;
   iduser = -1;
+
+  debug = false;
   
   displayedColumns: string[] = ['codigo', 'nombre', 'direc', 'telefono', 'email', 'options'];
   
@@ -78,6 +80,7 @@ export class ClientesComponent {
       this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       this.fechafinal =  this.fechainicial;
       this.buscar_lista_clientes();
+      this.debug = this.configservice.debug;
     }
   
   agregar_cliente() {
@@ -112,6 +115,7 @@ export class ClientesComponent {
       data: JSON.stringify( params_z)
     });
     dialogref.afterClosed().subscribe(res => {
+      if(this.debug) console.log("Regreso del Edit", res);
       if(res) {
         const idcli = this.configservice.calcula_idcli(res.codigo);
         const nvocliente = {
