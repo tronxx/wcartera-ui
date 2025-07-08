@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  align-items: center;  /* Centra verticalmente */
+  gap: 10px;           /* Espacio entre elementos */
+  flex-wrap: nowrap;   /* Evita saltos de línea */
+}
+
+.radio-group {
+  display: flex;
+  gap: 10px;          /* Espacio entre radio buttons */
+}
+
+/* Contenedores de fecha y nombre (se activan con ngIf) */
+.container > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Estilo para los inputs */
+input[type="date"],
+input[type="text"] {
+  height: 36px;        /* Altura similar a otros controles de Material */
+  padding: 0 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 40%;
+}
+
+/* Ajuste para los mat-labels */
+mat-label {
+  white-space: nowrap; /* Evita que el texto se divida en dos líneas */
+}
+
+/* Botón de búsqueda */
+.action-buttons {
+  margin-left: auto;   /* Opcional: lo empuja a la derecha */
+}
+
+/* Ajuste para el ícono del botón */
+.mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}

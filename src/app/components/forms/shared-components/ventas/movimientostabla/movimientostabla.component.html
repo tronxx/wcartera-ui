@@ -59,7 +59,7 @@
                     <button 
                     mat-raised-button [disabled]="!superusuario" color="primary" [cdkMenuTriggerFor]="menu" class="example-standalone-trigger">Acciones</button>
                     <ng-template #menu>
-                        <div class="example-menu" cdkMenu>
+                        <div class="example-menu" cdkMenu *ngIf="!ventacerrada || superusuario" >
                             <ul class="menudesplegable">
                                 <li>
                                     <button  mat-raised-button color="primary" 

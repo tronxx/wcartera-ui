@@ -8,6 +8,7 @@ export interface Ventas {
         qom: string;
         ticte: string;
         letra1: number;
+        piva: number;
         enganc: number;
         nulets: number;
         canle: number;

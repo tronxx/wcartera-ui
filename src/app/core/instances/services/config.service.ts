@@ -91,6 +91,7 @@ export class ConfigService {
         { clave:"CC", descri:"CLIENTE DE CONTADO"},
         { clave:"TC", descri:"TARJETA CREDITO"},
         { clave:"FI", descri:"CLIENTE ASI"},
+        { clave:"EX", descri:"CRED.EXTERNO"},
     
       ]
       resultado = tictes_z;

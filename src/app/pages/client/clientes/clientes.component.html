@@ -1,16 +1,16 @@
 <mat-card class="mat-elevation-z5 card">
     <div>
         <div>
-            <div>
-                <mat-label>
-                    Fecha Inicial
-                </mat-label>
-                <input type="date" [(ngModel)]="fechainicial">
-                <mat-label>
-                    Fecha Final
-                </mat-label>
-                <input type="date" [(ngModel)]="fechafinal">
 
+            <div class="container">
+                    <mat-label>
+                        Nombre del Cliente
+                    </mat-label>
+                    <input style="width: 40%;" type="text" [(ngModel)]="nombrecliente" placeholder="Nombre del Cliente" />
+                    <button class="espaciado.button" mat-raised-button color="primary" (click)="buscar_lista_clientes()">
+                        <mat-icon aria-hidden="false" aria-label="Example new icon">search</mat-icon>
+                        Buscar
+                    </button>
             </div>
 
             <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
@@ -72,14 +72,14 @@
                             <div class="example-menu" cdkMenu>
                                 <ul>
                                     <li>
-                                        <button mat-raised-button color="primary" *ngIf="clienteAbierto(element)"
+                                        <button mat-raised-button color="warn" *ngIf="clienteAbierto(element)"
                                         (click)="edit(element)" type="button">
                                             <mat-icon>edit</mat-icon>
                                             Modificar
                                         </button>
                                     </li>
                                     <li>
-                                        <button mat-raised-button color="primary" 
+                                        <button mat-raised-button color="warn" 
                                         (click)="detalles(element)" type="button">
                                             <mat-icon>account_box</mat-icon>
                                             Detalles
@@ -95,8 +95,15 @@
                                     <li>
                                         <button mat-raised-button color="warn" *ngIf="clienteAbierto(element)"
                                         (click)="datosolicitud(element)" type="button">
-                                            <mat-icon>description</mat-icon>
+                                            <mat-icon>face</mat-icon>
                                             Solicitud
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button mat-raised-button color="warn" 
+                                        (click)="verventas(element)" type="button">
+                                            <mat-icon>assignment_ind</mat-icon>
+                                            Ver Ventas
                                         </button>
                                     </li>
                                 </ul>

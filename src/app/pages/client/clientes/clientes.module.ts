@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule as localforms } from '@forms/forms.module';
+import {MatRadioModule} from '@angular/material/radio';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
 import { ClientesComponent } from './clientes.component';
 import { ClientesEditComponent } from './clientes-edit/clientes-edit.component';
@@ -52,6 +53,7 @@ const routes : Routes = [
     MatIconModule,
     MatTableModule,
     localforms,
+    MatRadioModule,
     CdkMenu,
     CdkMenuTrigger,
     FormsModule

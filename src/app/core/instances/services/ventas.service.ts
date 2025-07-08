@@ -80,7 +80,7 @@ export class VentasService {
   buscarVentaPorNombre(nombre:string): Observable<VentasCompletas[]>{
     this.url = this.configService.config.url;
     const minombre = encodeURIComponent(nombre);
-    const miurl = `${this.url}/ventas/busquedaxnombre/${this.cia}/${minombre}`;
+    const miurl = `${this.url}/ventas/busqueda/nombre/${this.cia}/${minombre}`;
     //let miurl = this.config.url + "/almacenes/" + almacen.id;
 
     const headers = { 
@@ -88,6 +88,20 @@ export class VentasService {
       'Authorization': `Bearer ${this.registro_z.token}`      
     };    
     if(this.debug) console.log("Estoy en buscarVentaPorNombre", miurl);
+    return( this.http.get<VentasCompletas[]> (miurl,  {'headers':headers}) );
+
+  }
+
+  buscarVentaPoridCliente(idcliente: number): Observable<VentasCompletas[]>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/ventas/busqueda/idcliente/${this.cia}/${idcliente}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("buscarVentaPoridCliente", miurl);
     return( this.http.get<VentasCompletas[]> (miurl,  {'headers':headers}) );
 
   }
@@ -109,7 +123,7 @@ export class VentasService {
 
   desplazarVentaPorCodigo(codigo:string, haciadonde: string): Observable<VentasCompletas>{
     this.url = this.configService.config.url;
-    const miurl = `${this.url}/ventas/busquedaxsigteanterior/${this.cia}/${codigo}/${haciadonde}`;
+    const miurl = `${this.url}/ventas/busqueda/sigteanterior/${this.cia}/${codigo}/${haciadonde}`;
     //let miurl = this.config.url + "/almacenes/" + almacen.id;
 
     const headers = { 

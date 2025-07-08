@@ -28,6 +28,7 @@ export class MovimientostablaComponent {
   @Input() public  movimientos: Movcliscsaldo[];
   @Input() public idventa: number;
   @Input() public cargoscli: number;
+  @Input() public status: string;
   //datasource = this.movimientos;
   displayedColumns: string[] = ['fecha', 'concepto', 'tda', 'tipopago', 'cobratario', 'usr', 'recargo', 'bonifica', 'abonos', 'saldo', 'options'];
   
@@ -69,6 +70,10 @@ export class MovimientostablaComponent {
       this.nivel = micompania_z.usuario.nivel;
       this.superusuario =  (this.nivel == "S");
       this.debug = this.ventasService.debug;
+      this.ventacerrada  = (this.status == "CERRADA");
+      if(this.debug) {
+        console.log("Movimientos Tabla", this.movimientos, "idventa", this.idventa, "cargoscli", this.cargoscli, "status", this.status);
+      }
       //this.cargoscli = this.movimientos[0].saldo + this.movimientos[0].importe;
 
     }

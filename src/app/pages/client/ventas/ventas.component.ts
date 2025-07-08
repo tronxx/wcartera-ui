@@ -32,6 +32,7 @@ import { SolcitudExtendida } from '@dtos/solicitud-dto';
 import { CLAVES_SOLICIT, TIPOS_SOLICIT } from '@models/solicitud';
 import { PolizasService } from '@services/polizas.service';
 import { Tarjetatc } from '@models/index';
+import { ConfigService } from '@services/config.service';
 
 @Component({
   selector: 'app-ventas',
@@ -62,9 +63,12 @@ export class VentasComponent {
 
   codigo = "";
   escredito = false;
+  statuscerrada = "";
   compras = "";
   tarjetatc = "";
   mitarjetatc: Tarjetatc = null;
+  debug = false;
+  datosventa = "";
 
   yatengomovclis = false;
   yatengofactura = false;
@@ -88,6 +92,7 @@ export class VentasComponent {
     private facturasSerice: FacturacionService,
     private complementosService: ComplementosService,
     private polizasService: PolizasService,
+    private configService: ConfigService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
@@ -104,6 +109,7 @@ export class VentasComponent {
       this.iduser = micompania_z.usuario.iduser;
       this.nivel = micompania_z.usuario.nivel;
       this.superusuario =  (this.nivel == "S");
+      this.debug = this.configService.debug;
 
       this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       this.fechafinal =  this.fechainicial;
@@ -130,16 +136,17 @@ export class VentasComponent {
     }
 
 
-    buscar_mi_venta() {
+    async buscar_mi_venta() {
       console.log("codigo", this.codigo);
       this.yatengosolicit = false;
 
       this.ventasService.buscarVentaPorCodigo(this.codigo).subscribe(
-        res => {
+        async res => {
           this.venta = res;
           this.idventa = this.venta.idventa;
           console.log("Venta ", this.venta);
           this.escredito =  (this.venta.qom != 'C');
+          const yaleifechacierre = await (this.buscar_fecha_cierre(this.venta.idventa));
           this.buscarcliente(this.venta.idcliente);
           this.buscarvendedor(this.venta.idvendedor);
           this.buscarpromotor(this.venta.idpromotor);
@@ -149,7 +156,6 @@ export class VentasComponent {
           if(this.escredito) {
             this.buscaraval(this.venta.idventa);
           }
-          this.buscar_fecha_cierre(this.venta.idventa);
           this.buscar_clavetc(this.venta.idventa);
 
         }
@@ -184,11 +190,13 @@ export class VentasComponent {
     this.ventacerrada = false;
     this.fechacierre = "";
     const datofechacierre = await lastValueFrom(this.ventasService.obtener_fecha_cierre (id));
-    
-    if(datofechacierre) {
+    if (this.debug) console.log("buscar_fecha_cierre", datofechacierre);
+    if(datofechacierre.concepto != "false") {
       this.fechacierre = datofechacierre.concepto;
       this.ventacerrada = true;
     }
+    this.statuscerrada = this.ventacerrada ? "CERRADA" : "ABIERTA";
+    return (this.ventacerrada);
     
   }
 
@@ -270,7 +278,17 @@ export class VentasComponent {
           codigoregimen : this.regimen.clave,
           renglones: this.renglonesfac
       }
-        this.yatengofactura = true;
+      const misdatosventa = {
+        servicio: this.venta.servicio,
+        idventa: this.venta.idventa,
+        idcliente: this.venta.idcliente,
+        cerrada: this.ventacerrada,
+        precon: this.venta.precon,
+        cargos: this.venta.cargos,
+        piva: this.venta.piva,
+      }
+      this.datosventa = JSON.stringify(misdatosventa);
+      this.yatengofactura = true;
     }    
 
     buscar_solicitud(idcliente: number) {

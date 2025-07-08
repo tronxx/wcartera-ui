@@ -37,7 +37,7 @@
             <input type="text" readonly size="50" name="regimen" id="regimen" value = {{factura.regimen}} >
         </div>
         <div>
-            <button mat-raised-button color="primary" *ngIf = "!facturacerrada"
+            <button mat-raised-button color="primary" [disabled] = "facturacerrada"
                 (click)="cerrar_factura()" type="button">
                 <mat-icon>lock</mat-icon>
                 Cerrar
@@ -106,6 +106,7 @@
                             <ul class="menudesplegable">
                                 <li>
                                     <button mat-raised-button color="primary" 
+                                    [disabled]="facturacerrada"
                                     (click)="edit(element)" type="button">
                                         <mat-icon>edit</mat-icon>
                                         Modificar
@@ -113,6 +114,7 @@
                                 </li>
                                 <li>
                                     <button mat-raised-button color="warn" 
+                                    [disabled]="facturacerrada"
                                     (click)="delete(element)" type="button">
                                         <mat-icon>delete</mat-icon>
                                         Eliminar

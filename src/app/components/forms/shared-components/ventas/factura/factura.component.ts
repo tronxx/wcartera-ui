@@ -36,6 +36,7 @@ import { ProductosComponent } from '../../../../../pages/client/facturacion/prod
 export class FacturaComponent {
 
   @Input() public factura: FacturaCompleta;
+  @Input() public datosventa: string;
   displayedColumns: string[] = ['codigo', 'descri', 'canti', 'preciou', 'importe', 'folio', 'serie', 'options'];
   
   public headers : Array<string> = ["Fecha", "Concepto", "tipo", "Recargos", "Bonificaciones", "Abonos", "Saldo", "Opciones"];
@@ -48,7 +49,16 @@ export class FacturaComponent {
   fechacierre = "";
   statusfac = "";
   facturacerrada = false;
-  piva = 16;
+  misdatosventa = {
+        servicio: 0,
+        idventa: 0,
+        idcliente: 0,
+        cerrada: false,
+        precon: 0,
+        cargos: 0,
+        piva: 16
+  }
+
 
   
   public tableOptions : TableOptions = {
@@ -87,6 +97,7 @@ export class FacturaComponent {
       this.iduser = micompania_z.usuario.iduser;
       this.superusuario =  (micompania_z.usuario.nivel == "S");
       this.facturacerrada = (this.factura.status == 'C');
+      this.misdatosventa = JSON.parse(this.datosventa);
     }
 
     edit(renglon: Renfac) {}
@@ -363,8 +374,8 @@ export class FacturaComponent {
               folio: result.folio,
               preciou: result.preciou,
               importe: result.preciou,
-              piva: this.piva,
-              iva: (result.preciou * this.piva / 100),
+              piva: this.misdatosventa.piva,
+              iva: (result.preciou * this.misdatosventa.piva / 100),
               status: "A",
               canti: result.canti,  
               cia: this.numcia,

@@ -16,6 +16,7 @@ import { JsonPipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { PidepasswdComponent } from '@components/pidepasswd/pidepasswd.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConfigService } from '@services/config.service';
 
 @Component({
   selector: 'app-facturacion',
@@ -35,6 +36,8 @@ export class FacturacionComponent {
   miubica?: Ubivtas
   ubivta = "";
   codcartera = "";
+  idcliente = 0;
+  debug = false;
 
   displayedColumns: string[] = ['codigo', 
     'nombre', 'compra', 'qom', 'enganc', 'letras', 'impxlet', 'cargos', 
@@ -61,7 +64,9 @@ export class FacturacionComponent {
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
     private datePipe : DatePipe,
-    public router: Router
+    private configService:  ConfigService,
+    public router: ActivatedRoute,
+    public route: Router
     ) { }
 
     ngOnInit(): void {
@@ -71,12 +76,19 @@ export class FacturacionComponent {
       this.iduser = micompania_z.usuario.iduser;
       this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM" +"-01");
       this.fechafinal =  this.datePipe.transform(new Date(),"yyyy-MM-dd");;
+      this.debug = this.configService.debug;
       
       let miregistroventas  = localStorage.getItem(`ventas_${this.numcia}`) || "{}";
       const ubicatemp =JSON.parse(miregistroventas); 
       if(ubicatemp)  this.ubivta =  ubicatemp.ubicacion;
       console.log("ubivta", this.ubivta)
       this.cargaCatalogos();
+      this.idcliente = Number(this.router.snapshot.paramMap.get('idcliente'));
+      if(this.debug) console.log("Facturacion idcliente", this.idcliente);
+      if(this.idcliente > 0) {
+        this.buscar_ventas_cliente(this.idcliente);
+      }
+
     }
   
     cargaCatalogos() {
@@ -91,11 +103,11 @@ export class FacturacionComponent {
       let url_z = '/app/facturacion/crearventa';
       //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
       
-      this.router.navigateByUrl(url_z).then( (e) => {
+      this.route.navigateByUrl(url_z).then( (e) => {
         if (e) {
           console.log("Navigation is successful!", url_z);
         } else {
-          console.log("Navigation has failed!");
+          console.log("Navigation has failed!", url_z);
         }
       });    
 
@@ -127,6 +139,13 @@ export class FacturacionComponent {
       });
   
   
+    }
+
+    buscar_ventas_cliente(idcliente: number) {
+      this.ventasService.buscarVentaPoridCliente (idcliente).subscribe( res => {
+        this.ventascompletas = res;
+      })
+
     }
 
     buscar_lista() {
@@ -164,7 +183,7 @@ export class FacturacionComponent {
       //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
       console.log('Venta', codigo, url_z);
       
-      this.router.navigateByUrl(url_z).then( (e) => {
+      this.route.navigateByUrl(url_z).then( (e) => {
         if (e) {
           console.log("Navigation is successful!");
         } else {

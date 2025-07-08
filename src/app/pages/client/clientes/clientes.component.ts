@@ -24,6 +24,7 @@ import { DatosolicitudComponent } from './datosolicitud/datosolicitud.component'
 import { ClienteDtoCompleto } from '@dtos/clientes.dto';
 import { ConfigService } from '@services/config.service';
 
+
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
@@ -39,6 +40,8 @@ export class ClientesComponent {
   
   fechainicial = "";
   fechafinal = "";
+  tipobusqueda = "NOMBRE";
+  nombrecliente = "";
   
   numcia = -1;
   iduser = -1;
@@ -77,9 +80,11 @@ export class ClientesComponent {
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
       this.iduser = micompania_z.usuario.iduser;
-      this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
-      this.fechafinal =  this.fechainicial;
-      this.buscar_lista_clientes();
+      this.fechafinal =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
+      this.fechainicial = "2020-01-01";
+      const hoy = new Date();
+      const diaini = new Date(hoy.getFullYear(), hoy.getMonth() - 1, 1);
+      this.fechainicial = this.datePipe.transform(diaini,"yyyy-MM-dd");
       this.debug = this.configservice.debug;
     }
   
@@ -157,8 +162,11 @@ export class ClientesComponent {
   }
 
   buscar_lista_clientes() {
-    this.clientesService.obten_lista_clientes().subscribe(res => {
+    this.clientesService.busca_clientes_nombre(this.nombrecliente).subscribe(res => {
       this.clientes = res;
+      if(this.clientes.length == 0) {
+        this.openTimedSnackBar("No se encontraron Clientes con ese nombre", "Buscar Cliente");
+      }
     })
 
   }
@@ -171,6 +179,9 @@ export class ClientesComponent {
     });
     dialogref.afterClosed().subscribe(res => {
       this.cliente = res;
+      if(this.clientes.length == 0) {
+        this.openTimedSnackBar("No se encontraron Clientes con ese nombre", "Buscar Cliente");
+      }
      
     }
     )
@@ -282,6 +293,21 @@ export class ClientesComponent {
 
   }
 
+  verventas (cliente: Clientes) {
+
+    console.log("Estoy en datosolicitud", cliente);
+    let url_z = `/app/facturacion/cliente/${cliente.id}`;
+    //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
+    
+    this.router.navigateByUrl(url_z).then( (e) => {
+      if (e) {
+        console.log("Navigation is successful!", url_z);
+      } else {
+        console.log("Navigation has failed!");
+      }
+    });    
+
+  }
   
   clienteAbierto(element: Clientes)  {
     return (element.status == "A");

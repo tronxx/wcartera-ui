@@ -15,6 +15,8 @@ import { DateAdapter, MatDateFormats, MatNativeDateModule } from '@angular/mater
 import { MatCardModule} from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import {MatRadioModule} from '@angular/material/radio';
+
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import {MAT_DATE_LOCALE} from '@angular/material/core';
 import {CdkMenu, CdkMenuItem, CdkMenuTrigger} from '@angular/cdk/menu';
@@ -56,6 +58,7 @@ export const MAT_DATE_FORMATS: MatDateFormats = {
     MatNativeDateModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatRadioModule,
     CdkMenu,
     CdkMenuTrigger,
     FormsModule,

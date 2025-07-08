@@ -124,11 +124,11 @@
             <mat-icon>print</mat-icon>
             Impresión Letras
         </button>
-        <button [disabled]="!ventacerrada" mat-raised-button color="primary" 
+        <button [disabled]="ventacerrada" mat-raised-button color="primary" 
             type="button" (click)="cerrar_venta(venta.idventa)"> 
             <mat-icon>lock</mat-icon>
-            Cerrar
-            <label *ngIf="ventacerrada"> {{fechacierre}} </label>
+            <label *ngIf="ventacerrada"> Venta Cerrada {{fechacierre}}</label>
+            <label *ngIf="!ventacerrada"> Cerrar</label>
         </button>
         <button mat-raised-button color="primary" 
             type="button" (click)="estadoCuenta()"> 
@@ -143,10 +143,12 @@
         <mat-tab-group mat-align-tabs="start">
             <div class="movtos">
                 <mat-tab label="Movimientos">
-                    <app-movimientostabla *ngIf="yatengomovclis" [movimientos]="movclis" [idventa]="idventa" ></app-movimientostabla>
+                    <app-movimientostabla *ngIf="yatengomovclis" 
+                        [movimientos]="movclis" [idventa]="idventa" [cargoscli]="venta.cargos" [status]="statuscerrada">
+                    </app-movimientostabla>
                 </mat-tab>
                 <mat-tab label="Factura">
-                    <app-factura *ngIf="yatengofactura" [factura]="facturacompleta"></app-factura>
+                    <app-factura *ngIf="yatengofactura" [datosventa]="datosventa" [factura]="facturacompleta"></app-factura>
                 </mat-tab>
                 <mat-tab label="Solicitud">
                     <app-solicitud-form  *ngIf="solicitudextendida && yatengosolicit"  [solicitudextendida]="solicitudextendida" [inicial] = "modo"></app-solicitud-form>

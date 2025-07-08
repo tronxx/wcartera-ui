@@ -237,7 +237,7 @@ export class CrearventaComponent implements OnInit {
       this.busca_tipos_tarjetas();
     } else {
       this.contarjetatc = false;
-      if(this.ticte != "CC" && this.ticte != "FI") {
+      if(this.ticte != "CC" && this.ticte != "FI" && this.ticte != "EX") {
         this.escredito = true;
         this.qom = "Q";
         this.buscanulets();
@@ -259,7 +259,7 @@ export class CrearventaComponent implements OnInit {
       if(this.debug) console.log("Pordesc", pordesc);
       return (preciou - pordesc /100 * preciou );
     }
-    if(this.ticte == "TC") {
+    if(this.ticte == "TC" || this.ticte == "EX") {
       if(preciooferta != 0) { 
         precio = preciooferta;      
         return(precio);

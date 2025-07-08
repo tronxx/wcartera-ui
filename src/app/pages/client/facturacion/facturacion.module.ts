@@ -31,6 +31,11 @@ const routes : Routes = [
 
   },
   {
+    path: 'cliente/:idcliente',
+    component: FacturacionComponent,
+
+  },
+  {
     path: 'crearventa',
     component: CrearventaComponent,
 
