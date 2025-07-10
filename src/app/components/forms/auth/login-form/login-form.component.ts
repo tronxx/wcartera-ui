@@ -3,6 +3,7 @@ import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Form } from '@classes/forms/form';
 import { EmailLoginDto } from '@dtos/email-login-dto';
 import { Message } from '@models/message';
+import { ConfigService } from '@services/config.service';
 
 @Component({
   selector: 'login-form',
@@ -15,15 +16,22 @@ export class LoginFormComponent extends Form<EmailLoginDto> implements OnChanges
     login: "tron.brd.mds@gmail.com",
     pwd: "MOSSIMO"
   }
+  debug = false;
 
   @Output() public submitData: EventEmitter<EmailLoginDto>;
   @Input() public message: Message;
 
   constructor(
-    public builder : UntypedFormBuilder
+    public builder : UntypedFormBuilder,
+    private configService: ConfigService
   ) {
     super();
     this.submitData = new EventEmitter<EmailLoginDto>();
+    this.debug = this.configService.debug;
+    if(!this.debug){
+      this.logindefault.login = "";
+    }
+    
     this.form = this.builder.group({
       email : [this.logindefault.login, [Validators.required]],
       password: [this.logindefault.pwd, [Validators.required]]

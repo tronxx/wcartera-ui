@@ -1,7 +1,12 @@
-<div class="profile-container" *ngIf="cliente">
-    <mat-card class="mat-elevation-z5">
-        <app-clientes-form *ngIf="listo" [modo]="modo" [cliente]="cliente" (submitData)="aceptar($event)">
-    
-        </app-clientes-form>
-    </mat-card>
+<div class="fondo-dialogo">
+    <div class="dialogo-con-scroll">
+        <div class="profile-container" *ngIf="cliente">
+            <mat-card class="mat-elevation-z5">
+                <app-clientes-form *ngIf="listo"
+                 [modo]="modo" [cliente]="cliente" (submitData)="aceptar($event)">
+                </app-clientes-form>
+            </mat-card>
+        </div>
+    </div>
+
 </div>

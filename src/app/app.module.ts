@@ -75,6 +75,6 @@ export const MAT_DATE_FORMATS: MatDateFormats = {
     //{ provide: LOCALE_ID, useValue: 'es' },
     //{provide: MAT_DATE_LOCALE, useValue: es}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
