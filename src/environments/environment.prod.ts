@@ -2,16 +2,6 @@ export const environment = {
   production: true,
   menu: [
     {
-      icon: 'store',
-      name: 'Almacenes',
-      url: 'almacenes',
-    },
-    {
-      icon: 'view_list',
-      name: 'Inven',
-      url: 'productos',
-    },
-    {
       icon: 'view_list',
       name: 'Clientes',
       url: 'clientes',
