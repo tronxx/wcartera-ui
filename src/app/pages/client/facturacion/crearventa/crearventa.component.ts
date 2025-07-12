@@ -67,7 +67,7 @@ export class CrearventaComponent implements OnInit {
   codigovendedor = "";
   codigopromotor = "";
   mitc = "";
-  siono = "SI";
+  siono = "S";
   ticte = "CC";
   qom = "C";
   escredito = false;
