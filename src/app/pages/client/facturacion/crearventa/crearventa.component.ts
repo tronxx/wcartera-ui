@@ -99,6 +99,7 @@ export class CrearventaComponent implements OnInit {
   codcartera = "27";
   seriefac = "";
   numfac = 0;
+  piva = 16;
 
   renglonprod = {
     codigo: "codigo",
@@ -116,7 +117,7 @@ export class CrearventaComponent implements OnInit {
     preciooferta: 0,
     preciou : 0,
     importe: 0,
-    piva: 0,
+    piva: this.piva,
     iva: 0,
     total: 0,
 
@@ -436,7 +437,7 @@ export class CrearventaComponent implements OnInit {
             linea: res.linea,
             canti: res.canti,
             preciou : preciou,
-            piva: 16,
+            piva: this.piva, 
             importe: preciou,
             iva: res.iva,
             total: preciou,
@@ -638,6 +639,7 @@ export class CrearventaComponent implements OnInit {
     const comision = precon * this.busca_porcentaje_comision(this.nulet);
     const idcli = this.configservice.calcula_idcli(this.codigovta);
     const comisiontc = 0;
+    if(qom == 'C') { this.enganche = totalvta; }
 
     const nvaventa = {
       idventa: idcli,
@@ -649,7 +651,7 @@ export class CrearventaComponent implements OnInit {
       qom : qom,
       ticte: this.ticte,
       letra1: 0,
-      piva: 16,
+      piva: this.piva,
       enganc: this.enganche,
       nulets: this.nulet,
       canle: this.preciolet,
@@ -659,13 +661,14 @@ export class CrearventaComponent implements OnInit {
       idvendedor: idvendedor,
       comision: comision,
       prodfin: prodfin,
-      idcarta: 0,
+      idcarta: 1,
       idfactura: 0,
+      idubica: this.idubica,
       idpromotor: idpromotor,
+      descto : 0,
       comisionpromotor: 0,
       cargos: totalvta,
       abonos: 0,
-      idubica: this.idubica,
       status: 'A',
       cia: 1,
       fechasaldo: ''
