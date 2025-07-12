@@ -170,6 +170,11 @@ export class FacturacionComponent {
 
       this.ventasService.buscar(this.fechainicial, this.fechafinal, this.ubivta).subscribe( res => {
         this.ventascompletas = res;
+        if(this.ventascompletas.length == 0) {
+          this._snackBar.open("No se encontraron ventas", "Cerrar", {
+            duration: 2000,
+          });
+        }
       })
 
     }
