@@ -4,7 +4,7 @@ import { ConfigService } from './config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { firstValueFrom, lastValueFrom, Observable, of } from 'rxjs';
 import { VentasCompletas, Ubivtas, Clientes, Vendedores, 
-        Token, Tarjetatc, Articulo, Factorvtacred,
+        Token, Tarjetatc, Articulo, Factorvtacred, Codigoscartera,
         Nulets, Promotores, Tabladesctocont, Serie, AvalCompleto,
         Ventas, Movclis, TIPOS_SOLICIT, CLAVES_SOLICIT } 
         from '@models/index';
@@ -118,6 +118,20 @@ export class VentasService {
     };    
     if(this.debug) console.log("Estoy en buscarVentaPorCodigo", miurl);
     return( this.http.get<VentasCompletas> (miurl,  {'headers':headers}) );
+
+  }
+
+  buscarCodigoCartera(codigo:string): Observable<Codigoscartera>{
+    this.url = this.configService.config.url;
+    const miurl = `${this.url}/codigoscartera/codigo/${this.cia}/${codigo}`;
+    //let miurl = this.config.url + "/almacenes/" + almacen.id;
+
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    if(this.debug) console.log("Estoy en buscarCodigoCartera", miurl);
+    return( this.http.get<Codigoscartera> (miurl,  {'headers':headers}) );
 
   }
 

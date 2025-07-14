@@ -2,7 +2,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Outpu
 import { Form, FormBuilder, FormGroup, FormsModule, UntypedFormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { VentasCompletas, Ubivtas, Clientes, Vendedores,
-  Nulets, Tabladesctocont, Promotores,
+  Nulets, Tabladesctocont, Promotores, Codigoscartera,
   Factorvtacred, QOM, Factura, TIPOS_FAC,
   Tictes,
   CLAVES_SOLICIT} from '@models/index';
@@ -48,6 +48,7 @@ export class CrearventaComponent implements OnInit {
   venta?:VentasCompletas;
   ubivtas: Ubivtas[] = [];
   miubica?: Ubivtas
+  codigoCartera?: Codigoscartera;
   ubivta = "";
   clientes :Clientes[] = [];
   cliente?: Clientes;
@@ -61,6 +62,7 @@ export class CrearventaComponent implements OnInit {
   tabladesctoscont : Tabladesctocont[] = [];
   factoresvtacrd: Factorvtacred[] = [];
   nulets: Nulets[] = [];
+  codigocartera = "";
   codigocliente = "";
   nombrecliente = "";
   codigovta = "";
@@ -512,9 +514,10 @@ export class CrearventaComponent implements OnInit {
   }
 
   async continuar() {
-    const venta = await lastValueFrom(this.ventasService.buscarVentaPorCodigo(this.codigovta));
-    if(venta) {
-      this.alerta("Ya Existe este cliente " + venta.nombre);
+    const codigocorrecto = await this.validar_codigo();
+    if(this.debug) console.log("Regresando de Validar codigo", codigocorrecto);
+    if(!codigocorrecto) { 
+      this.datoslistos = false
       return;
     }
     this.datoslistos = !this.datoslistos;
@@ -646,7 +649,7 @@ export class CrearventaComponent implements OnInit {
       codigo: this.codigovta,
       idcliente: this.cliente.id,
       fecha: this.fechafinal,
-      idtienda: 1,
+      idtienda: this.codigoCartera.id,
       siono: this.siono,
       qom : qom,
       ticte: this.ticte,
@@ -759,6 +762,39 @@ export class CrearventaComponent implements OnInit {
         console.log("Navigation has failed!");
       }
     });    
+
+  }
+
+  async validar_codigo() {
+    const codvta = await this.busca_codigoventa();
+    const clientexiste = await this.busca_codigocartera();
+      if(this.debug) console.log("Validar Codigo", codvta, clientexiste);
+
+    return ( codvta && clientexiste);
+  }
+
+  async busca_codigocartera() {
+    this.codigocartera = this.codigovta.substring(0, 2);
+    const codcartera = await lastValueFrom( this.ventasService.buscarCodigoCartera(this.codigocartera));
+    if(codcartera) {
+      this.codigoCartera = codcartera;
+      if(this.debug) console.log("Cartera", codcartera);
+      return (true);
+    } else {
+      this.alerta("No existe la cartera " + this.codigocartera);
+      this.codigoCartera = undefined;
+      return (false);
+    }
+
+  }
+
+  async busca_codigoventa() {
+    const ventaexistente = await lastValueFrom( this.ventasService.buscarVentaPorCodigo(this.codigovta));
+    if(ventaexistente) {
+      this.alerta("Ya Existe este código " + ventaexistente.nombre);
+      return (false);
+    }
+    return (true);
 
   }
 

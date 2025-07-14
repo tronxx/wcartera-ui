@@ -32,3 +32,4 @@ export * from './codigoscaja';
 export * from './renpol';
 export * from './vencimientos';
 export * from './avales';
+export * from './codigoscartera';

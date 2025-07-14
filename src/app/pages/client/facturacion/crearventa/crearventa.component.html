@@ -9,7 +9,7 @@
         <div>
             <mat-label>
                 Código
-                <input [disabled]="datoslistos" type="text" [(ngModel)]="codigovta">
+                <input [disabled]="datoslistos" type="text" [(ngModel)]="codigovta" (blur)="validar_codigo()">
             </mat-label>
     
         </div>
