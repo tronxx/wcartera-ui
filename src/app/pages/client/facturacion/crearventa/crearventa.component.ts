@@ -669,6 +669,7 @@ export class CrearventaComponent implements OnInit {
       idubica: this.idubica,
       idpromotor: idpromotor,
       descto : 0,
+      opcion: ' ',
       comisionpromotor: 0,
       cargos: totalvta,
       abonos: 0,
