@@ -32,22 +32,22 @@
             <input type="text" id="ubica" style="width: 20%;" [readOnly]="true" value="{{venta.ubica}}">
         </div>
         <div class="column-6" style="width: 20%;" >
-            <label for="factura" style="width: 20%;" >Factura </label>
-            <input type="text" id="factura" style="width: 30%;"  [readOnly]="true" value="{{venta.seriefac}} {{venta.numfac}}">
+            <label for="factura">Factura </label>
+            <input type="text" id="factura" style="width: 35%;"  [readOnly]="true" value="{{venta.seriefac}} {{venta.numfac}}">
         </div>
 
     </div>
     <div class="row">
         <div class="col-6">
-            <label for="tipoventa" style="width: 20%;" >Tipo de Venta </label>
-            <input type="text" id="tipoventa" style="width: 20%;"  [readOnly]="true" value="{{venta.ticte}}">
+            <label for="tipoventa" >Tipo de Venta </label>
+            <input type="text" id="tipoventa" style="width: 10%;"  [readOnly]="true" value="{{venta.ticte}}">
             <div *ngIf="venta.ticte === 'TC'">
                 <input type="text" id="tartejatc" style="width: 40%;"  value="{{tarjetatc}}" [readOnly]="true">
             </div>
         </div>
         <div class="col-6">
             <label for="qom">Q/M/C </label>
-            <input type="text" id="qom" [readOnly]="true" value="{{venta.qom}}">
+            <input type="text" id="qom"  style="width: 10%;" [readOnly]="true" value="{{venta.qom}}">
         </div>
         <div class="col-6">
             <label for="precon">P.Lista</label>
@@ -55,11 +55,11 @@
         </div>
         <div class="col-6">
             <label for="descuento">Descuento</label>
-            <input type="text" id="descuento" [readOnly]="true" value="{{venta.descto}}">
+            <input type="text" id="descuento" style="width: 10%;" [readOnly]="true" value="{{venta.descto}}">
         </div>
         <div class="col-6">
             <label for="servicio">Servicio</label>
-            <input type="text" id="servicio" [readOnly]="true" value="{{venta.servicio}}">
+            <input type="text" id="servicio" style="width: 10%;" [readOnly]="true" value="{{venta.servicio}}">
         </div>
 
     </div>
@@ -103,13 +103,13 @@
     </div>
     <div>
         <label >Vendedor </label>
-        <input type="text" [readOnly]="true" *ngIf="vendedor" [(ngModel)]="vendedor.codigo">
+        <input type="text" style="width: 10%;" [readOnly]="true" *ngIf="vendedor" [(ngModel)]="vendedor.codigo">
         <label >Comision </label>
-        <input type="text" [readOnly]="true" [(ngModel)]="venta.comision">
+        <input type="text"  style="width: 10%;" [readOnly]="true" value="{{venta.comision | currency}}">
         <label >Entrega</label>
-        <input type="text" [readOnly]="true" *ngIf="promotor" [(ngModel)]="promotor.codigo">
+        <input type="text" style="width: 10%;" [readOnly]="true" *ngIf="promotor" [(ngModel)]="promotor.codigo">
         <label >Comision</label>
-        <input type="text" [readOnly]="true" *ngIf="promotor" [(ngModel)]="venta.comisionpromotor">
+        <input type="text" [readOnly]="true" style="width: 10%;" *ngIf="promotor" value="{{venta.comisionpromotor | currency}}">
     </div>
     <div style="width: 100%;">
         <label >Compra:</label> 

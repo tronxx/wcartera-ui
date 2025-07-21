@@ -416,4 +416,14 @@ export class ConfigService {
     return stfecha;
   }
 
+  strAFecha(fecha:string) {
+    const partes = fecha.split('-');
+    if(partes.length == 3) {
+      return new Date(Number(partes[0]), Number(partes[1]) - 1, Number(partes[2]));
+    } else {
+      return new Date(fecha);
+    }
+
+  }
+
 }

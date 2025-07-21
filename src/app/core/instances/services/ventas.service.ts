@@ -406,12 +406,12 @@ export class VentasService {
     let miurl = this.configService.config.oldurl + "altas/serviciosaltas.php"
     const headers = { 'content-type': 'text/plain'};
 
-    if(this.debug) console.log("Debug: Estoy en obtenfactorvtacrd");
+    if(this.debug) console.log("Debug: Estoy en obtentabladesctocont");
     let misparamnvo = {
       modo: "obtener_tabladescocont."
     }
 
-    if (this.debug) console.log("Debug: Estoy en busca Tarjetas TC Disponibles", misparamnvo);
+    if (this.debug) console.log("Debug: Estoy en busca obtentabladesctocont", misparamnvo);
     return this.http.post<Tabladesctocont[]>(miurl, JSON.stringify( misparamnvo), {'headers':headers});
 
   }

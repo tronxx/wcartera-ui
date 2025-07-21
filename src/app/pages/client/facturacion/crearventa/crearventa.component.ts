@@ -163,7 +163,9 @@ export class CrearventaComponent implements OnInit {
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
     private datePipe : DatePipe,
-    public router: Router
+    public router: Router,
+    public routeractivo: ActivatedRoute,
+    
     ) { }
 
 
@@ -200,6 +202,7 @@ export class CrearventaComponent implements OnInit {
     this.promotores = await lastValueFrom(this.ventasService.buscarPromotores());
     this.promotor = this.promotores.find(mi => mi.codigo === this.codigopromotor);
     this.tabladesctoscont = await lastValueFrom(this.ventasService.obtentabladesctocont());
+    this.factoresvtacrd = await lastValueFrom(this.ventasService.obtenfactorvtacrd());
   
     this.busca_tipos_tarjetas();
     this.tictes = this.configservice.obtenTiposClientesyQOM("TIPOS_CLIENTES");
@@ -296,22 +299,22 @@ export class CrearventaComponent implements OnInit {
 
   busca_factor_vtacrd(nulets: number) : number {
     let factor = 0;
-    this.factoresvtacrd.forEach(element => {
-      if(element.plazo == nulets) {
-        factor = element.factor;
-      }
-    });
+    const miplazo  = this.factoresvtacrd.find(mi => mi.plazo === nulets);    
+    if(miplazo) {
+      factor = miplazo.factor;
+    }
     return (factor);
 
   }
 
   busca_porcentaje_comision(nulets: number) : number {
     let porcomis = 0;
-    this.factoresvtacrd.forEach(element => {
-      if(element.plazo == nulets) {
-        porcomis = element.porcomis;
-      }
-    });
+    const miplazo  = this.factoresvtacrd.find(mi => mi.plazo === nulets);    
+    if(miplazo) {
+      porcomis = miplazo.porcomis;
+      if(this.debug) console.log("Porcentaje Comision", porcomis, " Plazo:", miplazo);
+    }
+    if(this.debug) console.log("Porcentaje Comision", porcomis, " Nulets:", nulets);
     return (porcomis);
 
   }
@@ -323,11 +326,10 @@ export class CrearventaComponent implements OnInit {
     let plazo = 0;
     if(milinea != "MOTO") milinea = "GRAL";
     if(ticte == "TC") {
-      this.tarjetastc.forEach( rentabla => {
-        if(cvetarjetatc == rentabla.clave) {
-          plazo = rentabla.plazo;
+        const mitc  = this.tarjetastc.find(mi => mi.clave === cvetarjetatc);    
+        if(mitc) {
+          plazo = mitc.plazo;
         }
-      });
     }
     let mistablasdescto = this.tabladesctoscont;
     mistablasdescto.forEach(rentabla => {
@@ -503,6 +505,7 @@ export class CrearventaComponent implements OnInit {
     this.ventasService.obtenfactorvtacrd().subscribe(
       respu => {
         this.factoresvtacrd = respu;
+        if(this.debug) console.log("Factores Vta Credito", this.factoresvtacrd);
       }
     );
     this.ventasService.obtentabladesctocont().subscribe(
@@ -557,6 +560,7 @@ export class CrearventaComponent implements OnInit {
        });
       dlgdatosrenfac.afterClosed().subscribe(res => {
         if(res) {
+          const fecha = res.fecha;
           this.factura = {
             id: -1,
             idventa: -1,
@@ -576,7 +580,7 @@ export class CrearventaComponent implements OnInit {
             numero : res.numero,
             idusocfdi: res.usocfdi,
             idmetodopago : res.metodopago,
-            fecha: res.fecha,
+            fecha: fecha,
           }
           this.seriefac = this.factura.serie;
           this.grabar_datos_venta();
@@ -639,16 +643,20 @@ export class CrearventaComponent implements OnInit {
     const totalvta = Math.round(100 * this.totgral) / 100;
     const idvendedor = this.vendedor.id;
     const idpromotor = this.promotor.id;
-    const comision = precon * this.busca_porcentaje_comision(this.nulet);
+    const comision = Math.round( precon * this.busca_porcentaje_comision(this.nulet) /100 );
     const idcli = this.configservice.calcula_idcli(this.codigovta);
     const comisiontc = 0;
+    const strfechavta = '20' +  this.codigovta.substring(2, 4) + '-' +
+      this.codigovta.substring(4, 6) + '-' +
+      this.codigovta.substring(6, 8);
+    const fechaventa = this.configservice.strAFecha(strfechavta);
     if(qom == 'C') { this.enganche = totalvta; }
 
     const nvaventa = {
       idventa: idcli,
       codigo: this.codigovta,
       idcliente: this.cliente.id,
-      fecha: this.fechafinal,
+      fecha: fechaventa,
       idtienda: this.codigoCartera.id,
       siono: this.siono,
       qom : qom,
@@ -745,6 +753,25 @@ export class CrearventaComponent implements OnInit {
       );
       if(this.debug) console.log("Voy a agregar saldo de TC", movcli2_z, movcli);
     }
+    if(this.ticte == "CC" ) {
+      let movcli = {
+        fecha: nvaventa.fecha,
+        concepto: "CONTADO",
+        tda: "TDA",
+        tipopago: "AB",
+        cobratario: "TDA",
+        recobon: 0,
+        importe: totalvta,
+        idventa: idcli,
+        iduser: this.iduser,
+        idmovto: -1,
+      }
+
+      const movcli_z = await lastValueFrom(
+        this.ventasService.agregarMovimientosVentas(-1, movcli)
+      );
+    }
+    
     if(this.debug) console.log("Venta Nueva", miventa);
     this.alerta("Se agregó la venta " + nvaventa.codigo.toString());
     const codigo = miventa.codigo;
