@@ -29,6 +29,8 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
   sololectura = false;
   titulo = "";
   debug = false;
+  numcia = 1;
+  codcartera = "27";
 
   constructor(
     public builder : UntypedFormBuilder,
@@ -42,11 +44,19 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     super();
     this.submitData = new EventEmitter<ClientesDto>();
     this.carga_catalogos();
-    const fecha =  this.datePipe.transform(new Date(),"yyMMdd");
-    const codigo = "27" + fecha + "99";
     const rfc = "XAXX010101000";
     this.titulo = "Teclee los Datos del Cliente";
+    this.numcia = this.cliente.cia || 1;
     this.debug = this.configService.debug;
+    let miregistroventas  = localStorage.getItem(`ventas_${this.numcia}`) || "{}";
+      const ubicatemp =JSON.parse(miregistroventas); 
+      if(ubicatemp) {
+        this.codcartera = ubicatemp.codcartera;
+      } 
+    const fecha =  this.datePipe.transform(new Date(),"yyMMdd");
+    const codigo = this.codcartera + fecha + "99";
+  
+
 
     this.form = this.builder.group({
       codigo : [codigo, [Validators.required]],
@@ -108,7 +118,7 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
       this.busca_nombres ();
     } else {
       const fecha =  this.datePipe.transform(new Date(),"yyMMdd");
-      const codigo = "27" + fecha + "99";
+      const codigo = this.codigo + fecha + "99";
       this.set_idregimen();
       const rfc = "XAXX010101000";
       this.form.get("codigo").setValue(codigo);

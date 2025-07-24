@@ -446,6 +446,7 @@ export class CrearventaComponent implements OnInit {
             iva: res.iva,
             total: preciou,
           }
+          if(res.oferta) { this.oferta = true; }
           this.total = Number( this.total)  + Number(  preciou);
           this.productos.push(this.renglonprod);
           this.productos = [...this.productos];
@@ -638,6 +639,7 @@ export class CrearventaComponent implements OnInit {
 
   async grabar_venta() {
     const qom = this.escredito ? 'Q' : 'C';
+    const opcion = this.oferta ? 'O' : ' ';
     const precon = Math.round(this.total * 100 / 1.16) / 100;
     const prodfin = Math.round( 100 * (this.totgral - this.total)) / 100;
     const totalvta = Math.round(100 * this.totgral) / 100;
@@ -677,7 +679,7 @@ export class CrearventaComponent implements OnInit {
       idubica: this.idubica,
       idpromotor: idpromotor,
       descto : 0,
-      opcion: ' ',
+      opcion: opcion,
       comisionpromotor: 0,
       cargos: totalvta,
       abonos: 0,
