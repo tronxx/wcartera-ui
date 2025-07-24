@@ -46,18 +46,16 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     this.carga_catalogos();
     const rfc = "XAXX010101000";
     this.titulo = "Teclee los Datos del Cliente";
-    this.numcia = this.cliente.cia || 1;
+    this.numcia = this.cliente?.cia || 1;
     this.debug = this.configService.debug;
     let miregistroventas  = localStorage.getItem(`ventas_${this.numcia}`) || "{}";
-      const ubicatemp =JSON.parse(miregistroventas); 
-      if(ubicatemp) {
+    const ubicatemp =JSON.parse(miregistroventas); 
+    if(ubicatemp) {
         this.codcartera = ubicatemp.codcartera;
-      } 
+    } 
     const fecha =  this.datePipe.transform(new Date(),"yyMMdd");
     const codigo = this.codcartera + fecha + "99";
   
-
-
     this.form = this.builder.group({
       codigo : [codigo, [Validators.required]],
       appat: [""],
