@@ -471,11 +471,19 @@ export class VentasComponent {
       if(this.venta.status == "C") {
         this.alerta("Esta venta ya ha sido cerrada previamente");
       }
-      const fecha = this.datePipe.transform(new Date(),"yyyy-MM-ddThh:mm:ss");
-      const fechacierre = await lastValueFrom( this.ventasService.grabar_dato_solicit(idventa, CLAVES_SOLICIT.FECHA_CIERRE_VENTA, fecha ));
-      this.alerta("Se ha cerrado " + JSON.stringify(fechacierre));
+      const dialogref = this.dialog.open(DlgyesnoComponent, {
+        width:'350px',
+        data: "Seguro de Cerrar esta Venta ?"
+      });
+      dialogref.afterClosed().subscribe( async res => {
+        if(res) {
+        const fecha = this.datePipe.transform(new Date(),"yyyy-MM-ddThh:mm:ss");
+        const fechacierre = await lastValueFrom( this.ventasService.grabar_dato_solicit(idventa, CLAVES_SOLICIT.FECHA_CIERRE_VENTA, fecha ));
+        this.alerta("Se ha cerrado " );
 
-    }
+        }
+      });
+  }
 
 
     async buscar_letras_impresas() {

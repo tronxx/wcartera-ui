@@ -46,6 +46,10 @@
             </div>
         </div>
         <div class="col-6">
+            <label for="tipoventa" >Op</label>
+            <input type="text" id="tipoventa" style="width: 10%;"  [readOnly]="true" value="{{venta.opcion}}">
+        </div>
+        <div class="col-6">
             <label for="qom">Q/M/C </label>
             <input type="text" id="qom"  style="width: 10%;" [readOnly]="true" value="{{venta.qom}}">
         </div>
