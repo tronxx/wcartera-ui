@@ -23,7 +23,8 @@
       "promodic_fin": "2023-12-31",
       "promodic_dias":"15",
       "mesesminimo":"5",
-      "cia":1
+      "cia":1,
+      "debug": true
     }
     ,
     {

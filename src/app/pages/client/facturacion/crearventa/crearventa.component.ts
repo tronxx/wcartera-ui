@@ -27,7 +27,7 @@ import { DlgbusclienteComponent } from '@components/dlgbuscliente/dlgbuscliente.
 import { FacturacionEditComponent } from '../facturacion-edit/facturacion-edit.component';
 import { VentasService } from '@services/ventas.service';
 import { FacturacionService } from '@services/facturacion.service';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { ClientesService } from '@services/clientes.service';
 
 @Component({
   selector: 'app-crearventa',
@@ -159,6 +159,7 @@ export class CrearventaComponent implements OnInit {
     private ventasService: VentasService,
     private configservice: ConfigService,
     private facturasservice: FacturacionService,
+    private clientesService: ClientesService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     public builder : UntypedFormBuilder,
@@ -189,10 +190,17 @@ export class CrearventaComponent implements OnInit {
       this.codigopromotor = ubicatemp.promotor;
 
     } 
+
     if(this.debug) console.log("Seriefac", this.seriefac);
     this.codigovta = this.codcartera + this.datePipe.transform(new Date(),"yyMMdd") + "01";
     this.productos = [];
     this.cargaCatalogos();
+    const idcliente = Number(this.routeractivo.snapshot.paramMap.get('idcliente'));
+    if(this.debug) console.log("Facturacion idcliente",  idcliente);
+    if(idcliente > 0) {
+        this.buscar_cliente_por_id(idcliente);
+    }
+
   }
 
   async cargaCatalogos() {
@@ -489,6 +497,15 @@ export class CrearventaComponent implements OnInit {
     }
     )
 
+  }
+
+  buscar_cliente_por_id(idcliente: number) {
+      this.clientesService.obten_cliente(idcliente).subscribe(res => {
+        if(res) {
+          this.cliente = res;
+          this.codigocliente = res.codigo;
+        }
+      });
 
   }
 

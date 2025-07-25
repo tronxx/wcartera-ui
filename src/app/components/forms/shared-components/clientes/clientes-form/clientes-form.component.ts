@@ -9,8 +9,12 @@ import { ClientesService } from '@services/clientes.service';
 import { Ciudades, Regimenes, } from '@models/index'
 import { MatSelectChange } from '@angular/material/select';
 import { MatCard } from '@angular/material/card';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DatePipe } from '@angular/common';
 import { ConfigService } from '@services/config.service';
+import { VentasService } from '@services/ventas.service';
+import { lastValueFrom } from 'rxjs';
+import { DlgyesnoComponent } from '@components/dlgyesno/dlgyesno.component';
 
 @Component({
   selector: 'app-clientes-form',
@@ -35,9 +39,11 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
   constructor(
     public builder : UntypedFormBuilder,
     public router: Router,
+    public dialog: MatDialog,
     private complementosService: ComplementosService,
     private clientesService: ClientesService,
     private configService: ConfigService,
+    private ventasService: VentasService,
     private datePipe : DatePipe,
 
   ) {
@@ -136,6 +142,26 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
 
   }
 
+  async valida() {
+    if(this.debug) console.log("Estoy en valida codigo", this.codigo.value);
+    const codigo = this.codigo.value;
+    const carteravalida = await this.busca_codigocartera(codigo);
+    
+  }
+
+    async busca_codigocartera(codigo: string  ) {
+      const codigocartera = codigo.substring(0, 2);
+      const codcartera = await lastValueFrom( this.ventasService.buscarCodigoCartera(codigocartera));
+      if(codcartera) {
+        return (true);
+      } else {
+        this.alerta("No existe la cartera " + codigocartera);
+        return (false);
+      }
+  
+    }
+  
+
   carga_catalogos() {
     this.complementosService.obten_lista_regimenes().subscribe( res => {
       this.regimenes = res;
@@ -156,6 +182,18 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
   ciudadSelectionChange (event: MatSelectChange) {
     this.ciudad.setValue(event.value);
   } 
+
+  acompletanombre() {
+    if(!this.debug) return;
+    const misnombres = this.appat.value.trim().split(" ");
+    if(misnombres.length > 1) {
+      this.appat.setValue(misnombres[0]);
+      this.apmat.setValue(misnombres[1] || "");
+      this.nompil1.setValue(misnombres[2] || "");
+      this.nompil2.setValue(misnombres[3] || "");
+    }
+    
+  }
 
   busca_nombres (  ) {
     let nombre = {
@@ -244,5 +282,18 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     if(this.debug) console.log("Hiciste click en Cancelar");
     this.submitData.emit(null);
   }
+
+  alerta(mensaje: string) {
+    const dialogref = this.dialog.open( DlgyesnoComponent, {
+      width:'350px',
+      data: mensaje
+    });
+    dialogref.afterClosed().subscribe(res => {
+      //console.log("Debug", res);
+
+    });
+  
+  }
+
 
 }

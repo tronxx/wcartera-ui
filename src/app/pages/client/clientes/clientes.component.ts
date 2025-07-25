@@ -148,6 +148,7 @@ export class ClientesComponent {
         }
         console.log("nvocliente", nvocliente);
         this.clientesService.crear_cliente(nvocliente).subscribe(mires => {
+          this.nombrecliente = res.appat.trim();
           this.buscar_lista_clientes();
           this.openTimedSnackBar("Se agregó un Cliente", "Agregar Cliente");
         },(error: any) => {
@@ -229,10 +230,10 @@ export class ClientesComponent {
           id: idcli,
           idnombre: 0,
           nombre: "",
-          appat: res.appat,
-          apmat: res.apmat,
-          nombre1: res.nompil1,
-          nombre2: res.nompil2,
+          appat: res.appat.trim(),
+          apmat: res.apmat.trim(),
+          nombre1: res.nompil1.trim(),
+          nombre2: res.nompil2.trim(),
           codigo: res.codigo,
           idciudad: res.ciudad,
           codpostal: res.codpostal,
@@ -297,6 +298,22 @@ export class ClientesComponent {
 
     console.log("Estoy en datosolicitud", cliente);
     let url_z = `/app/facturacion/cliente/${cliente.id}`;
+    //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
+    
+    this.router.navigateByUrl(url_z).then( (e) => {
+      if (e) {
+        console.log("Navigation is successful!", url_z);
+      } else {
+        console.log("Navigation has failed!");
+      }
+    });    
+
+  }
+  
+  crearventa (cliente: Clientes) {
+
+    console.log("Estoy en datosolicitud", cliente);
+    let url_z = `/app/facturacion/crearventa/${cliente.id}`;
     //this.alerta("Estoy en detalles poliza voy a url:" + url_z);
     
     this.router.navigateByUrl(url_z).then( (e) => {

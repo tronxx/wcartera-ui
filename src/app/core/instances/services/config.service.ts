@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Compania } from '@models/companias';
 import { DateAdapter } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { lastValueFrom } from 'rxjs';
 
 
 @Injectable({
@@ -37,25 +38,36 @@ export class ConfigService {
     private datePipe : DatePipe,
     private http: HttpClient
   ) {
-    this.getConfig();
+    //this.getConfig();
+    this.buscaConfiguracion();
   }
 
+ async buscaConfiguracion() {
+      console.log("Debug: aun no he llamado a configuracion:", this.config.estado);
+      await this.getConfig();
+ }
 
   async getConfig () {
-    return this.http.get<any>("/assets/config/config.json").subscribe( datos => {
-      this.cias = datos;
-      this.config.estado = "OK";
-      this.cia= this.cias[0];
-      this.config.cia = this.cia.cia;
-      this.config.url = this.cia.Urldatos;
-      this.config.oldurl = this.cia.oldurldatos;
-      this.config.urlfacturacion = this.cia.urlfacturacion;
-      this.config.urlphp = this.cia.urlphp;
-      if(this.debug)
+    const datos = await lastValueFrom(this.http.get<any>("/assets/config/config.json"));
+    this.debug = datos[0].debug || false;
+    console.log("Datos de configuracion:", datos, "Debug:", this.debug);
+    this.cias = datos;
+    this.config.estado = "OK";
+    this.cia= this.cias[0];
+    this.config.cia = this.cia.cia;
+    this.config.url = this.cia.Urldatos;
+    this.config.oldurl = this.cia.oldurldatos;
+    this.config.urlfacturacion = this.cia.urlfacturacion;
+    this.config.urlphp = this.cia.urlphp;
+    if(this.debug)
         console.log("Estoy en config service ", this.config, this.cia, this.config.url);
 
-    });
+  }
 
+  async getDebug() {
+    const datos = await lastValueFrom(this.http.get<any>("/assets/config/config.json"));
+    const debug = datos[0].debug || false;
+    return debug;
   }
 
   obtenurl () {

@@ -4,6 +4,7 @@ import { Form } from '@classes/forms/form';
 import { EmailLoginDto } from '@dtos/email-login-dto';
 import { Message } from '@models/message';
 import { ConfigService } from '@services/config.service';
+import { get } from 'lodash';
 
 @Component({
   selector: 'login-form',
@@ -27,16 +28,26 @@ export class LoginFormComponent extends Form<EmailLoginDto> implements OnChanges
   ) {
     super();
     this.submitData = new EventEmitter<EmailLoginDto>();
-    this.debug = this.configService.debug;
-    if(!this.debug){
-      this.logindefault.login = "";
-    }
-    
     this.form = this.builder.group({
-      email : [this.logindefault.login, [Validators.required]],
-      password: [this.logindefault.pwd, [Validators.required]]
+      email : ["", [Validators.required]],
+      password: ["", [Validators.required]]
     });
+
+    this.getDebugMode();
   }
+
+  async getDebugMode() {
+    this.debug = await this.configService.getDebug();
+    console.log("Debug mode is", this.debug);
+    if(this.debug){
+      this.email.setValue(this.logindefault.login);
+      this.password.setValue(this.logindefault.pwd);
+    } else {
+      this.password.setValue("****");
+      
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if(this.message && this.message.name == "error"){
       this.upload = false;

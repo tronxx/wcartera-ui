@@ -479,7 +479,9 @@ export class VentasComponent {
         if(res) {
         const fecha = this.datePipe.transform(new Date(),"yyyy-MM-ddThh:mm:ss");
         const fechacierre = await lastValueFrom( this.ventasService.grabar_dato_solicit(idventa, CLAVES_SOLICIT.FECHA_CIERRE_VENTA, fecha ));
-        this.alerta("Se ha cerrado " );
+        this.ventacerrada = true;
+        this.buscar_fecha_cierre(idventa);
+        this.alerta("Se ha cerrado esta Venta" );
 
         }
       });

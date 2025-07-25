@@ -9,7 +9,7 @@
         <mat-label>
             Código del Cliente
         </mat-label>
-        <input [readonly]="sololectura" type="text" matInput formControlName="codigo">
+        <input [readonly]="sololectura" (blur)="valida()" type="text" matInput formControlName="codigo">
         <mat-error *ngIf="codigo.hasError('required')">
             ¡Introduce El Código del Cliente!
         </mat-error>
@@ -18,7 +18,7 @@
         <mat-label>
             Apellido Paterno
         </mat-label>
-        <input type="text" [readonly]="sololectura"  matInput formControlName="appat">
+        <input type="text" [readonly]="sololectura" (blur)="acompletanombre()"  matInput formControlName="appat">
     </mat-form-field>
     <mat-form-field style="width: 50%;">
         <mat-label>
