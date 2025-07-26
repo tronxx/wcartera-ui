@@ -266,7 +266,7 @@ export class CrearventaComponent implements OnInit {
     let precio =preciou;
     if(this.ticte == 'CC') {
       if(preciooferta != 0) { 
-        precio = preciooferta;      
+        precio = preciooferta; this.oferta = true;
         return(precio);
       }
       const pordesc = this.buscar_tasa_descto_cont(linea, this.ticte, '');
@@ -275,7 +275,7 @@ export class CrearventaComponent implements OnInit {
     }
     if(this.ticte == "TC" || this.ticte == "EX") {
       if(preciooferta != 0) { 
-        precio = preciooferta;      
+        precio = preciooferta; this.oferta = true;
         return(precio);
       }
       const pordesc = this.buscar_tasa_descto_cont(linea, this.ticte, this.mitc);
