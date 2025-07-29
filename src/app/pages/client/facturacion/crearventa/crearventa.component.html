@@ -132,7 +132,7 @@
         </button>
 
 
-        <table mat-table [dataSource]="productos" style="width: 100%;">
+        <table  border="1" mat-table [dataSource]="productos" style="width: 100%;">
             <ng-container matColumnDef="codigo">
                 <th mat-header-cell *matHeaderCellDef> Código </th>
                 <td mat-cell *matCellDef="let element">  {{element.codigo}} </td>

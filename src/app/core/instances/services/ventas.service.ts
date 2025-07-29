@@ -329,6 +329,23 @@ export class VentasService {
       
   }
 
+  modificarVenta(idventa: number, venta: Ventas) : Observable<any> {
+    this.url = this.configService.config.url;
+ 
+    const miurl = `${this.url}/ventas/${idventa}`;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+
+    //console.log("Estoy en get obtener solicitud", idcliente, "url:",miurl);
+    //const ventacerrada = this.http.put<any> (miurl, JSON.stringify(datosventa), {'headers':headers});
+    //const fechacierre =  this.grabar_dato_solicit(idventa, CLAVES_SOLICIT.FECHA_CIERRE_VENTA, fecha );
+    return (this.http.put<any> (miurl, JSON.stringify(venta), {'headers':headers}));
+      
+  }
+
 
   obtener_fecha_cierre(idventa: number) : Observable<any> {
     this.url = this.configService.config.url;

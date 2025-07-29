@@ -231,14 +231,20 @@ export class VentasComponent {
       this.movclisssaldo = await lastValueFrom(this.ventasService.buscarMovimientosVentas(id));
         this.movclis = [];
         this.yatengomovclis = false;
+        let abonos = 0;
 
         let saldo = this.venta.cargos;
         for(let mov of this.movclisssaldo) {
           saldo -= mov.abonos;
+          abonos += mov.abonos;
            const movcli = { ...mov, saldo: saldo}
            this.movclis.push(movcli);
         }
         //console.log("movclis", this.movclis);
+        if(abonos != this.venta.abonos) {
+          this.venta.abonos = abonos; 
+          const ventamodificada = this.ventasService.modificarVenta(id, this.venta);
+        }
         this.yatengomovclis = true;
     }    
     
