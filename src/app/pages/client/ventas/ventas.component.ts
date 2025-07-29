@@ -243,7 +243,7 @@ export class VentasComponent {
         //console.log("movclis", this.movclis);
         if(abonos != this.venta.abonos) {
           this.venta.abonos = abonos; 
-          const ventamodificada = this.ventasService.modificarVenta(id, this.venta);
+          const ventamodificada = await lastValueFrom( this.ventasService.modificarVenta(id, this.venta));
         }
         this.yatengomovclis = true;
     }    
