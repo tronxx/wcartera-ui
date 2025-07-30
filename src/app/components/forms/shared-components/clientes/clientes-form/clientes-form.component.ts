@@ -172,8 +172,10 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
         validacion.mensaje = "El codigo " + codigo + " no es correcto, la fecha no es valida";
         validacion.valido = validacion.valido && false;
       }
-      const consec = Number(codigo.substring(8, 9));
-      if ( isNaN(consec ) || consec < 1 || !/^[0-9]{2}$/.test(codigo.substring(8, 9)))  {
+      const consec = Number(codigo.substring(8, 10));
+      const esoknum = /^[0-9]{2}$/.test(codigo.substring(8, 10));
+      if(this.debug) console.log("Validando consecutivo", consec, esoknum);
+      if ( isNaN(consec ) || consec < 1 || !esoknum)  {
         validacion.mensaje += "\n El codigo " + codigo + " no es correcto, el consecutivo no es valido";
         validacion.valido = validacion.valido && false;
       }
