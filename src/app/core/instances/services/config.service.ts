@@ -438,4 +438,36 @@ export class ConfigService {
 
   }
 
+  isValidDateString(strfecha: string): boolean {
+    if (strfecha.length < 6) {
+      return false;
+    }
+
+    
+    // Verificar que todos los caracteres sean dígitos
+    if (!/^\d{6}$/.test(strfecha)) {
+      return false;
+    }
+
+    const year = parseInt(strfecha.substring(0, 2), 10);
+    const month = parseInt(strfecha.substring(2, 4), 10);
+    const day = parseInt(strfecha.substring(4, 6), 10);
+
+    // Año se considera como 2000 + XX (puedes ajustar esto según tus necesidades)
+    const fullYear = 2000 + year;
+    
+    // Validar mes (1-12)
+    if (month < 1 || month > 12) {
+      return false;
+    }
+
+    // Validar día según el mes
+    const daysInMonth = new Date(fullYear, month, 0).getDate();
+    if (day < 1 || day > daysInMonth) {
+      return false;
+    }
+
+    return true;
+  }  
+
 }

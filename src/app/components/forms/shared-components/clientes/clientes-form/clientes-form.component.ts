@@ -146,20 +146,55 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     if(this.debug) console.log("Estoy en valida codigo", this.codigo.value);
     const codigo = this.codigo.value;
     const carteravalida = await this.busca_codigocartera(codigo);
+    if(!carteravalida.valido) {
+      this.codigo.setErrors({ 'incorrecto': true });
+      this.alerta(carteravalida.mensaje);
+    }
     
   }
 
-    async busca_codigocartera(codigo: string  ) {
-      const codigocartera = codigo.substring(0, 2);
-      const codcartera = await lastValueFrom( this.ventasService.buscarCodigoCartera(codigocartera));
-      if(codcartera) {
-        return (true);
-      } else {
-        this.alerta("No existe la cartera " + codigocartera);
-        return (false);
-      }
+  async busca_codigocartera(codigo: string  ) {
+      let validacion = {
+        valido : true,
+        mensaje: ""
+      };
+
   
-    }
+      const codigocartera = codigo.substring(0, 2);
+      if(!codigo || codigo.length < 10) {
+        validacion.mensaje = "El codigo " + codigo + " no es correcto, Debe tener al menos 10 dígitos";
+        validacion.valido = validacion.valido && false;
+      }
+
+      const fecha = codigo.substring(2, 8);
+      const fechacorrecta = this.configService.isValidDateString(fecha);
+      if(!fechacorrecta) {
+        validacion.mensaje = "El codigo " + codigo + " no es correcto, la fecha no es valida";
+        validacion.valido = validacion.valido && false;
+      }
+      const consec = Number(codigo.substring(8, 9));
+      if ( isNaN(consec ) || consec < 1 || !/^[0-9]{2}$/.test(codigo.substring(8, 9)))  {
+        validacion.mensaje += "\n El codigo " + codigo + " no es correcto, el consecutivo no es valido";
+        validacion.valido = validacion.valido && false;
+      }
+
+      const codcartera = await lastValueFrom( this.ventasService.buscarCodigoCartera(codigocartera));
+      if(!codcartera) {
+        validacion.mensaje += "\n No existe la cartera " + codigocartera;
+        validacion.valido = validacion.valido && false;
+      }
+      if(this.debug) console.log("modo", this.modo, "obten_cliente_x_codigo", codigo);
+      if(this.modo == "NUEVO") {
+        const micliente = await lastValueFrom( this.clientesService.obten_cliente_x_codigo(codigo));
+        if(micliente) {
+          validacion.mensaje += "\n El codigo " + codigo + " ya existe " +  micliente.nombre;
+          validacion.valido = validacion.valido && false;
+
+        }
+      }
+      return (validacion);
+  
+  }
   
 
   carga_catalogos() {

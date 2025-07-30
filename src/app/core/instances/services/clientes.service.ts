@@ -57,6 +57,22 @@ export class ClientesService {
 
   }
 
+  obten_cliente_x_codigo(codigo: string) : Observable<Clientes> {
+    const url = this.configService.config.url;
+    const micia = this.cia;
+  
+    const miurl = `${url}/clientes/codigo/${micia}/${codigo}`;
+    
+    const headers = { 
+      'content-type': 'application/json',
+      'Authorization': `Bearer ${this.registro_z.token}`      
+    };    
+    console.log("clientes service url", miurl);
+    
+    return( this.http.get<Clientes> (miurl, {'headers':headers}) );
+
+  }
+
   obten_lista_clientes() : Observable<Clientes[]> {
     this.url = this.configService.config.url;
     const micia = this.cia;

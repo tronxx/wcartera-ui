@@ -535,9 +535,10 @@ export class CrearventaComponent implements OnInit {
   }
 
   async continuar() {
-    const codigocorrecto = await this.validar_codigo();
+    const codigocorrecto = await this.busca_codigocartera(this.codigovta);
     if(this.debug) console.log("Regresando de Validar codigo", codigocorrecto);
-    if(!codigocorrecto) { 
+    if(!codigocorrecto.valido) { 
+      this.alerta(codigocorrecto.mensaje);
       this.datoslistos = false
       return;
     }
@@ -813,27 +814,54 @@ export class CrearventaComponent implements OnInit {
   }
 
   async validar_codigo() {
-    const codvta = await this.busca_codigoventa();
-    const clientexiste = await this.busca_codigocartera();
-      if(this.debug) console.log("Validar Codigo", codvta, clientexiste);
-
-    return ( codvta && clientexiste);
-  }
-
-  async busca_codigocartera() {
-    this.codigocartera = this.codigovta.substring(0, 2);
-    const codcartera = await lastValueFrom( this.ventasService.buscarCodigoCartera(this.codigocartera));
-    if(codcartera) {
-      this.codigoCartera = codcartera;
-      if(this.debug) console.log("Cartera", codcartera);
-      return (true);
-    } else {
-      this.alerta("No existe la cartera " + this.codigocartera);
-      this.codigoCartera = undefined;
-      return (false);
+    if(this.debug) console.log("Estoy en valida codigo", this.codigovta);
+    const codigo = this.codigovta;
+    const carteravalida = await this.busca_codigocartera(codigo);
+    if(!carteravalida.valido) {
+      this.alerta(carteravalida.mensaje);
     }
 
   }
+
+  async busca_codigocartera(codigo: string  ) {
+      let validacion = {
+        valido : true,
+        mensaje: ""
+      };
+
+  
+      const codigocartera = codigo.substring(0, 2);
+      if(!codigo || codigo.length < 10) {
+        validacion.mensaje = "El codigo " + codigo + " no es correcto, Debe tener al menos 10 dígitos";
+        validacion.valido = validacion.valido && false;
+      }
+      const fecha = codigo.substring(2, 8);
+      const fechacorrecta = this.configservice.isValidDateString(fecha);
+      if(!fechacorrecta) {
+        validacion.mensaje = "El codigo " + codigo + " no es correcto, la fecha no es valida";
+        validacion.valido = validacion.valido && false;
+      }
+      const consec = Number(codigo.substring(8, 9));
+      if ( isNaN(consec ) || consec < 1 || !/^[0-9]{2}$/.test(codigo.substring(8, 9)))  {
+        validacion.mensaje += "\n El codigo " + codigo + " no es correcto, el consecutivo no es valido";
+        validacion.valido = validacion.valido && false;
+      }
+
+      const codcartera = await lastValueFrom( this.ventasService.buscarCodigoCartera(codigocartera));
+      if(!codcartera) {
+        validacion.mensaje += "\n No existe la cartera " + codigocartera;
+        validacion.valido = validacion.valido && false;
+      }
+      const ventaexistente = await lastValueFrom( this.ventasService.buscarVentaPorCodigo(this.codigovta));
+      if(ventaexistente) {
+          validacion.mensaje += "\n El codigo " + codigo + " ya existe " +  ventaexistente.nombre;
+          validacion.valido = validacion.valido && false;
+      }
+      return (validacion);
+  
+  }
+
+
 
   async busca_codigoventa() {
     const ventaexistente = await lastValueFrom( this.ventasService.buscarVentaPorCodigo(this.codigovta));
