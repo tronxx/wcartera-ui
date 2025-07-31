@@ -849,8 +849,8 @@ export class CrearventaComponent implements OnInit {
         validacion.valido = validacion.valido && false;
       }
 
-      const codcartera = await lastValueFrom( this.ventasService.buscarCodigoCartera(codigocartera));
-      if(!codcartera) {
+      this.codigoCartera = await lastValueFrom( this.ventasService.buscarCodigoCartera(codigocartera));
+      if(!this.codigoCartera) {
         validacion.mensaje += "\n No existe la cartera " + codigocartera;
         validacion.valido = validacion.valido && false;
       }

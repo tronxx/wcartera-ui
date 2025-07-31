@@ -149,6 +149,7 @@ definir_propiedades_articulo() {
   this.foliorequerido = true;
   if(this.articulo.tipo == "ALF") {
     this.pedirserie = true;
+    this.selecciona_serie();
   }
   if(this.articulo.tipo == "GLO") {
     this.pedirserie = false;

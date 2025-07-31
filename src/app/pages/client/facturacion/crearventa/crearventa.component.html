@@ -54,20 +54,6 @@
             </mat-label>
     
         </div>
-        <div>
-            <button class="espaciado.button" mat-raised-button color="primary" (click)="buscar_cliente()" >
-                <mat-icon aria-hidden="false" aria-label="Example new icon">face</mat-icon>
-                Seleccionar Cliente
-            </button>
-            <div *ngIf="cliente">
-                Código: <input type="text" readonly value="{{cliente.codigo}}"> 
-                Nombre: <input type="text" readonly value="{{cliente.nombre}}"> 
-                Direccion:  <input type="text" readonly value="Calle {{cliente.calle}}  Num {{cliente.numpredio}} C.Postal {{cliente.codpostal}}"> 
-                Col. <input type="text" readonly value="{{cliente.colonia}}"> 
-                RFC: <input type="text" readonly value="{{cliente.rfc}}">
-        
-            </div>
-        </div>
 
         <div>
             <mat-label>
@@ -115,6 +101,21 @@
                 </mat-label>
             </div>
         </div>
+        <div>
+            <button class="espaciado.button" mat-raised-button color="primary" (click)="buscar_cliente()" >
+                <mat-icon aria-hidden="false" aria-label="Example new icon">face</mat-icon>
+                Seleccionar Cliente
+            </button>
+            <div *ngIf="cliente">
+                Código: <input type="text" readonly value="{{cliente.codigo}}"> 
+                Nombre: <input type="text" readonly value="{{cliente.nombre}}"> 
+                Direccion:  <input type="text" readonly value="Calle {{cliente.calle}}  Num {{cliente.numpredio}} C.Postal {{cliente.codpostal}}"> 
+                Col. <input type="text" readonly value="{{cliente.colonia}}"> 
+                RFC: <input type="text" readonly value="{{cliente.rfc}}">
+        
+            </div>
+        </div>
+
         <button *ngIf = "!datoslistos" class="espaciado.button" mat-raised-button color="primary" (click)="continuar()" >
             <mat-icon aria-hidden="false" aria-label="Example new icon">check_circle</mat-icon>
             Agregar Productos
