@@ -1,7 +1,11 @@
-<div class="profile-container" >
-    <mat-card class="mat-elevation-z5">
-        <app-facturacion-form [factura]="factura" [inicial]="inicial" (submitData)="aceptar($event)">
-        </app-facturacion-form> 
-    </mat-card>
+<div class="fondo-dialogo">
+    <div class="dialogo-con-scroll">
+        <div class="profile-container" >
+            <mat-card class="mat-elevation-z5">
+                <app-facturacion-form [factura]="factura" [inicial]="inicial" (submitData)="aceptar($event)">
+                </app-facturacion-form> 
+            </mat-card>
+        </div>
+    </div>
 </div>
 

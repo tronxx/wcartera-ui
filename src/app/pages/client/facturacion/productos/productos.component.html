@@ -1,132 +1,136 @@
-<div mat-dialog-content>
-    <form #formularioCliente="ngForm">
-        <div name="factura">
-            <mat-card>
-                <mat-card-title>Datos de Renglon de Factura</mat-card-title>
-                <div *ngIf="noescomplementodatos_z">
-                    <mat-form-field >
-                        <mat-label>Artículo</mat-label>
-                        <input matInput placeholder="Código" type="text" name="articulo" id="articulo" 
-                        [(ngModel)] = "codigo"
-                        oninput="this.value = this.value.toUpperCase()" 
-                        >
-                    </mat-form-field>
-                    <button mat-raised-button color="primary"   (click)="busca_articulo()">
-                        Buscar Articulo
-                    </button>
-                </div>
-                <mat-form-field >
-                    <mat-label>Descripción</mat-label>
-                    <input matInput placeholder="Descripción" type="text" name="descri" id="descri" 
-                    [(ngModel)] = "concepto"
-                    [disabled]="!datoshabilitados || notecleardescri"
-                    oninput="this.value = this.value.toUpperCase()" 
-                    >
-                </mat-form-field>
-                <mat-form-field >
-                        <mat-label>Folio</mat-label>
-                        <input matInput placeholder="Folio" type="number" name="folio" id="folio" 
-                        [(ngModel)] = "folio"
-                        [disabled]="!datoshabilitados"
-                        (blur)="valida_aceptar ()" 
-                        >
-                </mat-form-field>
-                <div *ngIf="pedirserie" (blur)="valida_aceptar ()" >
-                    <div *ngIf="!esmoto" >
-                        <mat-form-field style="width: 100%;">
-                            <mat-label>
-                                Serie
-                            </mat-label>
-                            <mat-select [(value)]="serietxt" >
-                                <mat-option *ngFor="let miserie of series" value="{{miserie.serie}}">
-                                    {{miserie.serie}}
-                                </mat-option>
-                            </mat-select>               
-                        </mat-form-field>
-                        <mat-checkbox name="seriemanual" [(ngModel)]="seriemanual" >
-                            Teclear la serie por que no está en la lista              
-                        </mat-checkbox>
-                    </div>
-
-                    <div *ngIf="seriemanual">
-                        <mat-form-field style="width: 100%;">
-                            <mat-label>Serie</mat-label>
-                            <input matInput type="text" name="serie" id="serie" 
-                            [(ngModel)] = "serietxt" [disabled]="!datoshabilitados"
-                            (blur)="valida_serie()"
-
-                            >
-                        </mat-form-field>
-    
-                    </div>
-                    
-                    <div *ngIf="esmoto">
-                        <mat-form-field style="width: 50%;">
-                            <mat-label>Serie del Motor</mat-label>
-                            <input matInput type="text" name="seriemotor" id="seriemotor" 
-                            [(ngModel)] = "seriemotor"
-                            oninput="this.value = this.value.toUpperCase()"
-                            (blur)="valida_serie_motor_moto()"
-                            >
-                        </mat-form-field>
-                        <mat-form-field style="width: 50%;">   
-                            <mat-label >Pedimento</mat-label>
-                            <input matInput type="text" name="pedimento" id="pedimento" size="30"
-                            [(ngModel)] = "pedimento"
-                            oninput="this.value = this.value.toUpperCase()"
-                            >
-                        </mat-form-field>
-                        <mat-form-field style="width: 50%;">   
-                            <mat-label >Aduana</mat-label>
-                            <input matInput type="text" name="aduana" id="aduana" 
-                            [(ngModel)] = "aduana"
-                            oninput="this.value = this.value.toUpperCase()"
-                            >
-                        </mat-form-field>
-                        <mat-form-field style="width: 50%;">   
-                            <mat-label for="marca" >Marca</mat-label>
-                            <input matInput type="text" name="marca" id="marca"  
-                            [(ngModel)] = "marca" 
-                            oninput="this.value = this.value.toUpperCase()" >
-                        </mat-form-field>
-                        <div *ngIf="!serievalida ">
-                            <label id="serieinvalida" *ngIf="!serievalida">
-                                <mat-icon aria-hidden="false" color="warn" aria-label="Example home icon">warning</mat-icon>
-                                La serie es Invalida
-                            </label>
+<div class="fondo-dialogo">
+    <div class="dialogo-con-scroll">
+        <div mat-dialog-content>
+            <form #formularioCliente="ngForm">
+                <div name="factura">
+                    <mat-card>
+                        <mat-card-title>Datos de Renglon de Factura</mat-card-title>
+                        <div *ngIf="noescomplementodatos_z">
+                            <mat-form-field >
+                                <mat-label>Artículo</mat-label>
+                                <input matInput placeholder="Código" type="text" name="articulo" id="articulo" 
+                                [(ngModel)] = "codigo"
+                                oninput="this.value = this.value.toUpperCase()" 
+                                >
+                            </mat-form-field>
+                            <button mat-raised-button color="primary"   (click)="busca_articulo()">
+                                Buscar Articulo
+                            </button>
                         </div>
-                        <div *ngIf="!seriemotorvalida">
-                            <label id="seriemotorinvalida" >
-                                <mat-icon aria-hidden="false" color="warn"  aria-label="Example home icon">warning</mat-icon>
-                                La serie del Motor es Invalida
-                            </label>
-        
+                        <mat-form-field >
+                            <mat-label>Descripción</mat-label>
+                            <input matInput placeholder="Descripción" type="text" name="descri" id="descri" 
+                            [(ngModel)] = "concepto"
+                            [disabled]="!datoshabilitados || notecleardescri"
+                            oninput="this.value = this.value.toUpperCase()" 
+                            >
+                        </mat-form-field>
+                        <mat-form-field >
+                                <mat-label>Folio</mat-label>
+                                <input matInput placeholder="Folio" type="number" name="folio" id="folio" 
+                                [(ngModel)] = "folio"
+                                [disabled]="!datoshabilitados"
+                                (blur)="valida_aceptar ()" 
+                                >
+                        </mat-form-field>
+                        <div *ngIf="pedirserie" (blur)="valida_aceptar ()" >
+                            <div *ngIf="!esmoto" >
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>
+                                        Serie
+                                    </mat-label>
+                                    <mat-select [(value)]="serietxt" >
+                                        <mat-option *ngFor="let miserie of series" value="{{miserie.serie}}">
+                                            {{miserie.serie}}
+                                        </mat-option>
+                                    </mat-select>               
+                                </mat-form-field>
+                                <mat-checkbox name="seriemanual" [(ngModel)]="seriemanual" >
+                                    Teclear la serie por que no está en la lista              
+                                </mat-checkbox>
+                            </div>
+
+                            <div *ngIf="seriemanual">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Serie</mat-label>
+                                    <input matInput type="text" name="serie" id="serie" 
+                                    [(ngModel)] = "serietxt" [disabled]="!datoshabilitados"
+                                    (blur)="valida_serie()"
+
+                                    >
+                                </mat-form-field>
+            
+                            </div>
+                            
+                            <div *ngIf="esmoto">
+                                <mat-form-field style="width: 50%;">
+                                    <mat-label>Serie del Motor</mat-label>
+                                    <input matInput type="text" name="seriemotor" id="seriemotor" 
+                                    [(ngModel)] = "seriemotor"
+                                    oninput="this.value = this.value.toUpperCase()"
+                                    (blur)="valida_serie_motor_moto()"
+                                    >
+                                </mat-form-field>
+                                <mat-form-field style="width: 50%;">   
+                                    <mat-label >Pedimento</mat-label>
+                                    <input matInput type="text" name="pedimento" id="pedimento" size="30"
+                                    [(ngModel)] = "pedimento"
+                                    oninput="this.value = this.value.toUpperCase()"
+                                    >
+                                </mat-form-field>
+                                <mat-form-field style="width: 50%;">   
+                                    <mat-label >Aduana</mat-label>
+                                    <input matInput type="text" name="aduana" id="aduana" 
+                                    [(ngModel)] = "aduana"
+                                    oninput="this.value = this.value.toUpperCase()"
+                                    >
+                                </mat-form-field>
+                                <mat-form-field style="width: 50%;">   
+                                    <mat-label for="marca" >Marca</mat-label>
+                                    <input matInput type="text" name="marca" id="marca"  
+                                    [(ngModel)] = "marca" 
+                                    oninput="this.value = this.value.toUpperCase()" >
+                                </mat-form-field>
+                                <div *ngIf="!serievalida ">
+                                    <label id="serieinvalida" *ngIf="!serievalida">
+                                        <mat-icon aria-hidden="false" color="warn" aria-label="Example home icon">warning</mat-icon>
+                                        La serie es Invalida
+                                    </label>
+                                </div>
+                                <div *ngIf="!seriemotorvalida">
+                                    <label id="seriemotorinvalida" >
+                                        <mat-icon aria-hidden="false" color="warn"  aria-label="Example home icon">warning</mat-icon>
+                                        La serie del Motor es Invalida
+                                    </label>
+                
+                                </div>
+
+                            </div>
                         </div>
 
-                    </div>
-                </div>
+                        <div *ngIf="noescomplementodatos_z">
+                            <mat-form-field>   
+                                <label >Precio.U </label>
+                                <input matInput type="number" name="preciou" id="preciou"
+                                [disabled]="!pedirprecio"
+                                [(ngModel)]="preciou">
+                                <label class="labeloferta" for="" *ngIf="mostraroferta">
+                                    <mat-icon > local_offer</mat-icon>
+                                    Este Producto está en Oferta {{ preciooferta_z | currency}}
+                                </label>
+            
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+                </div> 
+            </form>
+        </div>
+        <div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
+            <button mat-raised-button 
+            [disabled]="!datoshabilitados || !aceptarok "
+            color="primary"   (click)="closeyes()">Aceptar</button>
+            <button mat-raised-button  color="warn" (click)="closeno()">Cancelar</button>
+        </div>
 
-                <div *ngIf="noescomplementodatos_z">
-                    <mat-form-field>   
-                        <label >Precio.U </label>
-                        <input matInput type="number" name="preciou" id="preciou"
-                        [disabled]="!pedirprecio"
-                        [(ngModel)]="preciou">
-                        <label class="labeloferta" for="" *ngIf="mostraroferta">
-                            <mat-icon > local_offer</mat-icon>
-                            Este Producto está en Oferta {{ preciooferta_z | currency}}
-                        </label>
-    
-                    </mat-form-field>
-                </div>
-            </mat-card>
-        </div> 
-    </form>
+    </div>
 </div>
-<div mat-dialog-actions style="display: flex; justify-content: space-around; justify-items: center;">
-    <button mat-raised-button 
-    [disabled]="!datoshabilitados || !aceptarok "
-    color="primary"   (click)="closeyes()">Aceptar</button>
-    <button mat-raised-button  color="warn" (click)="closeno()">Cancelar</button>
-</div>
-

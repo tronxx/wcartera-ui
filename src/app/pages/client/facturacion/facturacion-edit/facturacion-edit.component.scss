@@ -1,0 +1,95 @@
+.dialogo-con-scroll {
+  /* Estilos base del diálogo */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  
+  /* Estilos para manejar el scroll */
+  max-height: 90vh; /* 90% del alto de la ventana */
+  max-width: 90vw; /* 90% del ancho de la ventana */
+  overflow-y: auto; /* Scroll vertical cuando sea necesario */
+  overflow-x: hidden; /* Evita scroll horizontal */
+  
+  /* Mejoras para dispositivos móviles */
+  -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
+}
+
+/* Fondo oscuro detrás del diálogo */
+.fondo-dialogo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Opcional: Estilos para el contenido interno */
+.contenido-dialogo {
+  padding: 10px;
+  min-height: min-content;
+}
+
+/* Opcional: Estilos para dispositivos pequeños */
+@media (max-width: 600px) {
+  .dialogo-con-scroll {
+    width: 95vw;
+    max-height: 85vh;
+    padding: 10px;
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;  /* Centra verticalmente */
+  gap: 10px;           /* Espacio entre elementos */
+  flex-wrap: nowrap;   /* Evita saltos de línea */
+  overflow :auto; /* Permite desplazamiento horizontal si es necesario */
+  overflow-y: auto; /* Scroll vertical cuando sea necesario */
+}
+
+.radio-group {
+  display: flex;
+  gap: 10px;          /* Espacio entre radio buttons */
+}
+
+/* Contenedores de fecha y nombre (se activan con ngIf) */
+.container > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Estilo para los inputs */
+input[type="date"],
+input[type="text"] {
+  height: 36px;        /* Altura similar a otros controles de Material */
+  padding: 0 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 40%;
+}
+
+/* Ajuste para los mat-labels */
+mat-label {
+  white-space: nowrap; /* Evita que el texto se divida en dos líneas */
+}
+
+/* Botón de búsqueda */
+.action-buttons {
+  margin-left: auto;   /* Opcional: lo empuja a la derecha */
+}
+
+/* Ajuste para el ícono del botón */
+.mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+}
