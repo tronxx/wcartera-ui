@@ -52,6 +52,7 @@ export class MovimientostablaComponent {
   nivel = "";
   superusuario = false;
   ventacerrada = false;
+  puedemodificar = false;
   
   constructor(
     private ventasService : VentasService,
@@ -71,8 +72,15 @@ export class MovimientostablaComponent {
       this.superusuario =  (this.nivel == "S");
       this.debug = this.ventasService.debug;
       this.ventacerrada  = (this.status == "CERRADA");
+      if(this.superusuario || !this.ventacerrada) {
+        this.puedemodificar = true;
+      }
       if(this.debug) {
-        console.log("Movimientos Tabla", this.movimientos, "idventa", this.idventa, "cargoscli", this.cargoscli, "status", this.status);
+        console.log("Movimientos Tabla", this.movimientos, "idventa", 
+          this.idventa, "cargoscli", this.cargoscli, "status", 
+          this.status, "Puede Modificar", this.puedemodificar, 
+          "Superusuario", this.superusuario, "Ventacerrada", this.ventacerrada
+        );
       }
       //this.cargoscli = this.movimientos[0].saldo + this.movimientos[0].importe;
 

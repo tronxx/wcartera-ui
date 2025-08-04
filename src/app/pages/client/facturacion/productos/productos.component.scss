@@ -55,10 +55,6 @@
   overflow-y: auto; /* Scroll vertical cuando sea necesario */
 }
 
-.radio-group {
-  display: flex;
-  gap: 10px;          /* Espacio entre radio buttons */
-}
 
 /* Contenedores de fecha y nombre (se activan con ngIf) */
 .container > div {
@@ -67,20 +63,6 @@
   gap: 8px;
 }
 
-/* Estilo para los inputs */
-input[type="date"],
-input[type="text"] {
-  height: 36px;        /* Altura similar a otros controles de Material */
-  padding: 0 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 40%;
-}
-
-/* Ajuste para los mat-labels */
-mat-label {
-  white-space: nowrap; /* Evita que el texto se divida en dos líneas */
-}
 
 /* Botón de búsqueda */
 .action-buttons {
