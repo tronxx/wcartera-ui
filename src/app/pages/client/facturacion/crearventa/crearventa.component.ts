@@ -703,7 +703,7 @@ export class CrearventaComponent implements OnInit {
       abonos: 0,
       status: 'A',
       cia: 1,
-      fechasaldo: ''
+      fechasaldo: fechaventa
       
     }
     const factur = {
