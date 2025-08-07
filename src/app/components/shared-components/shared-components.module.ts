@@ -25,6 +25,7 @@ import { DlgimpriletrasComponent } from './dlgimpriletras/dlgimpriletras.compone
 import { MatInputModule } from '@angular/material/input';
 import { CameraComponent } from './camera/camera.component';
 import { WebcamModule } from 'ngx-webcam';
+import { PideprecioComponent } from './pideprecio/pideprecio.component';
 
 const components = [
   TableComponent,
@@ -43,6 +44,7 @@ const components = [
     DlgbusclienteComponent,
     DlgimpriletrasComponent,
     CameraComponent,
+    PideprecioComponent,
 
   ],
   imports: [

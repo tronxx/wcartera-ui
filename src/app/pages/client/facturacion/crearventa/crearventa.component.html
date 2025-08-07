@@ -131,6 +131,10 @@
             <mat-icon aria-hidden="false" aria-label="Example new icon">add</mat-icon>
             Agregar
         </button>
+        <button class="espaciado.button" mat-raised-button color="primary" (click)="pidepassw()" >
+            <mat-icon aria-hidden="false" aria-label="Example new icon">vpn_key</mat-icon>
+            Cambiar Precio
+        </button>
 
 
         <table  border="1" mat-table [dataSource]="productos" style="width: 100%;">
@@ -173,7 +177,7 @@
                         <ng-template #menu>
                             <div class="example-menu" cdkMenu>
                                 <ul>
-                                    <li>
+                                    <li *ngIf="puedecambiarprecio" >
                                         <button mat-raised-button color="primary" 
                                         (click)="edit(element)" type="button">
                                             <mat-icon>edit</mat-icon>

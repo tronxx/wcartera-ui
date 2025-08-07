@@ -10,7 +10,7 @@
           <div class="form-field-half">
             <mat-form-field appearance="outline">
               <mat-label>Serie</mat-label>
-              <input matInput formControlName="serie" placeholder="Serie">
+              <input matInput formControlName="serie" placeholder="Serie" (blur)="checaserie()" >
               <mat-error *ngIf="serie.invalid && (serie.dirty || serie.touched)">
                 Serie es requerida
               </mat-error>

@@ -171,7 +171,16 @@ export class FacturacionFormComponent extends Form<FacturasDto> implements OnCha
     }
 
   } 
+
   
+  checaserie() {
+    const serie = this.serie.value;
+    if(this.serieini != serie) {
+      this.serieini = serie;
+      this.buscaUltimoFolioFactura();
+    }
+  }
+
   get serie(){
     return this.form.get("serie");
   }

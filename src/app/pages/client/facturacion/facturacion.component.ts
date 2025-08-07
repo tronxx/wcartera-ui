@@ -75,6 +75,12 @@ export class FacturacionComponent {
       this.numcia = micompania_z.usuario.cia;
       this.iduser = micompania_z.usuario.iduser;
       this.fechainicial =  this.datePipe.transform(new Date(),"yyyy-MM" +"-01");
+      const dia = new Date().getDate();
+      if( dia < 10) {
+        const today = new Date();
+        const primerdia =  new Date(today.getFullYear(), today.getMonth() - 1, 1);
+        this.fechainicial =  this.datePipe.transform(primerdia,"yyyy-MM-dd");
+      }
       this.fechafinal =  this.datePipe.transform(new Date(),"yyyy-MM-dd");;
       this.debug = this.configService.debug;
       

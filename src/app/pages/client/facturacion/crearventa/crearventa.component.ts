@@ -19,6 +19,7 @@ import { lastValueFrom } from 'rxjs';
 import { JsonPipe } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { PidepasswdComponent } from '@components/pidepasswd/pidepasswd.component';
+import { PideprecioComponent } from '@components/pideprecio/pideprecio.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductosComponent } from '../productos/productos.component';
 import { forIn } from 'lodash';
@@ -102,6 +103,8 @@ export class CrearventaComponent implements OnInit {
   seriefac = "";
   numfac = 0;
   piva = 16;
+
+  puedecambiarprecio = false;
 
   renglonprod = {
     codigo: "codigo",
@@ -380,7 +383,37 @@ export class CrearventaComponent implements OnInit {
   
   }
 
-  edit(renfac: any) {}
+  edit(renfac: any) {
+   const id = this.productos.indexOf(renfac);
+   let params_z = {
+    "precio": renfac.preciou,
+    "tipo":true
+   }
+   const dlgdatosrenfac= this.dialog.open(PideprecioComponent, {
+    width: '80%',
+    data: JSON.stringify(params_z)
+   });
+   dlgdatosrenfac.afterClosed().subscribe(res => {
+      if(res) {
+        const preciou = this.productos[id].preciou;
+        this.total = Number( this.total)  - Number(  preciou);
+
+        this.productos[id].preciou = res.precio;
+        this.productos[id].preciooferta = res.precio;
+        this.productos[id].importe = res.precio;
+        this.total = Number( this.total)  + Number( res.precio);
+        this.calcular_totales();
+        this.productos = [...this.productos];
+
+      }
+      
+      }
+   );
+
+
+  }
+
+
   delete(renfac: any) {
     const index = this.productos.indexOf(renfac);
     if (index > -1) {
@@ -875,6 +908,28 @@ export class CrearventaComponent implements OnInit {
 
   }
 
+
+  pidepassw() {
+    this.puedecambiarprecio = false;
+    let cod_z = this.codcartera.substring(0,2);
+     let params_z = {
+      "ubicacion": cod_z
+     }
+     const dlgdatosrenfac= this.dialog.open(PidepasswdComponent, {
+      width: '400px',
+      data: JSON.stringify(params_z)
+     });
+     dlgdatosrenfac.afterClosed().subscribe(res => {
+        //console.log("Regresando de Pide Password", res);
+         
+         if(res) {
+           this.puedecambiarprecio = true;
+         }
+         
+        }
+     );
+  
+  }
 
 }
 
