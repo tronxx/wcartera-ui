@@ -526,7 +526,12 @@ export class CrearventaComponent implements OnInit {
       data: JSON.stringify(datosabuscar)
     });
     dialogref.afterClosed().subscribe(res => {
-      this.cliente = res;
+      if(res.modo == "nuevo cliente") {
+        this.router.navigate(['/app/clientes']);
+        return;
+      } else {
+        this.cliente = res;
+      }
     }
     )
 

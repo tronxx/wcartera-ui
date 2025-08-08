@@ -85,6 +85,15 @@ export class DlgbusclienteComponent implements OnInit {
     this.dialogRef.close(resultado);
   }
 
+  nuevoCliente() {
+    let resultado = {
+      "modo":"nuevo cliente"
+    };
+    this.dialogRef.close(resultado);
+  }
+
+
+
   closeno() {
     this.dialogRef.close(false);
   }

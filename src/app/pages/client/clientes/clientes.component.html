@@ -85,7 +85,7 @@
                                             Detalles
                                         </button>
                                     </li>
-                                    <li>
+                                    <li *ngIf = "puedeborrar">
                                         <button mat-raised-button color="warn" *ngIf="clienteAbierto(element)"
                                         (click)="delete(element)" type="button">
                                             <mat-icon>delete</mat-icon>

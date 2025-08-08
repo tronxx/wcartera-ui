@@ -45,6 +45,7 @@ export class ClientesComponent {
   
   numcia = -1;
   iduser = -1;
+  puedeborrar = false;
 
   debug = false;
   
@@ -80,6 +81,9 @@ export class ClientesComponent {
       const micompania_z =  JSON.parse(mistorage_z);
       this.numcia = micompania_z.usuario.cia;
       this.iduser = micompania_z.usuario.iduser;
+      if(micompania_z.usuario.nivel == "S") {
+        this.puedeborrar = true;
+      } 
       this.fechafinal =  this.datePipe.transform(new Date(),"yyyy-MM-dd");
       this.fechainicial = "2020-01-01";
       const hoy = new Date();

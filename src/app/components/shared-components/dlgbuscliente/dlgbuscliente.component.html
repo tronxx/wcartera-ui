@@ -2,6 +2,7 @@
     Teclee el Nombre del Cliente
 </div>
 <div mat-dialog-content style="overflow-y: auto; max-height: 30rem;">
+    <div class="barrabotones">
     <label for="nombre">
         Nombre
         <input type="text" placeholder="Nombre" [(ngModel)]="nombre" >
@@ -11,10 +12,16 @@
         <mat-icon aria-hidden="false" aria-label="Example home icon">search</mat-icon>
         Buscar
     </button>
+    <button *ngIf="escliente" mat-raised-button  color="primary" (click)="nuevoCliente()" > 
+        <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+        Nuevo Cliente
+    </button>
     <button *ngIf="esventa" mat-raised-button  color="primary" (click)="buscar_lista_ventas(nombre)" > 
         <mat-icon aria-hidden="false" aria-label="Example home icon">search</mat-icon>
         Buscar
     </button>
+
+    </div>
 
 <div *ngIf="escliente">
     <table width="100%">
