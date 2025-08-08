@@ -390,7 +390,7 @@ export class CrearventaComponent implements OnInit {
     "tipo":true
    }
    const dlgdatosrenfac= this.dialog.open(PideprecioComponent, {
-    width: '80%',
+    width: '40%',
     data: JSON.stringify(params_z)
    });
    dlgdatosrenfac.afterClosed().subscribe(res => {
