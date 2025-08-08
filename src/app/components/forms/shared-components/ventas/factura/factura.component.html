@@ -82,7 +82,7 @@
         </ng-container>
         <ng-container matColumnDef="importe">
             <th mat-header-cell *matHeaderCellDef> Importe </th>
-            <td mat-cell align="right" *matCellDef="let element">  {{element.importe | currency }} </td>
+            <td mat-cell align="right" *matCellDef="let element">  {{element.importe + element.iva | currency }} </td>
         </ng-container>
         <ng-container matColumnDef="folio">
             <th mat-header-cell *matHeaderCellDef> Folio </th>
