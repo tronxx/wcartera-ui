@@ -1,10 +1,19 @@
 <nav class="navbar">
+    <div>
+        <div>
+            <button mat-raised-button color="primary" (click)="toggleSidebar()" >
+                <mat-icon aria-hidden="false" aria-label="Example new icon">menu</mat-icon>
+                Menu
+            </button>
+        </div>
+        <div class="user-info" style="width: 100; text-align: right;">
+            <span>{{nombre}}</span>
+        </div>
+
+    </div>
     <div class="page-header">
         <h1>
             {{route}}
         </h1>
-    </div>
-    <div (click)="toggleSidebar()">
-        <mat-icon class="menu-icon">menu</mat-icon>
     </div>
 </nav>

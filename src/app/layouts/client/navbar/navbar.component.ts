@@ -13,6 +13,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   @Output() toggle : EventEmitter<boolean> = new EventEmitter<boolean>();
   public route : string;
 
+  numcia = -1;
+  iduser = -1;
+  nombre = "";
+
+
   constructor(
     private breakpoint : BreakpointObserver,
     private router : Router
@@ -32,6 +37,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     let subRoute = this.router.url.split("/")
+    var mistorage_z  = localStorage.getItem('token') || "{}";
+    const micompania_z =  JSON.parse(mistorage_z);
+    this.numcia = micompania_z.usuario.cia;
+    this.iduser = micompania_z.usuario.iduser;
+    this.nombre = micompania_z.usuario.nombre;
+
     environment.menu.forEach(element => {if(element.url == subRoute[2]) this.route = element.name});
     this.trackNavigation();
   }
