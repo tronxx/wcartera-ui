@@ -936,5 +936,27 @@ export class CrearventaComponent implements OnInit {
   
   }
 
+  subirRenfac(renfac: any) {
+    const index = this.productos.indexOf(renfac);
+      if(index > 0) {
+        const renglon = this.productos[index];
+        this.productos.splice(index, 1);
+        this.productos.splice(index - 1, 0, renglon);
+        this.productos = [...this.productos];
+      }
+
+  }
+
+  bajarRenfac(renfac: any) {
+    const index = this.productos.indexOf(renfac);
+      if(index < this.productos.length - 1) {
+        const renglon = this.productos[index];
+        this.productos.splice(index, 1);
+        this.productos.splice(index + 1, 0, renglon);
+        this.productos = [...this.productos];
+      }
+
+  }
+
 }
 
