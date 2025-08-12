@@ -277,6 +277,8 @@ export class LandingComponent implements OnInit {
     download: false,
     size: 0
   }
+
+  version= "1.01";
   constructor() { }
 
   ngOnInit(): void {
