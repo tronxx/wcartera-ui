@@ -75,6 +75,7 @@ export class FacturaComponent {
   regimen? : Regimenes;
   venta?: Ventas;
   superusuario = false;
+  puedeimprimir = false;
   
 
   constructor(
@@ -98,6 +99,11 @@ export class FacturaComponent {
       this.superusuario =  (micompania_z.usuario.nivel == "S");
       this.facturacerrada = (this.factura.status == 'C');
       this.misdatosventa = JSON.parse(this.datosventa);
+      const hoy = this.datePipe.transform(new Date(), "yyyy-MM-dd") + "";
+      const dias = this.configService.diferenciaEnDias(this.venta.fecha, hoy);
+      if( this.factura.status != "C" && (dias < 10 || this.superusuario)) {
+          this.puedeimprimir = true;
+      }
     }
 
     edit(renglon: Renfac) {}

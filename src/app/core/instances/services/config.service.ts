@@ -470,4 +470,19 @@ export class ConfigService {
     return true;
   }  
 
+  diferenciaEnDias(fechaInicio: string | Date | number, fechaFin: string | Date | number): number {
+    // Convertir ambas fechas a objetos Date
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+    
+    // Calcular la diferencia en milisegundos
+    const diferenciaMs = fin.getTime() - inicio.getTime();
+    
+    // Convertir milisegundos a días (1000 ms * 60 s * 60 min * 24 h)
+    const diferenciaDias = Math.floor(diferenciaMs / (1000 * 60 * 60 * 24));
+    
+    return diferenciaDias;
+  }
+
+
 }
