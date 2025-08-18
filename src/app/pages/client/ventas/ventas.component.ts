@@ -528,8 +528,9 @@ export class VentasComponent {
       const venta = { ...this.venta, 
         compra: this.compras,
         direccion: this.cliente.calle + " N." + this.cliente.numpredio +
-          this.cliente.colonia + this.cliente.codpostal,
+          " " + this.cliente.colonia + " " + this.cliente.codpostal,
         ciudad: this.ciudad.ciudad,
+        clavetc: this.tarjetatc,
         aval: aval.nombre,
         diraval: aval.dir,
         vendedor: this.vendedor.nombre,
