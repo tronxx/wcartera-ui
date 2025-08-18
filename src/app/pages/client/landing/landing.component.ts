@@ -278,7 +278,7 @@ export class LandingComponent implements OnInit {
     size: 0
   }
 
-  version= "1.02b";
+  version= "1.02c";
   constructor() { }
 
   ngOnInit(): void {
