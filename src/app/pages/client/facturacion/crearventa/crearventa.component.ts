@@ -183,6 +183,11 @@ export class CrearventaComponent implements OnInit {
     let miregistroventas  = localStorage.getItem(`ventas_${this.numcia}`) || "{}";
     const ubicatemp =JSON.parse(miregistroventas); 
     this.debug = this.configservice.debug;
+    if(!ubicatemp) {
+
+      this.alerta("No tengo ubicación  ");
+      this.router.navigate(['/app/ventas']);
+    }
     if(ubicatemp) {
       this.ubivta =  ubicatemp.ubicacion;
       this.idubica = ubicatemp.idubica;
