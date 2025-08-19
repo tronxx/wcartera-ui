@@ -152,6 +152,20 @@ export class FacturaComponent {
 
     }
 
+    pedir_cerrar_factura() {
+        const dialogRef = this.dialog.open(DlgyesnoComponent, {
+          width: '500px',
+          data: "¿Desea cerrar esta factura y timbrarla?"
+        });
+         dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.cerrar_factura
+
+          }
+        });
+
+    }
+
 
     async cerrar_factura() {
       if(this.factura.status == "C") {
