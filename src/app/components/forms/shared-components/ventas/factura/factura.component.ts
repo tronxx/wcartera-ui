@@ -157,9 +157,9 @@ export class FacturaComponent {
           width: '500px',
           data: "¿Desea cerrar esta factura y timbrarla?"
         });
-         dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            this.cerrar_factura
+            this.cerrar_factura();
 
           }
         });
