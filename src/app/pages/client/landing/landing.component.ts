@@ -278,7 +278,11 @@ export class LandingComponent implements OnInit {
     size: 0
   }
 
-  version= "1.02c";
+  version= "1.02d";
+  versiones = [
+    "19-Ago-2025 1.02d se corrige la forma de pago en la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura"
+  ];
+  
   constructor() { }
 
   ngOnInit(): void {

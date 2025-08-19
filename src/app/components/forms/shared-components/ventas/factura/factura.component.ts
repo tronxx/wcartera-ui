@@ -49,6 +49,7 @@ export class FacturaComponent {
   fechacierre = "";
   statusfac = "";
   facturacerrada = false;
+  debug = false;
   misdatosventa = {
         servicio: 0,
         idventa: 0,
@@ -98,6 +99,7 @@ export class FacturaComponent {
       this.iduser = micompania_z.usuario.iduser;
       this.superusuario =  (micompania_z.usuario.nivel == "S");
       this.facturacerrada = (this.factura.status == 'C');
+      this.debug = this.configService.debug;
       this.misdatosventa = JSON.parse(this.datosventa);
       const hoy = this.datePipe.transform(new Date(), "yyyy-MM-dd") + "";
       const dias = this.configService.diferenciaEnDias(this.venta.fecha, hoy);
@@ -171,7 +173,7 @@ export class FacturaComponent {
         });
          dialogRef.afterClosed().subscribe(result => {
           if (result) {
-            console.log("Regresando de pedir fecha", result);
+            if(this.debug) console.log("Regresando de pedir fecha", result);
             this.fechacierre = result;
             this.continuaConElTimbrado();
           } else {
@@ -193,7 +195,7 @@ export class FacturaComponent {
       const strdocto = JSON.stringify(documento);
       const mitimbrado = await this.manda_el_timbrado(strdocto);
       const idfactura = this.factura.id;
-      console.log("Regreso de timbrado", mitimbrado);
+      if(this.debug) console.log("Regreso de timbrado", mitimbrado);
       if (mitimbrado.data[0].cfdi_respuesta.timbrada == "true") {
         const uuid = mitimbrado.data[0].cfdi_complemento.uuid;
         this.factura.uuid = uuid;
@@ -253,10 +255,11 @@ export class FacturaComponent {
       machote.cfdi__comprobante.serie = this.factura.serie;
       machote.cfdi__comprobante.tipo_comprobante = "I";
       machote.cfdi__comprobante.lugar_expedicion = codpostalempresa;
-      if(this.factura.codigometodopago == "") this.factura.codigometodopago = "PUE";
-      const forma_pago = "01";
-      machote.cfdi__comprobante.metodo_pago = this.factura.codigometodopago;
-      machote.cfdi__comprobante.forma_pago = forma_pago;
+      let  forma_pago = "PUE";
+      if(this.venta.nulets > 0) {  forma_pago = "PPD"; }
+      if(this.factura.codigometodopago == "") this.factura.codigometodopago = "01";
+      machote.cfdi__comprobante.metodo_pago = forma_pago;
+      machote.cfdi__comprobante.forma_pago = this.factura.codigometodopago;
       machote.cfdi__comprobante.fecha = this.fechacierre;
 
       machote.cfdi__comprobante.cfdi__receptor.rfc = rfccliente;
