@@ -101,11 +101,17 @@ export class FacturaComponent {
       this.facturacerrada = (this.factura.status == 'C');
       this.debug = this.configService.debug;
       this.misdatosventa = JSON.parse(this.datosventa);
+      this.datosIniciales();
+    }
+
+    async datosIniciales() {
+      this.venta = await this.busca_venta(this.misdatosventa.idventa);
       const hoy = this.datePipe.transform(new Date(), "yyyy-MM-dd") + "";
       const dias = this.configService.diferenciaEnDias(this.venta.fecha, hoy);
-      if( this.factura.status != "C" && (dias < 10 || this.superusuario)) {
+      if( this.factura.status == "C" && (dias < 10 || this.superusuario)) {
           this.puedeimprimir = true;
       }
+
     }
 
     edit(renglon: Renfac) {}

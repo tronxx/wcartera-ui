@@ -415,7 +415,8 @@ export class FacturacionService {
     //return this.manda_timbrar(timbre);
     let respu_z = "";
     let miurl = this.configService.config.urlfacturacion + "/generafactura.php"
-    const headers = { 'content-type': 'text/plain'};
+    const headers =  {'content-type': 'application/json'};
+    //const headers = { 'content-type': 'text/plain'};
     const misparamnvo = JSON.stringify (timbre);
     console.log("Timbrando", misparamnvo, miurl);
     return this.http.post<any>(miurl, misparamnvo, {'headers':headers});
