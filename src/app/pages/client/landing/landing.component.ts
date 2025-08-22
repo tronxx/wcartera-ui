@@ -278,13 +278,14 @@ export class LandingComponent implements OnInit {
     size: 0
   }
 
-  version= "1.02h";
+  version= "1.02i";
   versiones = [
     "19-Ago-2025 1.02d se corrige la forma de pago en la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura",
     "19-Ago-2025 1.02e se agrega un diálogo que pregunta si se quiere cerrar la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura",
     "20-Ago-2025 1.02f se corrige el timbrado de la factura para tener header application/json y que se grabe correctamente la solicitud",
     "21-Ago-2025 1.02g se corrige el manejo de error de timbrado de la factura para tener header application/json y que se grabe correctamente la solicitud, se agrega el debug en la factura, se corrige el timbrado de la factura, se agrega el debug en la factura, se corrige el timbrado de la factura",
     "22-Ago-2025 1.02h se corrige se agrega manejo de tabla en captura de ventas",
+    "22-Ago-2025 1.02i se corrige que al recibir la respuesta de timbrado la procese correctamente",
   ];
   
   constructor() { }

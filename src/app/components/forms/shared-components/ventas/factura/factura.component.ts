@@ -216,7 +216,7 @@ export class FacturaComponent {
       const mitimbrado = await this.manda_el_timbrado(strdocto);
       const idfactura = this.factura.id;
       if(this.debug) console.log("Regreso de timbrado", mitimbrado);
-      if(!mitimbrado || mitimbrado.data.length == 0) {
+      if(!mitimbrado ) {
         this.alerta("No se obtuvo respuesta del timbrado");
         return;
       }
@@ -240,7 +240,7 @@ export class FacturaComponent {
       }
     }
 
-    async manda_el_timbrado(docto: string): Promise<any> {
+    async manda_el_timbrado(docto: string)  {
       return await lastValueFrom (this.facturasService.generarTimbrefactura(docto));
     }
 
