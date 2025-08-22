@@ -1,12 +1,12 @@
 [
   
     {
-      "xxUrldatos":"https://mdsnvacartera.ddns.net/api",
-      "Urldatos":"http://localhost:3000",
+      "Urldatos":"https://mdsnvacartera.ddns.net/api",
+      "xxUrldatos":"http://localhost:3000",
       "oldurldatos":"http://mds1/www/cgi/cartera/",
       "urlphp":"http://localhost/phpcartera",
-      "xurlfacturacion":"https://mdsfacturas.ddns.net/mdsfac",
-      "urlfacturacion":"https://mdsfacturas.ddns.net/sandbox",
+      "urlfacturacion":"https://mdsfacturas.ddns.net/mdsfac",
+      "xurlfacturacion":"https://mdsfacturas.ddns.net/sandbox",
       "xUrldatos":"https://mdscartera.ddns.net/www/cgi/mdssandbox/cartera/",
       "Empresa": "Diaz y Solis SA de CV",
       "Rfc": "MDS870209190",

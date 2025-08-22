@@ -217,54 +217,36 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
         <div >
-            <div>
-                <mat-label>
-                    Servicio/Redondeo 
-                    <input type="text" value = "{{servicio | currency }}">
-                </mat-label>
-    
-            </div>
-            <div>
-                <mat-label>
-                    Total Productos
-                    <input type="text" value = "{{total | currency }}">
-                </mat-label>
-    
-            </div>
-            <div *ngIf="escredito">
-                <div>
-                    <mat-label>
-                        Enganche
-                        <input readonly type="text" value="{{enganche  | currency}}" >
-                    </mat-label>
-                </div>
-                <div>
-                    <mat-label>
-                        Número de Letras
-                        <input readonly type="text" value="{{nulet}}" >
-                    </mat-label>
-                </div>
-                <div>
-                    <mat-label>
-                        Importe por Letra 
-                        <input readonly type="text" value="{{preciolet  | currency }}" >
-                    </mat-label>
-   
-                </div>
-                <div *ngIf="simostrarprodfin">
-                    <mat-label >
-                        Productos Financieros
-                        <input type="text"  readonly name="prodfin" value="{{totprodfin  | currency }} ">
-                    </mat-label>
-                </div>
-    
-            </div>
-            <div>
-                <mat-label>
-                    Total General
-                    <input type="text" readonly name="totgral" value="{{totgral  | currency}} ">
-                </mat-label>
-            </div>
+            <table>
+                <tr>
+                    <td><mat-label>Servicio/Redondeo </mat-label></td>
+                    <td><input type="text" value = "{{servicio | currency }}"></td>
+                </tr>
+                <tr>
+                    <td> <mat-label> Total Productos</mat-label></td>
+                    <td><input type="text" value = "{{total | currency }}"></td>
+                </tr>
+                <tr *ngIf="escredito">
+                    <td> <mat-label> Enganche</mat-label></td>
+                    <td><input type="text" value = "{{enganche | currency }}"></td>
+                </tr>
+                <tr *ngIf="escredito">
+                    <td> <mat-label> Numero de Letras</mat-label></td>
+                    <td><input type="text" value = "{{nulet }}"></td>
+                </tr>
+                <tr *ngIf="escredito">
+                    <td> <mat-label> Importe x Letra</mat-label></td>
+                    <td><input type="text" value="{{preciolet  | currency }}"></td>
+                </tr>
+                <tr *ngIf="simostrarprodfin">
+                    <td> <mat-label> Productos Financieros</mat-label></td>
+                    <td><input type="text" value="{{totprodfin  | currency }}"></td>
+                </tr>
+                <tr >
+                    <td> <mat-label> Total General</mat-label></td>
+                    <td><input type="text" value="{{totgral  | currency }}"></td>
+                </tr>
+            </table>
 
         </div>
     

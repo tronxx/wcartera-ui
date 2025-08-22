@@ -216,7 +216,16 @@ export class FacturaComponent {
       const mitimbrado = await this.manda_el_timbrado(strdocto);
       const idfactura = this.factura.id;
       if(this.debug) console.log("Regreso de timbrado", mitimbrado);
-      if (mitimbrado.data[0].cfdi_respuesta.timbrada == "true") {
+      if(!mitimbrado || mitimbrado.data.length == 0) {
+        this.alerta("No se obtuvo respuesta del timbrado");
+        return;
+      }
+      const erroryaexiste = mitimbrado.error? mitimbrado.error : "";
+      if(erroryaexiste.length > 0) {
+        this.alerta("Error al timbrar: " + erroryaexiste);
+        return;
+      }
+      if (mitimbrado.data[0]?.cfdi_respuesta.timbrada == "true") {
         const uuid = mitimbrado.data[0].cfdi_complemento.uuid;
         this.factura.uuid = uuid;
         this.facturasService.grabar_uuid_en_factura(idfactura, uuid).subscribe( res => {
