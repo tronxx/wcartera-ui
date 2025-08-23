@@ -15,6 +15,8 @@ import { VentasService } from '@services/ventas.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { PageIndex } from '@models/page-index';
 import { MatIcon } from '@angular/material/icon';
+import {ProgressSpinnerMode, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 import { TableOptions } from '@models/table-options';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DlgyesnoComponent } from '@components/dlgyesno/dlgyesno.component';
@@ -49,6 +51,7 @@ export class FacturaComponent {
   fechacierre = "";
   statusfac = "";
   facturacerrada = false;
+  timbrando = false;
   debug = false;
   misdatosventa = {
         servicio: 0,
@@ -206,8 +209,10 @@ export class FacturaComponent {
     }
 
     async continuaConElTimbrado() {
+      this.timbrando = true;
       const machote = await this.generar_json();
       const timbre = await this.manda_a_timbrar(machote);
+      this.timbrando = false;
 
     }
 

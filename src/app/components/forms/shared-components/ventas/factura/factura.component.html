@@ -37,8 +37,9 @@
             <input type="text" readonly size="50" name="regimen" id="regimen" value = {{factura.regimen}} >
         </div>
         <div>
-            <button mat-raised-button color="primary" [disabled] = "facturacerrada"
+            <button mat-raised-button color="primary" [disabled] = "facturacerrada || timbrando"
                 (click)="pedir_cerrar_factura()" type="button">
+                <mat-progress-spinner *ngIf="timbrando" mode="indeterminate"></mat-progress-spinner>
                 <mat-icon>lock</mat-icon>
                 Cerrar
             </button>
