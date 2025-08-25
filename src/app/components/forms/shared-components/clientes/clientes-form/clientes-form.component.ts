@@ -61,21 +61,25 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     } 
     const fecha =  this.datePipe.transform(new Date(),"yyMMdd");
     const codigo = this.codcartera + fecha + "99";
+    let ultimacaptura  = localStorage.getItem(`edit_cliente_${this.numcia}`) || "{}";
+    const datosultimacaptura =JSON.parse(ultimacaptura);
+    if(this.debug) console.log("Ultima captura cliente", datosultimacaptura);
+    
   
     this.form = this.builder.group({
       codigo : [codigo, [Validators.required]],
-      appat: [""],
-      apmat: [""],
-      nompil1: [""],
-      nompil2: [""],
-      calle: [""],
-      numpredio: [""],
-      colonia:[""],
-      codpostal: [""],
-      ciudad: [""],
-      telefono: [""],
-      email: [""],
-      regimen: [""],
+      appat: [datosultimacaptura.appat? datosultimacaptura.appat : ""],
+      apmat: [datosultimacaptura.apmat? datosultimacaptura.apmat : ""],
+      nompil1: [datosultimacaptura.nompil1? datosultimacaptura.nompil1 : ""],
+      nompil2: [datosultimacaptura.nompil2? datosultimacaptura.nompil2 : ""],
+      calle: [datosultimacaptura.calle? datosultimacaptura.calle : ""],
+      numpredio: [datosultimacaptura.numpredio? datosultimacaptura.numpredio : ""],
+      colonia: [datosultimacaptura.colonia? datosultimacaptura.colonia : ""],
+      codpostal: [datosultimacaptura.codpostal? datosultimacaptura.codpostal : ""],
+      ciudad: [datosultimacaptura.ciudad? datosultimacaptura.ciudad : ""],
+      telefono: [datosultimacaptura.telefono? datosultimacaptura.telefono : ""],
+      email: [datosultimacaptura.email? datosultimacaptura.email : ""],
+      regimen: [datosultimacaptura.regimen? datosultimacaptura.regimen : ""],
       rfc: [rfc],
     });
 
@@ -310,14 +314,38 @@ export class ClientesFormComponent extends Form<ClientesDto> implements OnChange
     return this.form.get("nompil2");
   }
   
+  get telefono(){
+    return this.form.get("telefono");
+  }
+  
   aceptar() {
    if(this.debug) console.log("Hiciste click en aceptar");
+   this.grabarUltimaCaptura();
    this.submitData.emit(this.form.value);
   }
 
   close() {
     if(this.debug) console.log("Hiciste click en Cancelar");
     this.submitData.emit(null);
+  }
+
+  grabarUltimaCaptura() {
+    const datosultimacaptura = {
+      appat: this.appat.value,
+      apmat: this.apmat.value,
+      nompil1: this.nompil1.value,
+      nompil2: this.nompil2.value,
+      calle: this.calle.value,
+      numpredio: this.numpredio.value,
+      colonia: this.colonia.value,
+      codpostal: this.codpostal.value,
+      ciudad: this.ciudad.value,
+      telefono: this.form.get("telefono").value,
+      email: this.email.value,
+      regimen: this.regimen.value
+    };
+    if(this.debug) console.log("Grabando ultima captura", datosultimacaptura);
+    localStorage.setItem(`edit_cliente_${this.numcia}`, JSON.stringify(datosultimacaptura));
   }
 
   alerta(mensaje: string) {
