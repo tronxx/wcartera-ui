@@ -279,7 +279,8 @@ export class CrearventaComponent implements OnInit {
       }
       const pordesc = this.buscar_tasa_descto_cont(linea, this.ticte, '');
       if(this.debug) console.log("Pordesc", pordesc);
-      return (preciou - pordesc /100 * preciou );
+      const preciofinal = Math.round((preciou - pordesc /100 * preciou ));
+      return (preciofinal );
     }
     if(this.ticte == "TC" || this.ticte == "EX") {
       if(preciooferta != 0) { 
@@ -287,12 +288,13 @@ export class CrearventaComponent implements OnInit {
         return(precio);
       }
       const pordesc = this.buscar_tasa_descto_cont(linea, this.ticte, this.mitc);
-      return (preciou - pordesc /100 * preciou );
+      const preciofinal = Math.round((preciou - pordesc /100 * preciou ));
+      return (preciofinal);
     }
     if(this.ticte != "CC" && this.ticte != "TC") {
       if(linea != 'MOTO' && this.nulet == 4) {
         const factordscto = 12;
-        precio = preciou - preciou * factordscto / 100;
+        precio = Math.round( preciou - preciou * factordscto / 100);
       } 
     }
     return(precio);

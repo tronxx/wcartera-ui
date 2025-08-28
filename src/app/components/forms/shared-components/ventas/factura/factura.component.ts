@@ -211,6 +211,7 @@ export class FacturaComponent {
     async continuaConElTimbrado() {
       this.timbrando = true;
       const machote = await this.generar_json();
+      if(this.debug) console.log("Json a timbrar", machote);
       const timbre = await this.manda_a_timbrar(machote);
       this.timbrando = false;
 
@@ -310,25 +311,29 @@ export class FacturaComponent {
       const renglones = JSON.parse(JSON.stringify(await this.buscarCodSat(losrenglones))) ;
       // console.log ("Renglones combinados", renglones);
       for(let miren of renglones) {
-        const importe =  Math.round( (miren.canti * miren.preciou * 1000)) /1000;
-        const iva = Math.round ( ( importe * miren.piva / 100) * 1000) /1000;
+        const preciou = Math.round( (miren.preciou) * 10000) /10000;
+        const cantidad = Math.round( (miren.canti) * 10000) /10000;
+        const importe =  preciou * cantidad;
+        const iva = Math.round ( ( importe * miren.piva / 100) * 10000) /10000;
         const total = importe + iva;
+        const strimporte = importe.toFixed(4);
+        const strpreciou = preciou.toFixed(4);
         let concepto = JSON.parse(JSON.stringify(conceptoInicial));
-        concepto.cantidad = miren.canti.toString();
+        concepto.cantidad = cantidad.toString();
         ii_z += 1;
         concepto.clave_unidad = "H87";
         concepto.clave_producto_servicio = miren.catprodsat;
         concepto.descripcion = miren.descri;
         if(miren.serie != "")  miren.descri + " SERIE " + miren.serie;
-        concepto.valor_unitario = miren.preciou.toFixed(4).toString();
-        concepto.importe = importe.toFixed(3);
-        concepto.cfdi__impuestos.total_impuestos_trasladados = iva.toFixed(3);
+        concepto.valor_unitario = strpreciou;
+        concepto.importe = strimporte;
+        concepto.cfdi__impuestos.total_impuestos_trasladados = iva.toString();
         let imptos = {
-          base: importe.toFixed(3),
+          base: strimporte,
           impuesto: "002",
           tipo_factor: "Tasa",
-          tasa_cuota: (miren.piva / 100).toFixed(6),
-          importe: iva.toFixed(3)
+          tasa_cuota: (miren.piva / 100).toFixed(6).toString(),
+          importe: iva.toString()
         }
         concepto.cfdi__impuestos.cfdi__traslados.cfdi__traslado[0] = (imptos)
         machote.cfdi__comprobante.cfdi__conceptos.cfdi__concepto.push(concepto);
@@ -336,11 +341,11 @@ export class FacturaComponent {
         fac_importe += importe;
         fac_iva += iva;
       }
-      machote.cfdi__comprobante.subtotal = fac_importe.toFixed(2);
-      machote.cfdi__comprobante.total = (fac_importe + fac_iva).toFixed(2);
-      machote.cfdi__comprobante.cfdi__impuestos.total_impuestos_trasladados = (fac_iva).toFixed(2);
-      machote.cfdi__comprobante.cfdi__impuestos.cfdi__traslados.cfdi__traslado[0].base = (fac_importe).toFixed(2);
-      machote.cfdi__comprobante.cfdi__impuestos.cfdi__traslados.cfdi__traslado[0].importe = (fac_iva).toFixed(2);
+      machote.cfdi__comprobante.subtotal = fac_importe.toFixed(2).toString();
+      machote.cfdi__comprobante.total = (fac_importe + fac_iva).toFixed(2).toString();
+      machote.cfdi__comprobante.cfdi__impuestos.total_impuestos_trasladados = (fac_iva).toFixed(2).toString();
+      machote.cfdi__comprobante.cfdi__impuestos.cfdi__traslados.cfdi__traslado[0].base = (fac_importe).toFixed(2).toString();
+      machote.cfdi__comprobante.cfdi__impuestos.cfdi__traslados.cfdi__traslado[0].importe = (fac_iva).toFixed(2).toString();
       return (machote);
     }
 
